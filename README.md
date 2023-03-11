@@ -1,6 +1,6 @@
 Language: **English** or [Russian](https://github.com/Bren828/vehicle-radar/blob/main/README.md)
 
-# easy-barrier 
+# vehicle-radar
 Упрощенное создание транспортных радаров, с возможностью редактирования и создания.
 
 ## Reference
