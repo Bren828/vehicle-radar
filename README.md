@@ -38,6 +38,21 @@ public OnPlayerVehicleRadarCreate(playerid, radarid, speed_limit, Float:zone_siz
     printf("Create | radarid %d | speed_limit %d | zone_size %f | x %.2f | y %.2f | z %.2f | rx %.2f | ry %.2f | rz %.2f | worldid %d | int %d", 
         radarid, speed_limit, zone_size, x, y, z,  rx, ry,  rz,  worldid, interiorid
     );
+    
+    //Mysql R39-6 save example
+    static const mysql_str[] = 
+        "INSERT INTO vehicle_radar SET (`speed_limit`,`zone_size`,`x`,`y`,`z`,`rx`,`ry`,`rz`,`worldid`,`interiorid`) VALUE ('%d','%f','%f','%f','%f','%f','%f','%f','%d','%d')";
+    new string[sizeof(mysql_str)];
+    mysql_format(mysql, string, sizeof(string), mysql_str, speed_limit, zone_size,  x, y, z, rx, ry, rz,  worldid, interiorid);
+    new Cache:result = mysql_query(mysql, string);
+    if(!cache_is_valid(result))
+    {
+        SendClientMessage(playerid, -1, "mysql error creating a vehicle radar");
+        cache_delete(result);
+        return 1;
+    }
+    SetVehicleRadarExtraValue(radarid, cache_insert_id()); // writes the id of the new row
+    cache_delete(result);
     return 1;
 }
 
@@ -46,13 +61,26 @@ public OnPlayerVehicleRadarEdit(playerid, radarid, speed_limit, Float:zone_size,
     printf("Edit | radarid %d | speed_limit %d | zone_size %f | x %.2f | y %.2f | z %.2f | rx %.2f | ry %.2f | rz %.2f | worldid %d | int %d", 
         radarid, speed_limit, zone_size, x, y, z,  rx, ry,  rz,  worldid, interiorid
     );
+    
+    //Mysql R39-6 save example
+    static const mysql_str[] = 
+        "UPDATE vehicle_radar SET speed_limit=%d,zone_size='%f',x='%f',y='%f',z='%f',rx='%f',ry='%f',rz='%f',worldid=%d,interiorid=%d WHERE id=%d LIMIT 1";
+    new string[sizeof(mysql_str)];
+    mysql_format(mysql, string, sizeof(string), mysql_str, speed_limit, zone_size,  x, y, z, rx, ry, rz,  worldid, interiorid,  GetVehicleRadarExtraValue(radarid));
+    mysql_tquery(mysql, string);
     return 1;
 }
 
 public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 {
     printf("Delete | radarid %d | extra_value %d", radarid, extra_value);
-	    return 1;
+    
+    //Mysql R39-6 save example
+    static const mysql_str[] = "DELETE FROM vehicle_radar WHERE id=%d LIMIT 1";
+    new string[sizeof(mysql_str) + 11];
+    mysql_format(mysql, string, sizeof(string), mysql_str, extra_value);
+    mysql_tquery(mysql, string);
+    return 1;
 }
 ```
 
