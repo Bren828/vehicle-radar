@@ -1,5 +1,3 @@
-# vehicle-radar
-
 Language: **English** or [Russian](https://github.com/Bren828/vehicle-radar/blob/main/README.md)
 
 # easy-barrier 
