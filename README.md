@@ -138,7 +138,7 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 #### DeleteVehicleRadar(playerid, radarid, bool:callback = true)
 > Удалить радар
 > * `radarid` - ID радара
-> * `callback` - Вызвать 'OnPlayerVehicleRadarDelete' при удаление
+> * `callback` - Вызвать `OnPlayerVehicleRadarDelete` при удаление
 > * Вернет: 0 при неудачи
 > * Вернет: 1 при успехе
 
