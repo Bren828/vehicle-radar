@@ -1,7 +1,7 @@
 Language: **English** or [Russian](https://github.com/Bren828/vehicle-radar/blob/main/README.md)
 
 # vehicle-radar
-Упрощенное создание транспортных радаров, с возможностью редактирования и создания.
+Быстрое создание транспортных радаров, с возможностью редактирования и создания.
 
 ## Reference
 * [Download](https://github.com/Bren828/vehicle-radar#download)
