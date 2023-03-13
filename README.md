@@ -1,7 +1,7 @@
 Language: **English** or [Russian](https://github.com/Bren828/vehicle-radar/blob/main/README.md)
 
 # vehicle-radar
-Создание транспортных радаров с ограничение скорости и зоной срабатывания.
+Создание транспортных радаров с ограничением скорости и зоной срабатывания.
 
 ## Reference
 * [Download](https://github.com/Bren828/vehicle-radar#download)
