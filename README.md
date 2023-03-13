@@ -253,11 +253,11 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 
 #define VEHICLE_RADAR_OBJECT_MODEL          18880 // модель объекта
 
-#define VEHICLE_RADAR_OBJECT_DISTANCE       200.0 // истанция прорисовки объекта
+#define VEHICLE_RADAR_OBJECT_DISTANCE       200.0 // дистанция прорисовки объекта
 
 #define VEHICLE_RADAR_3DTEXT_LENGTH   	    144	// Длина 3d текста
 
-#define VEHICLE_RADAR_3DTEXT_TEXT  	    "Радар скорости №%d\nОграничение скорости: %d (км/ч)" // текст при '-1'
+#define VEHICLE_RADAR_3DTEXT_TEXT  	    "Радар скорости №%d\nОграничение скорости: %d (км/ч)" // текст при значение '-1' в 'VehicleRadarLoad'
 
 #define VEHICLE_RADAR_3DTEXT_DISTANCE       15.0 // дистанция прорисовки 3d текста
 
