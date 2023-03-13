@@ -86,7 +86,7 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 
 ## Callbacks
 #### public OnPlayerEnterVehicleRadar(playerid, radarid, vehicleid, activation_count)
-* Вызывается при создании нового радара
+* Вызывается при срабатывание радара
 > * `playerid` - ID игрока
 > * `radarid` - ID радара
 > * `vehicleid` - ID транспорта
