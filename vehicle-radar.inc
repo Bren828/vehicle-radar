@@ -822,14 +822,14 @@ stock _GetVehSpeed(vehicleid)
         new line_max, block_back_button;
         for(new x = (vehicle_radar_player[playerid][vrpList_Page] * VEHICLE_RADAR_MAX_PAGES_LIST)+1; x < MAX_VEHICLE_RADAR; x ++)
         {
-            if(x >= MAX_PROMO_CODE) break;
+            if(x >= MAX_VEHICLE_RADAR) break;
             if(vehicle_radar[x][vr_Create] == false) continue;
             if(line_max <= VEHICLE_RADAR_MAX_PAGES_LIST-1)
             {
                 vehicle_radar_player[playerid][vrpList_SlotID][line_max] = x;
                 format(string, sizeof(string), "%s#%d\t%d км/ч\t%.1fm\t%s\n", string, x, vehicle_radar[x][vr_SpeedLimit], vehicle_radar[x][vr_ZoneSize], (vehicle_radar[x][vr_Disabled] == false) ? ("{8fce00}Включен"):("{f44747}Выключен"));    
 
-                if(x >= MAX_PROMO_CODE -1)
+                if(x >= MAX_VEHICLE_RADAR -1)
                 {
                     if(vehicle_radar_player[playerid][vrpList_Page] >= 1) block_back_button = 1;
                     break;
