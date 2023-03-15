@@ -261,7 +261,13 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 
 #define VEHICLE_RADAR_3DTEXT_DISTANCE       15.0 // дистанция прорисовки 3d текста
 
-#define VEHICLE_RADAR_MAX_PAGES_LIST        20 // максимальное количество строчек в диалоге 
+#define VEHICLE_RADAR_MAX_ROWS_LIST         20 // максимальное количество строчек в диалоге 
 
 #define VEHICLE_RADAR_USE_EDITING_TOOLS     true //использовать инструменты редактирования
+
+#define VEHICLE_RADAR_COLOR_GREEN           "{8fce00}" // 0x8fce00
+
+#define VEHICLE_RADAR_COLOR_RED             "{f44747}" // 0xf44747
+
+#define VEHICLE_RADAR_COLOR_YELLOW          "{F5D742}" // 0xF5D742
 ```
