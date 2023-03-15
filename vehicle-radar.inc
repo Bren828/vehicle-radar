@@ -6,9 +6,9 @@
 *   ---------------------------------------------------
 *
 *	Creater - @Bren828	
-*									11 March 2023
+*									15 March 2023
 *
-*   Version: 1.0
+*   Version: 1.01
 *
 *   ---------------------------------------------------
 *
@@ -822,7 +822,7 @@ stock _GetVehSpeed(vehicleid)
         new line_max, block_back_button;
         for(new x = (vehicle_radar_player[playerid][vrpList_Page] * VEHICLE_RADAR_MAX_PAGES_LIST)+1; x < MAX_VEHICLE_RADAR; x ++)
         {
-            if(x >= MAX_PROMO_CODE-1) break;
+            if(x >= MAX_PROMO_CODE) break;
             if(vehicle_radar[x][vr_Create] == false) continue;
             if(line_max <= VEHICLE_RADAR_MAX_PAGES_LIST-1)
             {
