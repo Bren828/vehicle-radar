@@ -261,7 +261,7 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 
 #define VEHICLE_RADAR_3DTEXT_DISTANCE       15.0 // дистанция прорисовки 3d текста
 
-#define VEHICLE_RADAR_MAX_ROWS_LIST         20 // максимальное количество строчек в диалоге 
+#define VEHICLE_RADAR_MAX_ROWS_LIST         20 // максимальное количество строчек списка диалога
 
 #define VEHICLE_RADAR_USE_EDITING_TOOLS     true //использовать инструменты редактирования
 
