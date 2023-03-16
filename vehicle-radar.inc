@@ -17,175 +17,175 @@
 *
 *
 *
-* Создать радар
+* РЎРѕР·РґР°С‚СЊ СЂР°РґР°СЂ
 *       VehicleRadarCreate(playerid)
-*		* playerid: ID игрока
+*		* playerid: ID РёРіСЂРѕРєР°
 *
 *
-* Просмотреть список созданных радаров
+* РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ СЃРїРёСЃРѕРє СЃРѕР·РґР°РЅРЅС‹С… СЂР°РґР°СЂРѕРІ
 *       VehicleRadarList(playerid)
-*		* playerid: ID игрока
+*		* playerid: ID РёРіСЂРѕРєР°
 *
 *
-* Загрузить радар
+* Р—Р°РіСЂСѓР·РёС‚СЊ СЂР°РґР°СЂ
 *       VehicleRadarLoad(speed_limit, Float:zone_size, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid = -1, interiorid = -1, bool:disabled = false, const text3D[] = "-1", text3D_color = -1, Float:text3D_distance = VEHICLE_RADAR_3DTEXT_DISTANCE)
-*		* speed_limit: Ограничение скорости
-*		* Float:zone_size: Дистанция срабатывания
-*       * Float:x: Координата x
-*       * Float:y: Координата y
-*       * Float:z: Координата z
-*       * Float:rx: Координата x вращение объекта
-*       * Float:ry: Координата y вращение объекта
-*       * Float:rz: Координата z вращение объекта
-*		* worldid: ID виртуального мира
-*       * interiorid: ID интерьера 
-*       * bool:disabled: Выключить радар (false - нет | true - да)
+*		* speed_limit: РћРіСЂР°РЅРёС‡РµРЅРёРµ СЃРєРѕСЂРѕСЃС‚Рё
+*		* Float:zone_size: Р”РёСЃС‚Р°РЅС†РёСЏ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ
+*       * Float:x: РљРѕРѕСЂРґРёРЅР°С‚Р° x
+*       * Float:y: РљРѕРѕСЂРґРёРЅР°С‚Р° y
+*       * Float:z: РљРѕРѕСЂРґРёРЅР°С‚Р° z
+*       * Float:rx: РљРѕРѕСЂРґРёРЅР°С‚Р° x РІСЂР°С‰РµРЅРёРµ РѕР±СЉРµРєС‚Р°
+*       * Float:ry: РљРѕРѕСЂРґРёРЅР°С‚Р° y РІСЂР°С‰РµРЅРёРµ РѕР±СЉРµРєС‚Р°
+*       * Float:rz: РљРѕРѕСЂРґРёРЅР°С‚Р° z РІСЂР°С‰РµРЅРёРµ РѕР±СЉРµРєС‚Р°
+*		* worldid: ID РІРёСЂС‚СѓР°Р»СЊРЅРѕРіРѕ РјРёСЂР°
+*       * interiorid: ID РёРЅС‚РµСЂСЊРµСЂР° 
+*       * bool:disabled: Р’С‹РєР»СЋС‡РёС‚СЊ СЂР°РґР°СЂ (false - РЅРµС‚ | true - РґР°)
 *       * const text3D[]: 3DText
-*       * text3D_color: Цвет 3DText 
-*       * Float:text3D_distance: Дистанция отображения 3DText
+*       * text3D_color: Р¦РІРµС‚ 3DText 
+*       * Float:text3D_distance: Р”РёСЃС‚Р°РЅС†РёСЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ 3DText
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: ID радара при успехе
+*		* Р’РµСЂРЅРµС‚: 0 РїСЂРё РЅРµСѓРґР°С‡Рё
+*		* Р’РµСЂРЅРµС‚: ID СЂР°РґР°СЂР° РїСЂРё СѓСЃРїРµС…Рµ
 *
 *
-* Удалить радар
+* РЈРґР°Р»РёС‚СЊ СЂР°РґР°СЂ
 *       DeleteVehicleRadar(playerid, radarid, bool:callback = true)
-*		* radarid: ID радара
-*		* callback: Вызвать 'OnPlayerVehicleRadarDelete' при удаление
+*		* radarid: ID СЂР°РґР°СЂР°
+*		* callback: Р’С‹Р·РІР°С‚СЊ 'OnPlayerVehicleRadarDelete' РїСЂРё СѓРґР°Р»РµРЅРёРµ
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: 1 при успехе
+*		* Р’РµСЂРЅРµС‚: 0 РїСЂРё РЅРµСѓРґР°С‡Рё
+*		* Р’РµСЂРЅРµС‚: 1 РїСЂРё СѓСЃРїРµС…Рµ
 *
 *
-* Изменить количество срабатываний
+* РР·РјРµРЅРёС‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёР№
 *       SetVehicleRadarActivationCount(radarid, count)
-*		* radarid: ID радара
-*		* count: количество
+*		* radarid: ID СЂР°РґР°СЂР°
+*		* count: РєРѕР»РёС‡РµСЃС‚РІРѕ
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: 1 при успехе
+*		* Р’РµСЂРЅРµС‚: 0 РїСЂРё РЅРµСѓРґР°С‡Рё
+*		* Р’РµСЂРЅРµС‚: 1 РїСЂРё СѓСЃРїРµС…Рµ
 *
 *
-* Узнать количество срабатываний
+* РЈР·РЅР°С‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёР№
 *       GetVehicleRadarActivationCount(radarid)
-*		* radarid: ID радара
+*		* radarid: ID СЂР°РґР°СЂР°
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: количество срабатываний
+*		* Р’РµСЂРЅРµС‚: 0 РїСЂРё РЅРµСѓРґР°С‡Рё
+*		* Р’РµСЂРЅРµС‚: РєРѕР»РёС‡РµСЃС‚РІРѕ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёР№
 *
 *
-* Изменить ограничение скорости
+* РР·РјРµРЅРёС‚СЊ РѕРіСЂР°РЅРёС‡РµРЅРёРµ СЃРєРѕСЂРѕСЃС‚Рё
 *       SetVehicleRadarSpeedLimit(radarid, speed)
-*		* radarid: ID радара
-*		* speed: скорость км/ч
+*		* radarid: ID СЂР°РґР°СЂР°
+*		* speed: СЃРєРѕСЂРѕСЃС‚СЊ РєРј/С‡
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: 1 при успехе
+*		* Р’РµСЂРЅРµС‚: 0 РїСЂРё РЅРµСѓРґР°С‡Рё
+*		* Р’РµСЂРЅРµС‚: 1 РїСЂРё СѓСЃРїРµС…Рµ
 *
 *
-* Узнать ограничение скорости
+* РЈР·РЅР°С‚СЊ РѕРіСЂР°РЅРёС‡РµРЅРёРµ СЃРєРѕСЂРѕСЃС‚Рё
 *       GetVehicleRadarSpeedLimit(radarid)
-*		* radarid: ID радара
+*		* radarid: ID СЂР°РґР°СЂР°
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: текущую скорость
+*		* Р’РµСЂРЅРµС‚: 0 РїСЂРё РЅРµСѓРґР°С‡Рё
+*		* Р’РµСЂРЅРµС‚: С‚РµРєСѓС‰СѓСЋ СЃРєРѕСЂРѕСЃС‚СЊ
 *
 *
-* Изменить дистанцию срабатывания
+* РР·РјРµРЅРёС‚СЊ РґРёСЃС‚Р°РЅС†РёСЋ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ
 *       SetVehicleRadarZoneSize(radarid, Float:zone_size)
-*		* radarid: ID радара
-*		* Float:zone_size: дистанция
+*		* radarid: ID СЂР°РґР°СЂР°
+*		* Float:zone_size: РґРёСЃС‚Р°РЅС†РёСЏ
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: 1 при успехе
+*		* Р’РµСЂРЅРµС‚: 0 РїСЂРё РЅРµСѓРґР°С‡Рё
+*		* Р’РµСЂРЅРµС‚: 1 РїСЂРё СѓСЃРїРµС…Рµ
 *
 *
-* Узнать дистанцию срабатывания
+* РЈР·РЅР°С‚СЊ РґРёСЃС‚Р°РЅС†РёСЋ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ
 *       GetVehicleRadarZoneSize(radarid, &Float:zone_size)
-*		* radarid: ID радара
-*       * &Float:zone_size: текущая дистанция
+*		* radarid: ID СЂР°РґР°СЂР°
+*       * &Float:zone_size: С‚РµРєСѓС‰Р°СЏ РґРёСЃС‚Р°РЅС†РёСЏ
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: 1 при успехе
+*		* Р’РµСЂРЅРµС‚: 0 РїСЂРё РЅРµСѓРґР°С‡Рё
+*		* Р’РµСЂРЅРµС‚: 1 РїСЂРё СѓСЃРїРµС…Рµ
 *
 *
-* Изменить 3D Text
+* РР·РјРµРЅРёС‚СЊ 3D Text
 *       SetVehicleRadarText(radarid, const text[], color, Float:drawdistance = VEHICLE_RADAR_3DTEXT_DISTANCE, Float:x = 0.0, Float:y = 0.0, Float:z = 0.0)
-*		* radarid: ID радара
-*       * text[]: текст
-*       * color: цвет
-*       * Float:drawdistance: дистанция
-*       * Float:x: Координата x
-*       * Float:y: Координата y
-*       * Float:z: Координата z
+*		* radarid: ID СЂР°РґР°СЂР°
+*       * text[]: С‚РµРєСЃС‚
+*       * color: С†РІРµС‚
+*       * Float:drawdistance: РґРёСЃС‚Р°РЅС†РёСЏ
+*       * Float:x: РљРѕРѕСЂРґРёРЅР°С‚Р° x
+*       * Float:y: РљРѕРѕСЂРґРёРЅР°С‚Р° y
+*       * Float:z: РљРѕРѕСЂРґРёРЅР°С‚Р° z
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: 1 при успехе
+*		* Р’РµСЂРЅРµС‚: 0 РїСЂРё РЅРµСѓРґР°С‡Рё
+*		* Р’РµСЂРЅРµС‚: 1 РїСЂРё СѓСЃРїРµС…Рµ
 *
 *
-* Изменить дополнительное значение
+* РР·РјРµРЅРёС‚СЊ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
 *       SetVehicleRadarExtraValue(radarid, value)
-*		* radarid: ID радара
-*       * value: значение
+*		* radarid: ID СЂР°РґР°СЂР°
+*       * value: Р·РЅР°С‡РµРЅРёРµ
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: 1 при успехе
-*       * ПРИМЕЧАНИЕ: Эта свободная переменная которую можно использовать для хранения IDs базы MySQL
+*		* Р’РµСЂРЅРµС‚: 0 РїСЂРё РЅРµСѓРґР°С‡Рё
+*		* Р’РµСЂРЅРµС‚: 1 РїСЂРё СѓСЃРїРµС…Рµ
+*       * РџР РРњР•Р§РђРќРР•: Р­С‚Р° СЃРІРѕР±РѕРґРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ РєРѕС‚РѕСЂСѓСЋ РјРѕР¶РЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ IDs Р±Р°Р·С‹ MySQL
 *
 *
-* Узнать дополнительное значение
+* РЈР·РЅР°С‚СЊ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
 *       GetVehicleRadarExtraValue(radarid)
-*		* radarid: ID радара
+*		* radarid: ID СЂР°РґР°СЂР°
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: текущие значение
-*		* ПРИМЕЧАНИЕ: Эта свободная переменная которую можно использовать для хранения IDs базы MySQL
+*		* Р’РµСЂРЅРµС‚: 0 РїСЂРё РЅРµСѓРґР°С‡Рё
+*		* Р’РµСЂРЅРµС‚: С‚РµРєСѓС‰РёРµ Р·РЅР°С‡РµРЅРёРµ
+*		* РџР РРњР•Р§РђРќРР•: Р­С‚Р° СЃРІРѕР±РѕРґРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ РєРѕС‚РѕСЂСѓСЋ РјРѕР¶РЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ IDs Р±Р°Р·С‹ MySQL
 *
 *
-* Вызывается при срабатывание радара
+* Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїСЂРё СЃСЂР°Р±Р°С‚С‹РІР°РЅРёРµ СЂР°РґР°СЂР°
 *       public OnPlayerEnterVehicleRadar(playerid, radarid, vehicleid, activation_count)
-*		* playerid: ID игрока
-*		* radarid: ID радара
-*       * vehicleid: ID транспорта
-*       * activation_count: количество срабатываний
+*		* playerid: ID РёРіСЂРѕРєР°
+*		* radarid: ID СЂР°РґР°СЂР°
+*       * vehicleid: ID С‚СЂР°РЅСЃРїРѕСЂС‚Р°
+*       * activation_count: РєРѕР»РёС‡РµСЃС‚РІРѕ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёР№
 *
 *
-* Вызывается при создании нового радара
+* Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїСЂРё СЃРѕР·РґР°РЅРёРё РЅРѕРІРѕРіРѕ СЂР°РґР°СЂР°
 *       public OnPlayerVehicleRadarCreate(playerid, radarid, speed_limit, Float:zone_size, bool:disabled, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid, interiorid)
-*		* radarid: ID радара
-*		* speed_limit: Ограничение скорости
-*		* Float:zone_size: Дистанция срабатывания
-*       * bool:disabled: состояние радара (false - включен | true - выключен)
-*       * Float:x: Координата x
-*       * Float:y: Координата y
-*       * Float:z: Координата z
-*       * Float:rx: Координата x вращение объекта
-*       * Float:ry: Координата y вращение объекта
-*       * Float:rz: Координата z вращение объекта
-*		* worldid: ID виртуального 
-*       * interiorid: ID интерьера 
+*		* radarid: ID СЂР°РґР°СЂР°
+*		* speed_limit: РћРіСЂР°РЅРёС‡РµРЅРёРµ СЃРєРѕСЂРѕСЃС‚Рё
+*		* Float:zone_size: Р”РёСЃС‚Р°РЅС†РёСЏ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ
+*       * bool:disabled: СЃРѕСЃС‚РѕСЏРЅРёРµ СЂР°РґР°СЂР° (false - РІРєР»СЋС‡РµРЅ | true - РІС‹РєР»СЋС‡РµРЅ)
+*       * Float:x: РљРѕРѕСЂРґРёРЅР°С‚Р° x
+*       * Float:y: РљРѕРѕСЂРґРёРЅР°С‚Р° y
+*       * Float:z: РљРѕРѕСЂРґРёРЅР°С‚Р° z
+*       * Float:rx: РљРѕРѕСЂРґРёРЅР°С‚Р° x РІСЂР°С‰РµРЅРёРµ РѕР±СЉРµРєС‚Р°
+*       * Float:ry: РљРѕРѕСЂРґРёРЅР°С‚Р° y РІСЂР°С‰РµРЅРёРµ РѕР±СЉРµРєС‚Р°
+*       * Float:rz: РљРѕРѕСЂРґРёРЅР°С‚Р° z РІСЂР°С‰РµРЅРёРµ РѕР±СЉРµРєС‚Р°
+*		* worldid: ID РІРёСЂС‚СѓР°Р»СЊРЅРѕРіРѕ 
+*       * interiorid: ID РёРЅС‚РµСЂСЊРµСЂР° 
 *
 *
-* Вызывается при редактировании созданного радара
+* Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїСЂРё СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРё СЃРѕР·РґР°РЅРЅРѕРіРѕ СЂР°РґР°СЂР°
 *       public OnPlayerVehicleRadarEdit(playerid, radarid, speed_limit, Float:zone_size, bool:disabled, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid, interiorid)
-*		* radarid: ID радара
-*		* speed_limit: Ограничение скорости
-*		* Float:zone_size: Дистанция срабатывания
-*       * bool:disabled: состояние радара (false - включен | true - выключен)
-*       * Float:x: Координата x
-*       * Float:y: Координата y
-*       * Float:z: Координата z
-*       * Float:rx: Координата x вращение объекта
-*       * Float:ry: Координата y вращение объекта
-*       * Float:rz: Координата z вращение объекта
-*		* worldid: ID виртуального 
-*       * interiorid: ID интерьера 
+*		* radarid: ID СЂР°РґР°СЂР°
+*		* speed_limit: РћРіСЂР°РЅРёС‡РµРЅРёРµ СЃРєРѕСЂРѕСЃС‚Рё
+*		* Float:zone_size: Р”РёСЃС‚Р°РЅС†РёСЏ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ
+*       * bool:disabled: СЃРѕСЃС‚РѕСЏРЅРёРµ СЂР°РґР°СЂР° (false - РІРєР»СЋС‡РµРЅ | true - РІС‹РєР»СЋС‡РµРЅ)
+*       * Float:x: РљРѕРѕСЂРґРёРЅР°С‚Р° x
+*       * Float:y: РљРѕРѕСЂРґРёРЅР°С‚Р° y
+*       * Float:z: РљРѕРѕСЂРґРёРЅР°С‚Р° z
+*       * Float:rx: РљРѕРѕСЂРґРёРЅР°С‚Р° x РІСЂР°С‰РµРЅРёРµ РѕР±СЉРµРєС‚Р°
+*       * Float:ry: РљРѕРѕСЂРґРёРЅР°С‚Р° y РІСЂР°С‰РµРЅРёРµ РѕР±СЉРµРєС‚Р°
+*       * Float:rz: РљРѕРѕСЂРґРёРЅР°С‚Р° z РІСЂР°С‰РµРЅРёРµ РѕР±СЉРµРєС‚Р°
+*		* worldid: ID РІРёСЂС‚СѓР°Р»СЊРЅРѕРіРѕ 
+*       * interiorid: ID РёРЅС‚РµСЂСЊРµСЂР° 
 *
 *
-* Вызывается при удалении радара
+* Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїСЂРё СѓРґР°Р»РµРЅРёРё СЂР°РґР°СЂР°
 *       public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
-*		* radarid: ID радара
-*       * extra_value: дополнительное значение
+*		* radarid: ID СЂР°РґР°СЂР°
+*       * extra_value: РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
 *
 *
 *       
@@ -236,31 +236,31 @@
 #endif
 
 #if !defined VEHICLE_RADAR_OBJECT_MODEL
-    #define VEHICLE_RADAR_OBJECT_MODEL                  18880 // модель объекта
+    #define VEHICLE_RADAR_OBJECT_MODEL                  18880 // РјРѕРґРµР»СЊ РѕР±СЉРµРєС‚Р°
 #endif
 
 #if !defined VEHICLE_RADAR_OBJECT_DISTANCE
-    #define VEHICLE_RADAR_OBJECT_DISTANCE               200.0 // дистанция прорисовки объекта
+    #define VEHICLE_RADAR_OBJECT_DISTANCE               200.0 // РґРёСЃС‚Р°РЅС†РёСЏ РїСЂРѕСЂРёСЃРѕРІРєРё РѕР±СЉРµРєС‚Р°
 #endif
 
 #if !defined VEHICLE_RADAR_3DTEXT_LENGTH
-	#define VEHICLE_RADAR_3DTEXT_LENGTH   	            144	// Длина 3d текста
+	#define VEHICLE_RADAR_3DTEXT_LENGTH   	            144	// Р”Р»РёРЅР° 3d С‚РµРєСЃС‚Р°
 #endif
 
 #if !defined VEHICLE_RADAR_3DTEXT_TEXT
-	#define VEHICLE_RADAR_3DTEXT_TEXT  	                "Радар скорости №%d\nОграничение скорости: %d (км/ч)" // текст при значение '-1' в 'VehicleRadarLoad'
+	#define VEHICLE_RADAR_3DTEXT_TEXT  	                "Р Р°РґР°СЂ СЃРєРѕСЂРѕСЃС‚Рё в„–%d\nРћРіСЂР°РЅРёС‡РµРЅРёРµ СЃРєРѕСЂРѕСЃС‚Рё: %d (РєРј/С‡)" // С‚РµРєСЃС‚ РїСЂРё Р·РЅР°С‡РµРЅРёРµ '-1' РІ 'VehicleRadarLoad'
 #endif
 
 #if !defined VEHICLE_RADAR_3DTEXT_DISTANCE
-    #define VEHICLE_RADAR_3DTEXT_DISTANCE               15.0 // дистанция прорисовки 3d текста
+    #define VEHICLE_RADAR_3DTEXT_DISTANCE               15.0 // РґРёСЃС‚Р°РЅС†РёСЏ РїСЂРѕСЂРёСЃРѕРІРєРё 3d С‚РµРєСЃС‚Р°
 #endif
 
 #if !defined VEHICLE_RADAR_MAX_ROWS_LIST 
-    #define VEHICLE_RADAR_MAX_ROWS_LIST                 20 // максимальное количество строчек списка диалога
+    #define VEHICLE_RADAR_MAX_ROWS_LIST                 20 // РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕС‡РµРє СЃРїРёСЃРєР° РґРёР°Р»РѕРіР°
 #endif
 
 #if !defined VEHICLE_RADAR_USE_EDITING_TOOLS
-	#define VEHICLE_RADAR_USE_EDITING_TOOLS  	        true //использовать инструменты редактирования
+	#define VEHICLE_RADAR_USE_EDITING_TOOLS  	        true //РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РёРЅСЃС‚СЂСѓРјРµРЅС‚С‹ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ
 #endif
 
 #if !defined VEHICLE_RADAR_COLOR_1
@@ -573,7 +573,7 @@ stock _GetVehSpeed(vehicleid)
 
     DialogCreate:_vehicle_radar_Create(playerid)
     {
-        new string[166+ 21+30+10+10+16+10+10 + 23], caption[55+10] = "Создание радара", Float:x = vehicle_radar_player[playerid][vrp_x], Float:y = vehicle_radar_player[playerid][vrp_y], Float:z = vehicle_radar_player[playerid][vrp_z];
+        new string[166+ 21+30+10+10+16+10+10 + 23], caption[55+10] = "РЎРѕР·РґР°РЅРёРµ СЂР°РґР°СЂР°", Float:x = vehicle_radar_player[playerid][vrp_x], Float:y = vehicle_radar_player[playerid][vrp_y], Float:z = vehicle_radar_player[playerid][vrp_z];
         if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true)
         {
             new radarid = vehicle_radar_player[playerid][vrpList_LineID];
@@ -584,27 +584,27 @@ stock _GetVehSpeed(vehicleid)
 
         format(string, sizeof(string),
             "%s\t\n\
-            Позиция\tX: %.1f, Y: %.1f, Z: %.1f\n\
-            Дистанция срабатывания\t%.1fm\n\
-            Скорость срабатывания\t%d км/ч\n\
-            Статус радара\t%s\n\
-            Виртуальный мир\t%d\n\
-            Интерьер\t%d",
-        (vehicle_radar_player[playerid][vrpList_EditRadar][0] == false) ? (""VEHICLE_RADAR_COLOR_1"Создать радар"):(""VEHICLE_RADAR_COLOR_2"Удалить радар"),
+            РџРѕР·РёС†РёСЏ\tX: %.1f, Y: %.1f, Z: %.1f\n\
+            Р”РёСЃС‚Р°РЅС†РёСЏ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ\t%.1fm\n\
+            РЎРєРѕСЂРѕСЃС‚СЊ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ\t%d РєРј/С‡\n\
+            РЎС‚Р°С‚СѓСЃ СЂР°РґР°СЂР°\t%s\n\
+            Р’РёСЂС‚СѓР°Р»СЊРЅС‹Р№ РјРёСЂ\t%d\n\
+            РРЅС‚РµСЂСЊРµСЂ\t%d",
+        (vehicle_radar_player[playerid][vrpList_EditRadar][0] == false) ? (""VEHICLE_RADAR_COLOR_1"РЎРѕР·РґР°С‚СЊ СЂР°РґР°СЂ"):(""VEHICLE_RADAR_COLOR_2"РЈРґР°Р»РёС‚СЊ СЂР°РґР°СЂ"),
         x, y, z,
         vehicle_radar_player[playerid][vrp_ZoneSize],
         vehicle_radar_player[playerid][vrp_SpeedLimit],
-        (vehicle_radar_player[playerid][vrp_Disabled] == false) ? (""VEHICLE_RADAR_COLOR_1"Включен"):(""VEHICLE_RADAR_COLOR_2"Выключен"),
+        (vehicle_radar_player[playerid][vrp_Disabled] == false) ? (""VEHICLE_RADAR_COLOR_1"Р’РєР»СЋС‡РµРЅ"):(""VEHICLE_RADAR_COLOR_2"Р’С‹РєР»СЋС‡РµРЅ"),
         vehicle_radar_player[playerid][vrp_Worldid],
         vehicle_radar_player[playerid][vrp_Interiorid]);
 
         if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true) 
         {
             new radarid = vehicle_radar_player[playerid][vrpList_LineID];
-            format(string, sizeof(string), "%s\nТелепорт к радару\t",  string);
-            format(caption, sizeof(caption), "Редактирование радара | "VEHICLE_RADAR_COLOR_3"Кол-во срабатываний: %d", vehicle_radar[radarid][vr_ActivationCount]);
+            format(string, sizeof(string), "%s\nРўРµР»РµРїРѕСЂС‚ Рє СЂР°РґР°СЂСѓ\t",  string);
+            format(caption, sizeof(caption), "Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ СЂР°РґР°СЂР° | "VEHICLE_RADAR_COLOR_3"РљРѕР»-РІРѕ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёР№: %d", vehicle_radar[radarid][vr_ActivationCount]);
         }
-        Dialog_Open(playerid, Dialog:_vehicle_radar_Create, DIALOG_STYLE_TABLIST, caption, string, "Выбрать", "Отмена");
+        Dialog_Open(playerid, Dialog:_vehicle_radar_Create, DIALOG_STYLE_TABLIST, caption, string, "Р’С‹Р±СЂР°С‚СЊ", "РћС‚РјРµРЅР°");
         return 1;
     }
 
@@ -621,7 +621,7 @@ stock _GetVehSpeed(vehicleid)
 
             if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true)
             {
-                if(vehicle_radar_player[playerid][vrpList_EditRadar][1] == true) return Dialog_Open(playerid, Dialog:_vehicle_radar_Savechanges, DIALOG_STYLE_MSGBOX, "Принятие изменений", "{FFFFFF}Были найдены изменения желаете их сохранить ?", "Да", "Нет");
+                if(vehicle_radar_player[playerid][vrpList_EditRadar][1] == true) return Dialog_Open(playerid, Dialog:_vehicle_radar_Savechanges, DIALOG_STYLE_MSGBOX, "РџСЂРёРЅСЏС‚РёРµ РёР·РјРµРЅРµРЅРёР№", "{FFFFFF}Р‘С‹Р»Рё РЅР°Р№РґРµРЅС‹ РёР·РјРµРЅРµРЅРёСЏ Р¶РµР»Р°РµС‚Рµ РёС… СЃРѕС…СЂР°РЅРёС‚СЊ ?", "Р”Р°", "РќРµС‚");
                 Dialog_Show(playerid, Dialog:_vehicle_radar_List);
                 return 1;
             }
@@ -634,8 +634,8 @@ stock _GetVehSpeed(vehicleid)
                 if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true)
                 {
                     new string[75+10];
-                    format(string, sizeof(string), "{FFFFFF}Вы действительно желаете удалить автомобильный радар "VEHICLE_RADAR_COLOR_3"ID: %d", vehicle_radar_player[playerid][vrpList_LineID]);
-                    Dialog_Open(playerid, Dialog:_vehicle_radar_Delete, DIALOG_STYLE_MSGBOX, "Удалить автомобильный радар", string, "Удалить", "Назад");
+                    format(string, sizeof(string), "{FFFFFF}Р’С‹ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ Р¶РµР»Р°РµС‚Рµ СѓРґР°Р»РёС‚СЊ Р°РІС‚РѕРјРѕР±РёР»СЊРЅС‹Р№ СЂР°РґР°СЂ "VEHICLE_RADAR_COLOR_3"ID: %d", vehicle_radar_player[playerid][vrpList_LineID]);
+                    Dialog_Open(playerid, Dialog:_vehicle_radar_Delete, DIALOG_STYLE_MSGBOX, "РЈРґР°Р»РёС‚СЊ Р°РІС‚РѕРјРѕР±РёР»СЊРЅС‹Р№ СЂР°РґР°СЂ", string, "РЈРґР°Р»РёС‚СЊ", "РќР°Р·Р°Рґ");
                     return 1;
                 }
 
@@ -649,9 +649,9 @@ stock _GetVehSpeed(vehicleid)
                 );
                 if(!radarid)
                 {
-                    Dialog_Open(playerid, Dialog:_vehicle_radar_Create_back, DIALOG_STYLE_MSGBOX, "Создание автомобильного радара", 
-                        "{FFFFFF}Достигнут лимит по количеству созданих автомобильных радаров", 
-                    "Закрыть", "Назад");
+                    Dialog_Open(playerid, Dialog:_vehicle_radar_Create_back, DIALOG_STYLE_MSGBOX, "РЎРѕР·РґР°РЅРёРµ Р°РІС‚РѕРјРѕР±РёР»СЊРЅРѕРіРѕ СЂР°РґР°СЂР°", 
+                        "{FFFFFF}Р”РѕСЃС‚РёРіРЅСѓС‚ Р»РёРјРёС‚ РїРѕ РєРѕР»РёС‡РµСЃС‚РІСѓ СЃРѕР·РґР°РЅРёС… Р°РІС‚РѕРјРѕР±РёР»СЊРЅС‹С… СЂР°РґР°СЂРѕРІ", 
+                    "Р—Р°РєСЂС‹С‚СЊ", "РќР°Р·Р°Рґ");
                     return 1;
                 }
                 if(IsValidPlayerObject(playerid, vehicle_radar_player[playerid][vrp_Object]))
@@ -705,12 +705,12 @@ stock _GetVehSpeed(vehicleid)
             }
             case 2:
             {
-                Dialog_Open(playerid, Dialog:_vehicle_radar_ZoneSize, DIALOG_STYLE_INPUT, "Дистанция срабатывания", "{FFFFFF}Введите дистанцию срабатывания автомобильного радара:", "Выбрать", "Отмена");
+                Dialog_Open(playerid, Dialog:_vehicle_radar_ZoneSize, DIALOG_STYLE_INPUT, "Р”РёСЃС‚Р°РЅС†РёСЏ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ", "{FFFFFF}Р’РІРµРґРёС‚Рµ РґРёСЃС‚Р°РЅС†РёСЋ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ Р°РІС‚РѕРјРѕР±РёР»СЊРЅРѕРіРѕ СЂР°РґР°СЂР°:", "Р’С‹Р±СЂР°С‚СЊ", "РћС‚РјРµРЅР°");
                 return 1;
             }
             case 3:
             {
-                Dialog_Open(playerid, Dialog:_vehicle_radar_SpeedLimit, DIALOG_STYLE_INPUT, "Скорость срабатывания", "{FFFFFF}Введите скорость при которой будет срабатывать автомобильный радар:", "Выбрать", "Отмена");
+                Dialog_Open(playerid, Dialog:_vehicle_radar_SpeedLimit, DIALOG_STYLE_INPUT, "РЎРєРѕСЂРѕСЃС‚СЊ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ", "{FFFFFF}Р’РІРµРґРёС‚Рµ СЃРєРѕСЂРѕСЃС‚СЊ РїСЂРё РєРѕС‚РѕСЂРѕР№ Р±СѓРґРµС‚ СЃСЂР°Р±Р°С‚С‹РІР°С‚СЊ Р°РІС‚РѕРјРѕР±РёР»СЊРЅС‹Р№ СЂР°РґР°СЂ:", "Р’С‹Р±СЂР°С‚СЊ", "РћС‚РјРµРЅР°");
                 return 1;
             }
             case 4:
@@ -724,12 +724,12 @@ stock _GetVehSpeed(vehicleid)
             }
             case 5:
             {
-                Dialog_Open(playerid, Dialog:_vehicle_radar_Worldid, DIALOG_STYLE_INPUT, "Виртуальный мир", "{FFFFFF}Введите ID виртуального мира в котором будет отображаться радар:", "Выбрать", "Отмена");
+                Dialog_Open(playerid, Dialog:_vehicle_radar_Worldid, DIALOG_STYLE_INPUT, "Р’РёСЂС‚СѓР°Р»СЊРЅС‹Р№ РјРёСЂ", "{FFFFFF}Р’РІРµРґРёС‚Рµ ID РІРёСЂС‚СѓР°Р»СЊРЅРѕРіРѕ РјРёСЂР° РІ РєРѕС‚РѕСЂРѕРј Р±СѓРґРµС‚ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊСЃСЏ СЂР°РґР°СЂ:", "Р’С‹Р±СЂР°С‚СЊ", "РћС‚РјРµРЅР°");
                 return 1;
             }
             case 6:
             {
-                Dialog_Open(playerid, Dialog:_vehicle_radar_Interior, DIALOG_STYLE_INPUT, "Интерьер", "{FFFFFF}Введите ID интерьера в котором будет отображаться радар:", "Выбрать", "Отмена");
+                Dialog_Open(playerid, Dialog:_vehicle_radar_Interior, DIALOG_STYLE_INPUT, "РРЅС‚РµСЂСЊРµСЂ", "{FFFFFF}Р’РІРµРґРёС‚Рµ ID РёРЅС‚РµСЂСЊРµСЂР° РІ РєРѕС‚РѕСЂРѕРј Р±СѓРґРµС‚ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊСЃСЏ СЂР°РґР°СЂ:", "Р’С‹Р±СЂР°С‚СЊ", "РћС‚РјРµРЅР°");
                 return 1;
             }
             case 7:
@@ -752,7 +752,7 @@ stock _GetVehSpeed(vehicleid)
     DialogResponse:_vehicle_radar_ZoneSize(playerid, response, listitem, inputtext[])
     {
         if(!response) return Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
-        if(floatstr(inputtext) < 0.0) return Dialog_Open(playerid, Dialog:_vehicle_radar_ZoneSize, DIALOG_STYLE_INPUT, "Дистанция срабатывания", "{FFFFFF}Введите дистанцию срабатывания автомобильного радара:", "Выбрать", "Отмена");
+        if(floatstr(inputtext) < 0.0) return Dialog_Open(playerid, Dialog:_vehicle_radar_ZoneSize, DIALOG_STYLE_INPUT, "Р”РёСЃС‚Р°РЅС†РёСЏ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ", "{FFFFFF}Р’РІРµРґРёС‚Рµ РґРёСЃС‚Р°РЅС†РёСЋ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ Р°РІС‚РѕРјРѕР±РёР»СЊРЅРѕРіРѕ СЂР°РґР°СЂР°:", "Р’С‹Р±СЂР°С‚СЊ", "РћС‚РјРµРЅР°");
 
         vehicle_radar_player[playerid][vrp_ZoneSize] = floatstr(inputtext);
         if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true) vehicle_radar_player[playerid][vrpList_EditRadar][1] = true;
@@ -763,7 +763,7 @@ stock _GetVehSpeed(vehicleid)
     DialogResponse:_vehicle_radar_SpeedLimit(playerid, response, listitem, inputtext[])
     {
         if(!response) return Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
-        if(strval(inputtext) < 0) return Dialog_Open(playerid, Dialog:_vehicle_radar_SpeedLimit, DIALOG_STYLE_INPUT, "Скорость срабатывания", "{FFFFFF}Введите скорость при которой будет срабатывать автомобильный радар:", "Выбрать", "Отмена");
+        if(strval(inputtext) < 0) return Dialog_Open(playerid, Dialog:_vehicle_radar_SpeedLimit, DIALOG_STYLE_INPUT, "РЎРєРѕСЂРѕСЃС‚СЊ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ", "{FFFFFF}Р’РІРµРґРёС‚Рµ СЃРєРѕСЂРѕСЃС‚СЊ РїСЂРё РєРѕС‚РѕСЂРѕР№ Р±СѓРґРµС‚ СЃСЂР°Р±Р°С‚С‹РІР°С‚СЊ Р°РІС‚РѕРјРѕР±РёР»СЊРЅС‹Р№ СЂР°РґР°СЂ:", "Р’С‹Р±СЂР°С‚СЊ", "РћС‚РјРµРЅР°");
 
         vehicle_radar_player[playerid][vrp_SpeedLimit] = strval(inputtext);
         if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true) vehicle_radar_player[playerid][vrpList_EditRadar][1] = true;
@@ -883,7 +883,11 @@ stock _GetVehSpeed(vehicleid)
     #endif
 
 
-    public OnPlayerDisconnect(playerid, reason)
+    #if defined _inc_y_hooks || defined _INC_y_hooks
+        hook OnPlayerDisconnect(playerid, reason)
+    #else
+        public OnPlayerDisconnect(playerid, reason)
+    #endif
     {
         if(vehicle_radar_player[playerid][vrp_EditObject] != 0 || vehicle_radar_player[playerid][vrpList_EditRadar][1] == true)
         {
@@ -934,7 +938,7 @@ stock _GetVehSpeed(vehicleid)
 
     DialogCreate:_vehicle_radar_List(playerid) 
     {
-        new string[ (27+ 10+10+10+16) * VEHICLE_RADAR_MAX_ROWS_LIST + 91] = "{FFFFFF}ID\t{FFFFFF}Скорость срабатывания\t{FFFFFF}Дистанция срабатывания\t{FFFFFF}Статус\n";
+        new string[ (27+ 10+10+10+16) * VEHICLE_RADAR_MAX_ROWS_LIST + 91] = "{FFFFFF}ID\t{FFFFFF}РЎРєРѕСЂРѕСЃС‚СЊ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ\t{FFFFFF}Р”РёСЃС‚Р°РЅС†РёСЏ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ\t{FFFFFF}РЎС‚Р°С‚СѓСЃ\n";
         for(new x; x < VEHICLE_RADAR_MAX_ROWS_LIST; x ++) vehicle_radar_player[playerid][vrpList_SlotID][x] = -1;
 
         new line_max, block_back_button;
@@ -945,7 +949,7 @@ stock _GetVehSpeed(vehicleid)
             if(line_max <= VEHICLE_RADAR_MAX_ROWS_LIST-1)
             {
                 vehicle_radar_player[playerid][vrpList_SlotID][line_max] = x;
-                format(string, sizeof(string), "%s#%d\t%d км/ч\t%.1fm\t%s\n", string, x, vehicle_radar[x][vr_SpeedLimit], vehicle_radar[x][vr_ZoneSize], (vehicle_radar[x][vr_Disabled] == false) ? (""VEHICLE_RADAR_COLOR_1"Включен"):(""VEHICLE_RADAR_COLOR_2"Выключен"));    
+                format(string, sizeof(string), "%s#%d\t%d РєРј/С‡\t%.1fm\t%s\n", string, x, vehicle_radar[x][vr_SpeedLimit], vehicle_radar[x][vr_ZoneSize], (vehicle_radar[x][vr_Disabled] == false) ? (""VEHICLE_RADAR_COLOR_1"Р’РєР»СЋС‡РµРЅ"):(""VEHICLE_RADAR_COLOR_2"Р’С‹РєР»СЋС‡РµРЅ"));    
 
                 if(x >= MAX_VEHICLE_RADAR -1)
                 {
@@ -957,19 +961,19 @@ stock _GetVehSpeed(vehicleid)
             if(line_max >= VEHICLE_RADAR_MAX_ROWS_LIST+1)
             {
                 block_back_button = 2;
-                strcat(string, "> Дальше\n");
-                if(vehicle_radar_player[playerid][vrpList_Page] >= 1) strcat(string, "< Назад\n");
+                strcat(string, "> Р”Р°Р»СЊС€Рµ\n");
+                if(vehicle_radar_player[playerid][vrpList_Page] >= 1) strcat(string, "< РќР°Р·Р°Рґ\n");
                 break;
             }
         }
         if(vehicle_radar_player[playerid][vrpList_Page] >= 1 && block_back_button == 0 || block_back_button == 1)
         {
-            strcat(string, "< Назад\n");
+            strcat(string, "< РќР°Р·Р°Рґ\n");
             vehicle_radar_player[playerid][vrpList_Page_Button_Back] = line_max + ((block_back_button == 0) ? (1):(2));
         }
-        if(line_max == 0) return Dialog_Message(playerid, "Список автомобильных радаров", "{FFFFFF}Нет созданных автомобильных радаров.", "Закрыть");
+        if(line_max == 0) return Dialog_Message(playerid, "РЎРїРёСЃРѕРє Р°РІС‚РѕРјРѕР±РёР»СЊРЅС‹С… СЂР°РґР°СЂРѕРІ", "{FFFFFF}РќРµС‚ СЃРѕР·РґР°РЅРЅС‹С… Р°РІС‚РѕРјРѕР±РёР»СЊРЅС‹С… СЂР°РґР°СЂРѕРІ.", "Р—Р°РєСЂС‹С‚СЊ");
 
-        Dialog_Open(playerid, Dialog:_vehicle_radar_List, DIALOG_STYLE_TABLIST_HEADERS, "Список автомобильных радаров", string, "Выбрать", "Отмена");
+        Dialog_Open(playerid, Dialog:_vehicle_radar_List, DIALOG_STYLE_TABLIST_HEADERS, "РЎРїРёСЃРѕРє Р°РІС‚РѕРјРѕР±РёР»СЊРЅС‹С… СЂР°РґР°СЂРѕРІ", string, "Р’С‹Р±СЂР°С‚СЊ", "РћС‚РјРµРЅР°");
         return 1;
     }
 
