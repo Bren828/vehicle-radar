@@ -41,7 +41,7 @@ public OnPlayerVehicleRadarCreate(playerid, radarid, speed_limit, Float:zone_siz
     
     //Mysql R39-6 save example
     static const mysql_str[] = 
-        "INSERT INTO vehicle_radar SET (`speed_limit`,`zone_size`,`x`,`y`,`z`,`rx`,`ry`,`rz`,`worldid`,`interiorid`) VALUE ('%d','%f','%f','%f','%f','%f','%f','%f','%d','%d')";
+        "INSERT INTO vehicle_radar (`speed_limit`,`zone_size`,`x`,`y`,`z`,`rx`,`ry`,`rz`,`worldid`,`interiorid`) VALUE ('%d','%f','%f','%f','%f','%f','%f','%f','%d','%d')";
     new string[sizeof(mysql_str)];
     mysql_format(mysql, string, sizeof(string), mysql_str, speed_limit, zone_size,  x, y, z, rx, ry, rz,  worldid, interiorid);
     new Cache:result = mysql_query(mysql, string);
