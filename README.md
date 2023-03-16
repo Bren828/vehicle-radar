@@ -271,5 +271,5 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 
 #define VEHICLE_RADAR_COLOR_3               "{F5D742}" // 0xF5D742
 
-const Float:VEHICLE_RADAR_SPEED_MULTIPLIER = 179.28625;
+const Float:VEHICLE_RADAR_SPEED_MULTIPLIER = 179.28625; // множитель скорости
 ```
