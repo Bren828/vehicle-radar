@@ -87,151 +87,151 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 ## Callbacks
 #### public OnPlayerEnterVehicleRadar(playerid, radarid, vehicleid, activation_count)
 * Вызывается при срабатывание радара
-> * `playerid` - ID игрока
-> * `radarid` - ID радара
-> * `vehicleid` - ID транспорта
+> * `playerid` - The ID of the player
+> * `radarid` - The ID of the radar
+> * `vehicleid` - The ID of vehicle
 > * `activation_count` - количество срабатываний
 
 
 #### public OnPlayerVehicleRadarCreate(playerid, radarid, speed_limit, Float:zone_size, bool:disabled, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid, interiorid)
 > Вызывается при создании нового радара
-> * `radarid` - ID радара
-> * `speed_limit` - Ограничение скорости
-> * `Float:zone_size` - Дистанция срабатывания
-> * `bool:disabled` - состояние радара (false - включен | true - выключен)
-> * `Float:x` - Координата x
-> * `Float:y` - Координата y
-> * `Float:z` - Координата z
-> * `Float:rx` - Координата x вращение объекта
-> * `Float:ry` - Координата y вращение объекта
-> * `Float:rz` - Координата z вращение объекта
-> * `worldid` - ID виртуального 
-> * `interiorid` - ID интерьера 
+> * `radarid` - The ID of the radar
+> * `speed_limit` - Speed limit in km/h
+> * `Float:zone_size` - Trigger distance
+> * `bool:disabled` - Disabled radar (false | true)
+> * `Float:x` - The x coordinate to create the object at
+> * `Float:y` - The y coordinate to create the object at
+> * `Float:z` - The z coordinate to create the object at
+> * `Float:rx` - The x rotation of the object
+> * `Float:ry` - The y rotation of the object
+> * `Float:rz` - The z rotation of the object
+> * `worldid` - The virtual world ID 
+> * `interiorid` - The interior ID 
 
 
 #### public OnPlayerVehicleRadarEdit(playerid, radarid, speed_limit, Float:zone_size, bool:disabled, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid, interiorid)
 > Вызывается при редактировании созданного радара
-> * `radarid` - ID радара
-> * `speed_limit` - Ограничение скорости
-> * `Float:zone_size` - Дистанция срабатывания
-> * `bool:disabled` - состояние радара (false - включен | true - выключен)
-> * `Float:x` - Координата x
-> * `Float:y` - Координата y
-> * `Float:z` - Координата z
-> * `Float:rx` - Координата x вращение объекта
-> * `Float:ry` - Координата y вращение объекта
-> * `Float:rz` - Координата z вращение объекта
-> * `worldid` - ID виртуального 
-> * `interiorid` - ID интерьера 
+> * `radarid` - The ID of the radar
+> * `speed_limit` - Speed limit in km/h
+> * `Float:zone_size` - Trigger distance
+> * `bool:disabled` - Disabled radar (false | true)
+> * `Float:x` - The x coordinate the object
+> * `Float:y` - The y coordinate the object
+> * `Float:z` - The z coordinate the object
+> * `Float:rx` - The x rotation of the object
+> * `Float:ry` - The y rotation of the object
+> * `Float:rz` - The z rotation of the object
+> * `worldid` - The virtual world ID 
+> * `interiorid` - The interior ID
 
 
 #### public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 > Вызывается при удалении радара
-> * `radarid` - ID радара
-> * `extra_value` - дополнительное значение
+> * `radarid` - The ID of the radar
+> * `extra_value` - Value
 > * ПРИМЕЧАНИЕ: `extra_value` устанавливается через `SetVehicleRadarExtraValue`. Эта свободная переменная которую можно использовать для хранения IDs базы MySQL
 
 
 ## Functions
 #### VehicleRadarCreate(playerid)
-> Создать радар
-> * `playerid` - ID игрока
+> Create a radar
+> * `playerid` - The ID of the player
 
 
 #### VehicleRadarList(playerid)
-> Просмотреть список созданных радаров
-> * `playerid` - ID игрока
+> List of created radars
+> * `playerid` - The ID of the player
 
 
 #### VehicleRadarLoad(speed_limit, Float:zone_size, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid = -1, interiorid = -1, bool:disabled = false, const text3D[] = "-1", text3D_color = -1, Float:text3D_distance = VEHICLE_RADAR_3DTEXT_DISTANCE)
-> Загрузить радар
-> * `speed_limit` - Ограничение скорости
-> * `Float:zone_size` - Дистанция срабатывания
-> * `Float:x` - Координата x
-> * `Float:y` - Координата y
-> * `Float:z` - Координата z
-> * `Float:rx` - Координата x вращение объекта
-> * `Float:ry` - Координата y вращение объекта
-> * `Float:rz` - Координата z вращение объекта
-> * `worldid` - ID виртуального мира
-> * `interiorid` - ID интерьера 
-> * `bool:disabled` - Выключить радар (false - нет | true - да)
+> Load Radar
+> * `speed_limit` - Speed limit in km/h
+> * `Float:zone_size` - Trigger distance
+> * `Float:x` - The x coordinate to create the object at
+> * `Float:y` - The y coordinate to create the object at
+> * `Float:z` - The z coordinate to create the object at
+> * `Float:rx` - The x rotation of the object
+> * `Float:ry` - The y rotation of the object
+> * `Float:rz` - The z rotation of the object
+> * `worldid` - The virtual world ID 
+> * `interiorid` - The interior ID
+> * `bool:disabled` - Disabled radar (false | true)
 > * `const text3D[]` - 3DText
-> * `text3D_color` - Цвет 3DText 
-> * `Float:text3D_distance` - Дистанция отображения 3DText
+> * `text3D_color` - 3DText color
+> * `Float:text3D_distance` - 3DText draw distance
 > * Вернет (0) при неудачи или (ID) радара при успехе
 
 
 #### DeleteVehicleRadar(playerid, radarid, bool:callback = true)
-> Удалить радар
-> * `radarid` - ID радара
-> * `callback` - Вызвать `OnPlayerVehicleRadarDelete` при удаление
+> Remove radar
+> * `radarid` - The ID of the radar
+> * `callback` - Call `OnPlayerVehicleRadarDelete` on deletion
 > * Вернет (0) при неудачи или (1) при успехе
 
 
 #### SetVehicleRadarActivationCount(radarid, count)
 > Изменить количество срабатываний
-> * `radarid` - ID радара
+> * `radarid` - The ID of the radar
 > * `count` - количество
 > * Вернет (0) при неудачи или (1) при успехе
 
 
 #### GetVehicleRadarActivationCount(radarid)
 > Узнать количество срабатываний
-> * `radarid` - ID радара
+> * `radarid` - The ID of the radar
 > * Вернет (0) при неудачи или количество срабатываний
 
 
 #### SetVehicleRadarSpeedLimit(radarid, speed)
-> Изменить ограничение скорости
-> * `radarid` - ID радара
-> * `speed` - скорость км/ч
+> Change the speed limit
+> * `radarid` - The ID of the radar
+> * `speed` - Speed in km/h
 > * Вернет (0) при неудачи или (1) при успехе
 
 
 #### GetVehicleRadarSpeedLimit(radarid)
 > Узнать ограничение скорости
-> * `radarid` - ID радара
+> * `radarid` - The ID of the radar
 > * Вернет (0) при неудачи или текущую скорость
 
 
 #### SetVehicleRadarZoneSize(radarid, Float:zone_size)
-> Изменить дистанцию срабатывания
-> * `radarid` - ID радара
-> * `Float:zone_size` - дистанция
+> Change the trigger distance
+> * `radarid` - The ID of the radar
+> * `Float:zone_size` - Trigger distance
 > * Вернет (0) при неудачи или (1) при успехе
 
 
 #### GetVehicleRadarZoneSize(radarid, &Float:zone_size)
 > Узнать дистанцию срабатывания
-> * `radarid` - ID радара
-> * `&Float:zone_size` - текущая дистанция
+> * `radarid` - The ID of the radar
+> * `&Float:zone_size` - Current distance
 > * Вернет (0) при неудачи или (1) при успехе
 
 
 #### SetVehicleRadarText(radarid, const text[], color, Float:drawdistance = VEHICLE_RADAR_3DTEXT_DISTANCE, Float:x = 0.0, Float:y = 0.0, Float:z = 0.0)
-> Изменить 3D Text
-> * `radarid` - ID радара
-> * `text[]` - текст
-> * `color` - цвет
-> * `Float:drawdistance` - дистанция
-> * `Float:x` - Координата x
-> * `Float:y` - Координата y
-> * `Float:z` - Координата z
+> Change 3D Text
+> * `radarid` - The ID of the radar
+> * `text[]` - Test
+> * `color` - Color
+> * `Float:drawdistance` - Draw distance
+> * `Float:x` - The X coordinate to create the text 
+> * `Float:y` - The Y coordinate to create the text 
+> * `Float:z` - The Z coordinate to create the text 
 > * Вернет (0) при неудачи или (1) при успехе
 
 
 #### SetVehicleRadarExtraValue(radarid, value)
 > Изменить дополнительное значение
-> * `radarid` - ID радара
-> * `value` - значение
+> * `radarid` - The ID of the radar
+> * `value` - value
 > * Вернет (0) при неудачи или (1) при успехе
 > * ПРИМЕЧАНИЕ: Эта свободная переменная которую можно использовать для хранения IDs базы MySQL
 
 
 #### GetVehicleRadarExtraValue(radarid)
 > Узнать дополнительное значение
-> * `radarid` - ID радара
+> * `radarid` - The ID of the radar
 > * Вернет (0) при неудачи или текущие значение
 > * ПРИМЕЧАНИЕ: Эта свободная переменная которую можно использовать для хранения IDs базы MySQL
 
@@ -240,19 +240,19 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 ```pawn
 #define MAX_VEHICLE_RADAR                   200
 
-#define VEHICLE_RADAR_OBJECT_MODEL          18880 // модель объекта
+#define VEHICLE_RADAR_OBJECT_MODEL          18880 // object model
 
-#define VEHICLE_RADAR_OBJECT_DISTANCE       200.0 // дистанция прорисовки объекта
+#define VEHICLE_RADAR_OBJECT_DISTANCE       200.0 // object draw distance
 
-#define VEHICLE_RADAR_3DTEXT_LENGTH         144	// Длина 3d текста
+#define VEHICLE_RADAR_3DTEXT_LENGTH         144	// 3d text length
 
-#define VEHICLE_RADAR_3DTEXT_TEXT           "Радар скорости №%d\nОграничение скорости: %d (км/ч)" // текст при значение '-1' в 'VehicleRadarLoad'
+#define VEHICLE_RADAR_3DTEXT_TEXT           "Speed radar №%d\nSpeed Limit: %d (км/ч)" // text with value '-1' in 'VehicleRadarLoad'
 
-#define VEHICLE_RADAR_3DTEXT_DISTANCE       15.0 // дистанция прорисовки 3d текста
+#define VEHICLE_RADAR_3DTEXT_DISTANCE       15.0 // 3d text draw distance
 
 #define VEHICLE_RADAR_MAX_ROWS_LIST         20 // максимальное количество строчек списка диалога
 
-#define VEHICLE_RADAR_USE_EDITING_TOOLS     true //использовать инструменты редактирования
+#define VEHICLE_RADAR_USE_EDITING_TOOLS     true //use editing tools
 
 #define VEHICLE_RADAR_COLOR_1               "{8fce00}" // 0x8fce00
 
@@ -260,5 +260,5 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 
 #define VEHICLE_RADAR_COLOR_3               "{F5D742}" // 0xF5D742
 
-const Float:VEHICLE_RADAR_SPEED_MULTIPLIER = 179.28625; // множитель скорости
+const Float:VEHICLE_RADAR_SPEED_MULTIPLIER = 179.28625; // speed multiplier
 ```
