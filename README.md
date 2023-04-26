@@ -159,62 +159,54 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 > * `const text3D[]` - 3DText
 > * `text3D_color` - Цвет 3DText 
 > * `Float:text3D_distance` - Дистанция отображения 3DText
-> * Вернет: 0 при неудачи
-> * Вернет: ID радара при успехе
+> * Вернет (0) при неудачи или (ID) радара при успехе
 
 
 #### DeleteVehicleRadar(playerid, radarid, bool:callback = true)
 > Удалить радар
 > * `radarid` - ID радара
 > * `callback` - Вызвать `OnPlayerVehicleRadarDelete` при удаление
-> * Вернет: 0 при неудачи
-> * Вернет: 1 при успехе
+> * Вернет (0) при неудачи или (1) при успехе
 
 
 #### SetVehicleRadarActivationCount(radarid, count)
 > Изменить количество срабатываний
 > * `radarid` - ID радара
 > * `count` - количество
-> * Вернет: 0 при неудачи
-> * Вернет: 1 при успехе
+> * Вернет (0) при неудачи или (1) при успехе
 
 
 #### GetVehicleRadarActivationCount(radarid)
 > Узнать количество срабатываний
 > * `radarid` - ID радара
-> * Вернет: 0 при неудачи
-> * Вернет: количество срабатываний
+> * Вернет (0) при неудачи или количество срабатываний
 
 
 #### SetVehicleRadarSpeedLimit(radarid, speed)
 > Изменить ограничение скорости
 > * `radarid` - ID радара
 > * `speed` - скорость км/ч
-> * Вернет: 0 при неудачи
-> * Вернет: 1 при успехе
+> * Вернет (0) при неудачи или (1) при успехе
 
 
 #### GetVehicleRadarSpeedLimit(radarid)
 > Узнать ограничение скорости
 > * `radarid` - ID радара
-> * Вернет: 0 при неудачи
-> * Вернет: текущую скорость
+> * Вернет (0) при неудачи или текущую скорость
 
 
 #### SetVehicleRadarZoneSize(radarid, Float:zone_size)
 > Изменить дистанцию срабатывания
 > * `radarid` - ID радара
 > * `Float:zone_size` - дистанция
-> * Вернет: 0 при неудачи
-> * Вернет: 1 при успехе
+> * Вернет (0) при неудачи или (1) при успехе
 
 
 #### GetVehicleRadarZoneSize(radarid, &Float:zone_size)
 > Узнать дистанцию срабатывания
 > * `radarid` - ID радара
 > * `&Float:zone_size` - текущая дистанция
-> * Вернет: 0 при неудачи
-> * Вернет: 1 при успехе
+> * Вернет (0) при неудачи или (1) при успехе
 
 
 #### SetVehicleRadarText(radarid, const text[], color, Float:drawdistance = VEHICLE_RADAR_3DTEXT_DISTANCE, Float:x = 0.0, Float:y = 0.0, Float:z = 0.0)
@@ -226,24 +218,21 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 > * `Float:x` - Координата x
 > * `Float:y` - Координата y
 > * `Float:z` - Координата z
-> * Вернет: 0 при неудачи
-> * Вернет: 1 при успехе
+> * Вернет (0) при неудачи или (1) при успехе
 
 
 #### SetVehicleRadarExtraValue(radarid, value)
 > Изменить дополнительное значение
 > * `radarid` - ID радара
 > * `value` - значение
-> * Вернет: 0 при неудачи
-> * Вернет: 1 при успехе
+> * Вернет (0) при неудачи или (1) при успехе
 > * ПРИМЕЧАНИЕ: Эта свободная переменная которую можно использовать для хранения IDs базы MySQL
 
 
 #### GetVehicleRadarExtraValue(radarid)
 > Узнать дополнительное значение
 > * `radarid` - ID радара
-> * Вернет: 0 при неудачи
-> * Вернет: текущие значение
+> * Вернет (0) при неудачи или текущие значение
 > * ПРИМЕЧАНИЕ: Эта свободная переменная которую можно использовать для хранения IDs базы MySQL
 
 
