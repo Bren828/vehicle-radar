@@ -6,9 +6,9 @@
 *   ---------------------------------------------------
 *
 *	Creater - @Bren828	
-*									16 March 2023
+*									6 July 2023
 *
-*   Version: 1.2
+*   Version: 1.3
 *
 *   ---------------------------------------------------
 *
@@ -17,215 +17,170 @@
 *
 *
 *
-* Создать радар
+* Create a radar through tools
 *       VehicleRadarCreate(playerid)
-*		* playerid: ID игрока
+*		* playerid: The ID of the player
 *
 *
-* Просмотреть список созданных радаров
+* List of created radars
 *       VehicleRadarList(playerid)
-*		* playerid: ID игрока
+*		* playerid: The ID of the player
 *
 *
-* Загрузить радар
+* Create a radar
 *       VehicleRadarLoad(speed_limit, Float:zone_size, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid = -1, interiorid = -1, bool:disabled = false, const text3D[] = "-1", text3D_color = -1, Float:text3D_distance = VEHICLE_RADAR_3DTEXT_DISTANCE)
-*		* speed_limit: Ограничение скорости
-*		* Float:zone_size: Дистанция срабатывания
-*       * Float:x: Координата x
-*       * Float:y: Координата y
-*       * Float:z: Координата z
-*       * Float:rx: Координата x вращение объекта
-*       * Float:ry: Координата y вращение объекта
-*       * Float:rz: Координата z вращение объекта
-*		* worldid: ID виртуального мира
-*       * interiorid: ID интерьера 
-*       * bool:disabled: Выключить радар (false - нет | true - да)
+*		* speed_limit: Speed limit in km/h
+*		* Float:zone_size: Trigger distance
+*       * Float:x: The z coordinate to create the object
+*       * Float:y: The y coordinate to create the object
+*       * Float:z: The z coordinate to create the object
+*       * Float:rx: The rx rotation of the object
+*       * Float:ry: The ry rotation of the object
+*       * Float:rz: The rz rotation of the object
+*		* worldid: The virtual world ID
+*       * interiorid: The interior ID
+*       * bool:disabled: Disabled radar (false | true)
 *       * const text3D[]: 3DText
-*       * text3D_color: Цвет 3DText 
-*       * Float:text3D_distance: Дистанция отображения 3DText
+*       * text3D_color: 3DText color
+*       * Float:text3D_distance: 3DText draw distance
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: ID радара при успехе
+*		* Return: 0 or Radar ID
 *
 *
-* Удалить радар
+* Remove radar
 *       DeleteVehicleRadar(playerid, radarid, bool:callback = true)
-*		* radarid: ID радара
-*		* callback: Вызвать 'OnPlayerVehicleRadarDelete' при удаление
+*		* radarid: The ID of the radar
+*		* callback: Call 'OnPlayerVehicleRadarDelete' on delete
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: 1 при успехе
+*		* Return: Returns (0) on failure or (1) on success
 *
 *
-* Изменить количество срабатываний
+* Set the number of triggers
 *       SetVehicleRadarActivationCount(radarid, count)
-*		* radarid: ID радара
-*		* count: количество
+*		* radarid: The ID of the radar
+*		* count: count
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: 1 при успехе
+*		* Return: Returns (0) on failure or (1) on success
 *
 *
-* Узнать количество срабатываний
+* Get the number of triggers
 *       GetVehicleRadarActivationCount(radarid)
-*		* radarid: ID радара
+*		* radarid: The ID of the radar
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: количество срабатываний
+*		* Return: Returns (0) on failure or quantity
 *
 *
-* Изменить ограничение скорости
+* Set a speed limit
 *       SetVehicleRadarSpeedLimit(radarid, speed)
-*		* radarid: ID радара
-*		* speed: скорость км/ч
+*		* radarid: The ID of the radar
+*		* speed: speed km/h
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: 1 при успехе
+*		* Return: Returns (0) on failure or (1) on success
 *
 *
-* Узнать ограничение скорости
+* Get the speed limit
 *       GetVehicleRadarSpeedLimit(radarid)
-*		* radarid: ID радара
+*		* radarid: The ID of the radar
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: текущую скорость
+*		* Return: Returns (0) on failure or speed
 *
 *
-* Изменить дистанцию срабатывания
+* Set the trigger distance
 *       SetVehicleRadarZoneSize(radarid, Float:zone_size)
-*		* radarid: ID радара
-*		* Float:zone_size: дистанция
+*		* radarid: The ID of the radar
+*		* Float:zone_size: Trigger distance
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: 1 при успехе
+*		* Return: Returns (0) on failure or (1) on success
 *
 *
-* Узнать дистанцию срабатывания
+* Get trigger distance
 *       GetVehicleRadarZoneSize(radarid, &Float:zone_size)
-*		* radarid: ID радара
-*       * &Float:zone_size: текущая дистанция
+*		* radarid: The ID of the radar
+*       * &Float:zone_size: Current distance
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: 1 при успехе
+*		* Return: Returns (0) on failure or (1) on success
 *
 *
-* Изменить 3D Text
+* Set 3D Text
 *       SetVehicleRadarText(radarid, const text[], color, Float:drawdistance = VEHICLE_RADAR_3DTEXT_DISTANCE, Float:x = 0.0, Float:y = 0.0, Float:z = 0.0)
-*		* radarid: ID радара
-*       * text[]: текст
-*       * color: цвет
-*       * Float:drawdistance: дистанция
-*       * Float:x: Координата x
-*       * Float:y: Координата y
-*       * Float:z: Координата z
+*		* radarid: The ID of the radar
+*       * text[]: Text
+*       * color: Color
+*       * Float:drawdistance: Draw distance
+*       * Float:x: The X coordinate to create the text
+*       * Float:y: The y coordinate to create the text
+*       * Float:z: The z coordinate to create the text
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: 1 при успехе
+*		* Return: Returns (0) on failure or (1) on success
 *
 *
-* Изменить дополнительное значение
+* Set the value
 *       SetVehicleRadarExtraValue(radarid, value)
-*		* radarid: ID радара
-*       * value: значение
+*		* radarid: The ID of the radar
+*       * value: your value
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: 1 при успехе
-*       * ПРИМЕЧАНИЕ: Эта свободная переменная которую можно использовать для хранения IDs базы MySQL
+*		* Return: Returns (0) on failure or (1) on success
+*       * Note: This free variable
 *
 *
-* Узнать дополнительное значение
+* Get the value
 *       GetVehicleRadarExtraValue(radarid)
-*		* radarid: ID радара
+*		* radarid: The ID of the radar
 *		
-*		* Вернет: 0 при неудачи
-*		* Вернет: текущие значение
-*		* ПРИМЕЧАНИЕ: Эта свободная переменная которую можно использовать для хранения IDs базы MySQL
+*		* Return: Returns (0) on failure or your value
+*		* Note: This free variable
 *
 *
-* Вызывается при срабатывание радара
+* Called when the radar is triggered
 *       public OnPlayerEnterVehicleRadar(playerid, radarid, vehicleid, activation_count)
-*		* playerid: ID игрока
-*		* radarid: ID радара
-*       * vehicleid: ID транспорта
-*       * activation_count: количество срабатываний
+*		* playerid: The ID of the player
+*		* radarid: The ID of the radar
+*       * vehicleid: The ID of vehicle
+*       * activation_count: Triggering
 *
 *
-* Вызывается при создании нового радара
+* Called when creating a radar
 *       public OnPlayerVehicleRadarCreate(playerid, radarid, speed_limit, Float:zone_size, bool:disabled, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid, interiorid)
-*		* radarid: ID радара
-*		* speed_limit: Ограничение скорости
-*		* Float:zone_size: Дистанция срабатывания
-*       * bool:disabled: состояние радара (false - включен | true - выключен)
-*       * Float:x: Координата x
-*       * Float:y: Координата y
-*       * Float:z: Координата z
-*       * Float:rx: Координата x вращение объекта
-*       * Float:ry: Координата y вращение объекта
-*       * Float:rz: Координата z вращение объекта
-*		* worldid: ID виртуального 
-*       * interiorid: ID интерьера 
+*		* radarid: The ID of the radar
+*		* speed_limit: Speed limit in km/h
+*		* Float:zone_size: Trigger distance
+*       * bool:disabled: Disabled radar (false | true)
+*       * Float:x: The x coordinate to create the object
+*       * Float:y: The y coordinate to create the object
+*       * Float:z: The z coordinate to create the object
+*       * Float:rx: The x rotation of the object
+*       * Float:ry: The y rotation of the object
+*       * Float:rz: The z rotation of the object
+*		* worldid: The virtual world ID
+*       * interiorid: The interior ID
 *
 *
-* Вызывается при редактировании созданного радара
+* Called when editing
 *       public OnPlayerVehicleRadarEdit(playerid, radarid, speed_limit, Float:zone_size, bool:disabled, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid, interiorid)
-*		* radarid: ID радара
-*		* speed_limit: Ограничение скорости
-*		* Float:zone_size: Дистанция срабатывания
-*       * bool:disabled: состояние радара (false - включен | true - выключен)
-*       * Float:x: Координата x
-*       * Float:y: Координата y
-*       * Float:z: Координата z
-*       * Float:rx: Координата x вращение объекта
-*       * Float:ry: Координата y вращение объекта
-*       * Float:rz: Координата z вращение объекта
-*		* worldid: ID виртуального 
-*       * interiorid: ID интерьера 
+*		* radarid: The ID of the radar
+*		* speed_limit:  Speed limit in km/h
+*		* Float:zone_size: Trigger distance
+*       * bool:disabled: Disabled radar (false | true)
+*       * Float:x: The x coordinate to create the object
+*       * Float:y: The y coordinate to create the object
+*       * Float:z: The z coordinate to create the object
+*       * Float:rx: The x rotation of the object
+*       * Float:ry: The y rotation of the object
+*       * Float:rz: The z rotation of the object
+*		* worldid: The virtual world ID
+*       * interiorid: The interior ID
 *
 *
-* Вызывается при удалении радара
+* Called when the radar is removed
 *       public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
-*		* radarid: ID радара
-*       * extra_value: дополнительное значение
+*		* radarid: The ID of the radar
+*       * extra_value: Value
 *
 *
 *       
-*       stock _GetVehSpeed(vehicleid)
-*
-* 		/////////////
-*			Usage
-* 		/////////////       
-*       
-*
-*       new radarid = VehicleRadarLoad(130, 50.0,  0.0, 0.0, 0.0,  0.0, 0.0, 0.0); // create a radar
-*       SetVehicleRadarExtraValue(radarid, 1005); // add the value
-*
-*       public OnPlayerEnterVehicleRadar(playerid, radarid, vehicleid, activation_count)
-*       {
-*           printf("Enter Vehicle Radar | radarid: %d | vehicleid: %d | activation_count: %d", radarid, vehicleid, activation_count)
-*	        return 1;
-*       }
-*
-*
-* 		/////////////
-*			CMD
-* 		/////////////   
-*
-*
-*       CMD:radarcreate(playerid)
-*       {
-*	        VehicleRadarCreate(playerid);
-*	        return 1;
-*       }
-*
-*       CMD:radarlist(playerid)
-*       {
-*           VehicleRadarList(playerid);
-*           return 1;
-*       }
-*
 */
 
-#if defined _vehicle_radar_included 
+#if defined _vehicle_radar_included
 	#endinput
 #endif
 #define _vehicle_radar_included
@@ -236,31 +191,31 @@
 #endif
 
 #if !defined VEHICLE_RADAR_OBJECT_MODEL
-    #define VEHICLE_RADAR_OBJECT_MODEL                  18880 // модель объекта
+    #define VEHICLE_RADAR_OBJECT_MODEL                  18880 // object model
 #endif
 
 #if !defined VEHICLE_RADAR_OBJECT_DISTANCE
-    #define VEHICLE_RADAR_OBJECT_DISTANCE               200.0 // дистанция прорисовки объекта
+    #define VEHICLE_RADAR_OBJECT_DISTANCE               200.0
 #endif
 
 #if !defined VEHICLE_RADAR_3DTEXT_LENGTH
-	#define VEHICLE_RADAR_3DTEXT_LENGTH   	            144	// Длина 3d текста
+	#define VEHICLE_RADAR_3DTEXT_LENGTH   	            144
 #endif
 
 #if !defined VEHICLE_RADAR_3DTEXT_TEXT
-	#define VEHICLE_RADAR_3DTEXT_TEXT  	                "Радар скорости №%d\nОграничение скорости: %d (км/ч)" // текст при значение '-1' в 'VehicleRadarLoad'
+	static VEHICLE_RADAR_3DTEXT_TEXT[] =  	            "Speed radar �%d\nSpeed limit: %d (km/h)";
 #endif
 
 #if !defined VEHICLE_RADAR_3DTEXT_DISTANCE
-    #define VEHICLE_RADAR_3DTEXT_DISTANCE               15.0 // дистанция прорисовки 3d текста
+    #define VEHICLE_RADAR_3DTEXT_DISTANCE               15.0 // 3d text draw distance
 #endif
 
 #if !defined VEHICLE_RADAR_MAX_ROWS_LIST 
-    #define VEHICLE_RADAR_MAX_ROWS_LIST                 20 // максимальное количество строчек списка диалога
+    #define VEHICLE_RADAR_MAX_ROWS_LIST                 20 // max dialog list lines
 #endif
 
 #if !defined VEHICLE_RADAR_USE_EDITING_TOOLS
-	#define VEHICLE_RADAR_USE_EDITING_TOOLS  	        true //использовать инструменты редактирования
+	#define VEHICLE_RADAR_USE_EDITING_TOOLS  	        true // use editing tools
 #endif
 
 #if !defined VEHICLE_RADAR_COLOR_1
@@ -307,9 +262,6 @@ enum VEHICLE_RADAR_EN
 }
 static vehicle_radar[MAX_VEHICLE_RADAR][VEHICLE_RADAR_EN];
 
-#if defined OnPlayerVehicleRadarCreate
-    forward OnPlayerEnterVehicleRadar(playerid, radarid, vehicleid, activation_count);
-#endif 
 
 #if VEHICLE_RADAR_USE_EDITING_TOOLS
     enum VEHICLE_RADAR_PLAYER_EN
@@ -338,7 +290,7 @@ static vehicle_radar[MAX_VEHICLE_RADAR][VEHICLE_RADAR_EN];
     static vehicle_radar_player[MAX_PLAYERS][VEHICLE_RADAR_PLAYER_EN];
 #endif
 
-stock VehicleRadarLoad(speed_limit, Float:zone_size, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid = -1, interiorid = -1, bool:disabled = false, const text3D[] = "-1", text3D_color = -1, Float:text3D_distance = VEHICLE_RADAR_3DTEXT_DISTANCE)
+stock VehicleRadarLoad(speed_limit, Float:zone_size, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid = -1, interiorid = -1, bool:disabled = false, const text3D[] = "", text3D_color = -1, Float:text3D_distance = VEHICLE_RADAR_3DTEXT_DISTANCE)
 {
     new radarid;
     for(new i = 1; i < MAX_VEHICLE_RADAR; i ++)
@@ -366,22 +318,21 @@ stock VehicleRadarLoad(speed_limit, Float:zone_size, Float:x, Float:y, Float:z, 
     format(vehicle_radar[radarid][vr_Text3D_Text], VEHICLE_RADAR_3DTEXT_LENGTH, text3D);
     vehicle_radar[radarid][vr_Text3D_Color] = text3D_color;
     vehicle_radar[radarid][vr_Text3D_Distance] = text3D_distance;
-    vehicle_radar[radarid][vr_Text3D_Z] = 0.0;
+    vehicle_radar[radarid][vr_Text3D_Z] = 6.0;
     vehicle_radar[radarid][vr_ActivationCount] = 0;
 
     vehicle_radar[radarid][vr_Object] = CreateDynamicObject(VEHICLE_RADAR_OBJECT_MODEL, x, y, z,  rx, ry, rz,  worldid, interiorid, -1, VEHICLE_RADAR_OBJECT_DISTANCE, VEHICLE_RADAR_OBJECT_DISTANCE);
     vehicle_radar[radarid][vr_Sphere] = CreateDynamicSphere(x, y, z, zone_size, worldid, interiorid);
     
-    if(strlen(text3D) >= 1)
+    if(strlen(text3D) == 0)
     {
-        if(strlen(text3D) == 2 && text3D[0] == '-' && text3D[1] == '1') 
-        {
-            new string[VEHICLE_RADAR_3DTEXT_LENGTH];
-            format(string, sizeof(string), VEHICLE_RADAR_3DTEXT_TEXT, radarid, speed_limit);
-            vehicle_radar[radarid][vr_Text3D_Z] = 6.0;
-            vehicle_radar[radarid][vr_Text3D] = CreateDynamic3DTextLabel(string, text3D_color, x, y, z+6.0, text3D_distance, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, worldid, interiorid, -1, text3D_distance);
-        }
-        else vehicle_radar[radarid][vr_Text3D] = CreateDynamic3DTextLabel(text3D, text3D_color, x, y, z, text3D_distance, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, worldid, interiorid, -1, text3D_distance);
+        new string[VEHICLE_RADAR_3DTEXT_LENGTH];
+        format(string, sizeof(string), VEHICLE_RADAR_3DTEXT_TEXT, radarid, speed_limit);
+        vehicle_radar[radarid][vr_Text3D] = CreateDynamic3DTextLabel(string, text3D_color, x, y, z+6.0, text3D_distance, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, worldid, interiorid, -1, text3D_distance);
+    }
+    else 
+    {
+        vehicle_radar[radarid][vr_Text3D] = CreateDynamic3DTextLabel(text3D, text3D_color, x, y, z+6.0, text3D_distance, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, worldid, interiorid, -1, text3D_distance);
     }
     return radarid;
 }
@@ -498,7 +449,7 @@ stock GetVehicleRadarExtraValue(radarid)
 }
 
 
-stock _GetVehSpeed(vehicleid)
+static stock Radar_GetVehSpeed(vehicleid)
 {
     new Float:x, Float:y, Float:z;
     GetVehicleVelocity(vehicleid, x, y, z);
@@ -520,7 +471,7 @@ stock _GetVehSpeed(vehicleid)
             if(vehicle_radar[radarid][vr_Create] == false) continue;
             if(vehicle_radar[radarid][vr_Sphere] != areaid) continue;
             if(vehicle_radar[radarid][vr_Disabled] == true) break;
-            if(vehicle_radar[radarid][vr_SpeedLimit] != 0 && _GetVehSpeed(vehicleid) < vehicle_radar[radarid][vr_SpeedLimit]) break;
+            if(vehicle_radar[radarid][vr_SpeedLimit] != 0 && Radar_GetVehSpeed(vehicleid) < vehicle_radar[radarid][vr_SpeedLimit]) break;
             vehicle_radar[radarid][vr_ActivationCount] ++;
 
             #if defined OnPlayerEnterVehicleRadar
@@ -573,7 +524,7 @@ stock _GetVehSpeed(vehicleid)
 
     DialogCreate:_vehicle_radar_Create(playerid)
     {
-        new string[166+ 21+30+10+10+16+10+10 + 23], caption[55+10] = "Создание радара", Float:x = vehicle_radar_player[playerid][vrp_x], Float:y = vehicle_radar_player[playerid][vrp_y], Float:z = vehicle_radar_player[playerid][vrp_z];
+        new string[166+ 21+30+10+10+16+10+10 + 23], caption[55+10] = "Creating a radar", Float:x = vehicle_radar_player[playerid][vrp_x], Float:y = vehicle_radar_player[playerid][vrp_y], Float:z = vehicle_radar_player[playerid][vrp_z];
         if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true)
         {
             new radarid = vehicle_radar_player[playerid][vrpList_LineID];
@@ -584,27 +535,27 @@ stock _GetVehSpeed(vehicleid)
 
         format(string, sizeof(string),
             "%s\t\n\
-            Позиция\tX: %.1f, Y: %.1f, Z: %.1f\n\
-            Дистанция срабатывания\t%.1fm\n\
-            Скорость срабатывания\t%d км/ч\n\
-            Статус радара\t%s\n\
-            Виртуальный мир\t%d\n\
-            Интерьер\t%d",
-        (vehicle_radar_player[playerid][vrpList_EditRadar][0] == false) ? (""VEHICLE_RADAR_COLOR_1"Создать радар"):(""VEHICLE_RADAR_COLOR_2"Удалить радар"),
+            Position\tX: %.1f, Y: %.1f, Z: %.1f\n\
+            Trigger distance\t%.1fm\n\
+            Speed limit\t%d km/h\n\
+            Status\t%s\n\
+            Virtual world\t%d\n\
+            Interior\t%d",
+        (vehicle_radar_player[playerid][vrpList_EditRadar][0] == false) ? (""VEHICLE_RADAR_COLOR_1"Create a radar"):(""VEHICLE_RADAR_COLOR_2"Remove radar"),
         x, y, z,
         vehicle_radar_player[playerid][vrp_ZoneSize],
         vehicle_radar_player[playerid][vrp_SpeedLimit],
-        (vehicle_radar_player[playerid][vrp_Disabled] == false) ? (""VEHICLE_RADAR_COLOR_1"Включен"):(""VEHICLE_RADAR_COLOR_2"Выключен"),
+        (vehicle_radar_player[playerid][vrp_Disabled] == false) ? (""VEHICLE_RADAR_COLOR_1"On"):(""VEHICLE_RADAR_COLOR_2"Off"),
         vehicle_radar_player[playerid][vrp_Worldid],
         vehicle_radar_player[playerid][vrp_Interiorid]);
 
         if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true) 
         {
             new radarid = vehicle_radar_player[playerid][vrpList_LineID];
-            format(string, sizeof(string), "%s\nТелепорт к радару\t",  string);
-            format(caption, sizeof(caption), "Редактирование радара | "VEHICLE_RADAR_COLOR_3"Кол-во срабатываний: %d", vehicle_radar[radarid][vr_ActivationCount]);
+            format(string, sizeof(string), "%s\nTeleport to radar\t",  string);
+            format(caption, sizeof(caption), "Radar editing | "VEHICLE_RADAR_COLOR_3"Triggers: %d", vehicle_radar[radarid][vr_ActivationCount]);
         }
-        Dialog_Open(playerid, Dialog:_vehicle_radar_Create, DIALOG_STYLE_TABLIST, caption, string, "Выбрать", "Отмена");
+        Dialog_Open(playerid, Dialog:_vehicle_radar_Create, DIALOG_STYLE_TABLIST, caption, string, "Select", "Cancel");
         return 1;
     }
 
@@ -621,7 +572,7 @@ stock _GetVehSpeed(vehicleid)
 
             if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true)
             {
-                if(vehicle_radar_player[playerid][vrpList_EditRadar][1] == true) return Dialog_Open(playerid, Dialog:_vehicle_radar_Savechanges, DIALOG_STYLE_MSGBOX, "Принятие изменений", "{FFFFFF}Были найдены изменения желаете их сохранить ?", "Да", "Нет");
+                if(vehicle_radar_player[playerid][vrpList_EditRadar][1] == true) return Dialog_Open(playerid, Dialog:_vehicle_radar_Savechanges, DIALOG_STYLE_MSGBOX, "Acceptance of changes", "{FFFFFF}Save changes ?", "Yes", "No");
                 Dialog_Show(playerid, Dialog:_vehicle_radar_List);
                 return 1;
             }
@@ -633,9 +584,9 @@ stock _GetVehSpeed(vehicleid)
             {
                 if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true)
                 {
-                    new string[75+10];
-                    format(string, sizeof(string), "{FFFFFF}Вы действительно желаете удалить автомобильный радар "VEHICLE_RADAR_COLOR_3"ID: %d", vehicle_radar_player[playerid][vrpList_LineID]);
-                    Dialog_Open(playerid, Dialog:_vehicle_radar_Delete, DIALOG_STYLE_MSGBOX, "Удалить автомобильный радар", string, "Удалить", "Назад");
+                    new string[50+10];
+                    format(string, sizeof(string), "{FFFFFF}Delete radar "VEHICLE_RADAR_COLOR_3"ID: %d ?", vehicle_radar_player[playerid][vrpList_LineID]);
+                    Dialog_Open(playerid, Dialog:_vehicle_radar_Delete, DIALOG_STYLE_MSGBOX, "Remove radar", string, "Remove", "Back");
                     return 1;
                 }
 
@@ -649,9 +600,9 @@ stock _GetVehSpeed(vehicleid)
                 );
                 if(!radarid)
                 {
-                    Dialog_Open(playerid, Dialog:_vehicle_radar_Create_back, DIALOG_STYLE_MSGBOX, "Создание автомобильного радара", 
-                        "{FFFFFF}Достигнут лимит по количеству созданих автомобильных радаров", 
-                    "Закрыть", "Назад");
+                    Dialog_Open(playerid, Dialog:_vehicle_radar_Create_back, DIALOG_STYLE_MSGBOX, "Creating a radar", 
+                        "{FFFFFF}Radar limit reached", 
+                    "Close", "Back");
                     return 1;
                 }
                 if(IsValidPlayerObject(playerid, vehicle_radar_player[playerid][vrp_Object]))
@@ -705,12 +656,12 @@ stock _GetVehSpeed(vehicleid)
             }
             case 2:
             {
-                Dialog_Open(playerid, Dialog:_vehicle_radar_ZoneSize, DIALOG_STYLE_INPUT, "Дистанция срабатывания", "{FFFFFF}Введите дистанцию срабатывания автомобильного радара:", "Выбрать", "Отмена");
+                Dialog_Open(playerid, Dialog:_vehicle_radar_ZoneSize, DIALOG_STYLE_INPUT, "Trigger distance", "{FFFFFF}Enter the trigger distance:", "Select", "Cancel");
                 return 1;
             }
             case 3:
             {
-                Dialog_Open(playerid, Dialog:_vehicle_radar_SpeedLimit, DIALOG_STYLE_INPUT, "Скорость срабатывания", "{FFFFFF}Введите скорость при которой будет срабатывать автомобильный радар:", "Выбрать", "Отмена");
+                Dialog_Open(playerid, Dialog:_vehicle_radar_SpeedLimit, DIALOG_STYLE_INPUT, "Speed limit", "{FFFFFF}Enter the speed limit:", "Select", "Cancel");
                 return 1;
             }
             case 4:
@@ -724,12 +675,12 @@ stock _GetVehSpeed(vehicleid)
             }
             case 5:
             {
-                Dialog_Open(playerid, Dialog:_vehicle_radar_Worldid, DIALOG_STYLE_INPUT, "Виртуальный мир", "{FFFFFF}Введите ID виртуального мира в котором будет отображаться радар:", "Выбрать", "Отмена");
+                Dialog_Open(playerid, Dialog:_vehicle_radar_Worldid, DIALOG_STYLE_INPUT, "Virtual world", "{FFFFFF}Enter the Virtual world ID:", "Select", "Cancel");
                 return 1;
             }
             case 6:
             {
-                Dialog_Open(playerid, Dialog:_vehicle_radar_Interior, DIALOG_STYLE_INPUT, "Интерьер", "{FFFFFF}Введите ID интерьера в котором будет отображаться радар:", "Выбрать", "Отмена");
+                Dialog_Open(playerid, Dialog:_vehicle_radar_Interior, DIALOG_STYLE_INPUT, "Interior", "{FFFFFF}Enter the interior ID:", "Select", "Cancel");
                 return 1;
             }
             case 7:
@@ -752,7 +703,7 @@ stock _GetVehSpeed(vehicleid)
     DialogResponse:_vehicle_radar_ZoneSize(playerid, response, listitem, inputtext[])
     {
         if(!response) return Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
-        if(floatstr(inputtext) < 0.0) return Dialog_Open(playerid, Dialog:_vehicle_radar_ZoneSize, DIALOG_STYLE_INPUT, "Дистанция срабатывания", "{FFFFFF}Введите дистанцию срабатывания автомобильного радара:", "Выбрать", "Отмена");
+        if(floatstr(inputtext) < 0.0) return Dialog_Open(playerid, Dialog:_vehicle_radar_ZoneSize, DIALOG_STYLE_INPUT, "Trigger distance", "{FFFFFF}Enter the trigger distance:", "Select", "Cancel");
 
         vehicle_radar_player[playerid][vrp_ZoneSize] = floatstr(inputtext);
         if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true) vehicle_radar_player[playerid][vrpList_EditRadar][1] = true;
@@ -763,7 +714,7 @@ stock _GetVehSpeed(vehicleid)
     DialogResponse:_vehicle_radar_SpeedLimit(playerid, response, listitem, inputtext[])
     {
         if(!response) return Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
-        if(strval(inputtext) < 0) return Dialog_Open(playerid, Dialog:_vehicle_radar_SpeedLimit, DIALOG_STYLE_INPUT, "Скорость срабатывания", "{FFFFFF}Введите скорость при которой будет срабатывать автомобильный радар:", "Выбрать", "Отмена");
+        if(strval(inputtext) < 0) return Dialog_Open(playerid, Dialog:_vehicle_radar_SpeedLimit, DIALOG_STYLE_INPUT, "Speed limit", "{FFFFFF}Enter the speed limit:", "Select", "Cancel");
 
         vehicle_radar_player[playerid][vrp_SpeedLimit] = strval(inputtext);
         if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true) vehicle_radar_player[playerid][vrpList_EditRadar][1] = true;
@@ -938,7 +889,7 @@ stock _GetVehSpeed(vehicleid)
 
     DialogCreate:_vehicle_radar_List(playerid) 
     {
-        new string[ (27+ 10+10+10+16) * VEHICLE_RADAR_MAX_ROWS_LIST + 91] = "{FFFFFF}ID\t{FFFFFF}Скорость срабатывания\t{FFFFFF}Дистанция срабатывания\t{FFFFFF}Статус\n";
+        new string[ (27+ 10+10+10+16) * VEHICLE_RADAR_MAX_ROWS_LIST + 91] = "{FFFFFF}ID\t{FFFFFF}Triggers\t{FFFFFF}Trigger distance\t{FFFFFF}Status\n";
         for(new x; x < VEHICLE_RADAR_MAX_ROWS_LIST; x ++) vehicle_radar_player[playerid][vrpList_SlotID][x] = -1;
 
         new line_max, block_back_button;
@@ -949,7 +900,7 @@ stock _GetVehSpeed(vehicleid)
             if(line_max <= VEHICLE_RADAR_MAX_ROWS_LIST-1)
             {
                 vehicle_radar_player[playerid][vrpList_SlotID][line_max] = x;
-                format(string, sizeof(string), "%s#%d\t%d км/ч\t%.1fm\t%s\n", string, x, vehicle_radar[x][vr_SpeedLimit], vehicle_radar[x][vr_ZoneSize], (vehicle_radar[x][vr_Disabled] == false) ? (""VEHICLE_RADAR_COLOR_1"Включен"):(""VEHICLE_RADAR_COLOR_2"Выключен"));    
+                format(string, sizeof(string), "%s#%d\t%d km/h\t%.1fm\t%s\n", string, x, vehicle_radar[x][vr_SpeedLimit], vehicle_radar[x][vr_ZoneSize], (vehicle_radar[x][vr_Disabled] == false) ? (""VEHICLE_RADAR_COLOR_1"On"):(""VEHICLE_RADAR_COLOR_2"Off"));    
 
                 if(x >= MAX_VEHICLE_RADAR -1)
                 {
@@ -961,19 +912,19 @@ stock _GetVehSpeed(vehicleid)
             if(line_max >= VEHICLE_RADAR_MAX_ROWS_LIST+1)
             {
                 block_back_button = 2;
-                strcat(string, "> Дальше\n");
-                if(vehicle_radar_player[playerid][vrpList_Page] >= 1) strcat(string, "< Назад\n");
+                strcat(string, "> Further\n");
+                if(vehicle_radar_player[playerid][vrpList_Page] >= 1) strcat(string, "< Back\n");
                 break;
             }
         }
         if(vehicle_radar_player[playerid][vrpList_Page] >= 1 && block_back_button == 0 || block_back_button == 1)
         {
-            strcat(string, "< Назад\n");
+            strcat(string, "< Back\n");
             vehicle_radar_player[playerid][vrpList_Page_Button_Back] = line_max + ((block_back_button == 0) ? (1):(2));
         }
-        if(line_max == 0) return Dialog_Message(playerid, "Список автомобильных радаров", "{FFFFFF}Нет созданных автомобильных радаров.", "Закрыть");
+        if(line_max == 0) return Dialog_Message(playerid, "List of radars", "{FFFFFF}No radars created.", "Cancel");
 
-        Dialog_Open(playerid, Dialog:_vehicle_radar_List, DIALOG_STYLE_TABLIST_HEADERS, "Список автомобильных радаров", string, "Выбрать", "Отмена");
+        Dialog_Open(playerid, Dialog:_vehicle_radar_List, DIALOG_STYLE_TABLIST_HEADERS, "List of radars", string, "Select", "Cancel");
         return 1;
     }
 
