@@ -6,9 +6,9 @@
 *   ---------------------------------------------------
 *
 *	Creater - @Bren828	
-*									6 July 2023
+*									3 October 2023
 *
-*   Version: 1.3
+*   Version: 1.3.1
 *
 *   ---------------------------------------------------
 *
@@ -234,6 +234,7 @@
     static const Float:VEHICLE_RADAR_SPEED_MULTIPLIER = 179.28625; 
 #endif
 
+
 enum VEHICLE_RADAR_EN
 {
     bool:vr_Create,
@@ -264,6 +265,11 @@ static vehicle_radar[MAX_VEHICLE_RADAR][VEHICLE_RADAR_EN];
 
 
 #if VEHICLE_RADAR_USE_EDITING_TOOLS
+
+    #if !defined _mdialog_included
+        #error "Please include mdialog.inc before vehicle-radar.inc or disable VEHICLE_RADAR_USE_EDITING_TOOLS"
+    #endif
+
     enum VEHICLE_RADAR_PLAYER_EN
     {
         bool:vrp_Disabled,
