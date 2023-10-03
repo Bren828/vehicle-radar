@@ -8,6 +8,9 @@ Creation of transport radars in SAMP
 * [Functions](https://github.com/Bren828/vehicle-radar#functions)
 * [Definition](https://github.com/Bren828/vehicle-radar#definition)
 
+## Dependencies
+* [mdialog](https://github.com/Open-GTO/mdialog)
+
 ## Installation
 
 Include in your code and begin using the library:
