@@ -10,6 +10,8 @@ Creation of transport radars in SAMP
 
 ## Dependencies
 * [mdialog](https://github.com/Open-GTO/mdialog)
+\
+Only for `#define VEHICLE_RADAR_USE_EDITING_TOOLS true`
 
 ## Installation
 
