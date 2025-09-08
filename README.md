@@ -88,6 +88,9 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 ```
 
 ## Callbacks
+<details>
+<summary>Click to expand the list</summary>
+
 #### public OnPlayerEnterVehicleRadar(playerid, radarid, vehicleid, activation_count)
 * Called when the radar is triggered
 > * `playerid` - The ID of the player
@@ -133,9 +136,12 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 > * `radarid` - The ID of the radar
 > * `extra_value` - Value
 > * Note: `extra_value` set via `SetVehicleRadarExtraValue`
-
+</details>
 
 ## Functions
+<details>
+<summary>Click to expand the list</summary>
+
 #### VehicleRadarCreate(playerid)
 > Create a radar
 > * `playerid` - The ID of the player
@@ -235,9 +241,12 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 > Get the value
 > * `radarid` - The ID of the radar
 > * Return: Returns (0) on failure or Extra Value
-
+</details>
 
 ## Definition
+<details>
+<summary>Click to expand the list</summary>
+
 ```pawn
 #define MAX_VEHICLE_RADAR                   200
 
@@ -263,3 +272,4 @@ static VEHICLE_RADAR_3DTEXT_TEXT[] =        "Speed radar №%d\nSpeed Limit: %d 
 
 const Float:VEHICLE_RADAR_SPEED_MULTIPLIER = 179.28625; // speed multiplier
 ```
+</details>
