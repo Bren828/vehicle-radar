@@ -1,5 +1,8 @@
 # vehicle-radar
+
 Creation of transport radars in SAMP
+
+![Crosshair](https://raw.githubusercontent.com/Bren828/vehicle-radar/main/preview.png)
 
 ## Reference
 * [Installation](https://github.com/Bren828/vehicle-radar#installation)
@@ -152,7 +155,7 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 > * `playerid` - The ID of the player
 
 
-#### VehicleRadarLoad(speed_limit, Float:zone_size, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid = -1, interiorid = -1, bool:disabled = false, const text3D[] = "", text3D_color = -1, Float:text3D_distance = VEHICLE_RADAR_3DTEXT_DISTANCE)
+#### VehicleRadarLoad(speed_limit, Float:zone_size, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid = -1, interiorid = -1, bool:disabled = false, bool:disable_text3D = VEHICLE_RADAR_DISABLE_ALL_TEXT3D)
 > Load Radar
 > * `speed_limit` - Speed limit in km/h
 > * `Float:zone_size` - Trigger distance
@@ -165,9 +168,7 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 > * `worldid` - The virtual world ID 
 > * `interiorid` - The interior ID
 > * `bool:disabled` - Disabled radar (false | true)
-> * `const text3D[]` - 3DText
-> * `text3D_color` - 3DText color
-> * `Float:text3D_distance` - 3DText draw distance
+> * `bool:disable_text3D` - Disabled text 3d (false | true)
 > * Returns (0) on failure or id radar
 
 
@@ -248,28 +249,21 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 <summary>Click to expand the list</summary>
 
 ```pawn
-#define MAX_VEHICLE_RADAR                   200
-
-#define VEHICLE_RADAR_OBJECT_MODEL          18880 // object model
-
-#define VEHICLE_RADAR_OBJECT_DISTANCE       200.0
-
-#define VEHICLE_RADAR_3DTEXT_LENGTH         144	// 3d text length
-
-static VEHICLE_RADAR_3DTEXT_TEXT[] =        "Speed radar №%d\nSpeed Limit: %d (km/h)";
-
-#define VEHICLE_RADAR_3DTEXT_DISTANCE       15.0 // 3d text draw distance
-
-#define VEHICLE_RADAR_MAX_ROWS_LIST         20 // max dialog list lines
-
-#define VEHICLE_RADAR_USE_EDITING_TOOLS     true //use editing tools
-
-#define VEHICLE_RADAR_COLOR_1               "{8fce00}" // 0x8fce00
-
-#define VEHICLE_RADAR_COLOR_2               "{f44747}" // 0xf44747
-
-#define VEHICLE_RADAR_COLOR_3               "{F5D742}" // 0xF5D742
-
+#define MAX_VEHICLE_RADAR 200
+#define VEHICLE_RADAR_OBJECT_MODEL 18880 // object model
+#define VEHICLE_RADAR_OBJECT_DISTANCE 200.0
+#define VEHICLE_RADAR_3DTEXT_LENGTH 144	// 3d text length
+static VEHICLE_RADAR_3DTEXT_TEXT[] = "Speed radar #%d\nSpeed Limit: %d (km/h)";
+#define VEHICLE_RADAR_3DTEXT_DISTANCE 15.0 // 3d text draw distance
+#define VEHICLE_RADAR_MAX_ROWS_LIST 20 // max dialog list lines
+#define VEHICLE_RADAR_USE_EDITING_TOOLS true //use editing tools
+#define VEHICLE_RADAR_COLOR_1 "{8fce00}" // 0x8fce00
+#define VEHICLE_RADAR_COLOR_2 "{f44747}" // 0xf44747
+#define VEHICLE_RADAR_COLOR_3 "{F5D742}" // 0xF5D742
 const Float:VEHICLE_RADAR_SPEED_MULTIPLIER = 179.28625; // speed multiplier
+#define VEHICLE_RADAR_CUSTOM_TYPE 0xFF42CDFA12
+#define VEHICLE_RADAR_RESPONSE_DELAY 10 // seconds
+#define VEHICLE_RADAR_ZONE_MULTIPLIER 3 //The larger the multiplier, the larger the entry zone for checking "zone_size"
+VEHICLE_RADAR_DISABLE_ALL_TEXT3D false
 ```
 </details>
