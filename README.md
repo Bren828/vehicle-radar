@@ -264,6 +264,6 @@ const Float:VEHICLE_RADAR_SPEED_MULTIPLIER = 179.28625; // speed multiplier
 #define VEHICLE_RADAR_CUSTOM_TYPE 0xFF42CDFA12
 #define VEHICLE_RADAR_RESPONSE_DELAY 10 // seconds
 #define VEHICLE_RADAR_ZONE_MULTIPLIER 3 //The larger the multiplier, the larger the entry zone for checking "zone_size"
-VEHICLE_RADAR_DISABLE_ALL_TEXT3D false
+#define VEHICLE_RADAR_DISABLE_ALL_TEXT3D false
 ```
 </details>
