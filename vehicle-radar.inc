@@ -6,9 +6,9 @@
 *   ---------------------------------------------------
 *
 *	Creater - @Bren828	
-*									20 October 2023
+*									30 April 2026
 *
-*   Version: 1.4
+*   Version: 1.5
 *
 *   ---------------------------------------------------
 *
@@ -25,91 +25,97 @@
 #define _vehicle_radar_included
 
 
-#if !defined MAX_VEHICLE_RADAR
-    #define MAX_VEHICLE_RADAR 200
+#if !defined VR_MAX_VEHICLE_RADAR
+    #define VR_MAX_VEHICLE_RADAR 200 // Maximum number of radars
 #endif
 
-#if !defined VEHICLE_RADAR_OBJECT_MODEL
-    #define VEHICLE_RADAR_OBJECT_MODEL 18880 // object model
+#if !defined VR_INTERFACE_LANGUAGE
+    #define VR_INTERFACE_LANGUAGE 0 // 0 - English (default), 1 - Russian
 #endif
 
-#if !defined VEHICLE_RADAR_OBJECT_DISTANCE
-    #define VEHICLE_RADAR_OBJECT_DISTANCE 200.0
+#if !defined VR_DISABLE_EDITOR
+	//#define VR_DISABLE_EDITOR
 #endif
 
-#if !defined VEHICLE_RADAR_3DTEXT_LENGTH
-	#define VEHICLE_RADAR_3DTEXT_LENGTH 144
+#if !defined VR_OBJECT_MODEL
+    #define VR_OBJECT_MODEL 18880
 #endif
 
-#if !defined VEHICLE_RADAR_3DTEXT_TEXT
-	static VEHICLE_RADAR_3DTEXT_TEXT[] = "Speed radar #%d\nSpeed limit: %d (km/h)";
+#if !defined VR_OBJECT_DISTANCE
+    #define VR_OBJECT_DISTANCE 200.0
 #endif
 
-#if !defined VEHICLE_RADAR_3DTEXT_DISTANCE
-    #define VEHICLE_RADAR_3DTEXT_DISTANCE 15.0 // 3d text draw distance
+#if !defined VR_VEHICLE_SPEED_MULTIPLIER
+    #define VR_VEHICLE_SPEED_MULTIPLIER 179.28625 
 #endif
 
-#if !defined VEHICLE_RADAR_MAX_ROWS_LIST 
-    #define VEHICLE_RADAR_MAX_ROWS_LIST 20 // max dialog list lines
+#if !defined VR_RESPONSE_DELAY
+    #define VR_RESPONSE_DELAY 10 // seconds
 #endif
 
-#if !defined VEHICLE_RADAR_USE_EDITING_TOOLS
-	#define VEHICLE_RADAR_USE_EDITING_TOOLS true // use editing tools
+#if !defined VR_ZONE_MULTIPLIER
+    #define VR_ZONE_MULTIPLIER 3 //The larger the multiplier, the larger the entry zone for checking "zone_size"
 #endif
 
-#if !defined VEHICLE_RADAR_COLOR_1
-	#define VEHICLE_RADAR_COLOR_1 "{8fce00}" // 0x8fce00
+#if !defined VR_MAX_ROWS_LIST 
+    #define VR_MAX_ROWS_LIST 20 // max dialog list lines
 #endif
 
-#if !defined VEHICLE_RADAR_COLOR_2
-	#define VEHICLE_RADAR_COLOR_2 "{f44747}" // 0xf44747
+#if !defined VR_WHITE_COLOR_TAG
+	#define VR_WHITE_COLOR_TAG "{ffffff}"
 #endif
 
-#if !defined VEHICLE_RADAR_COLOR_3
-	#define VEHICLE_RADAR_COLOR_3 "{F5D742}" // 0xF5D742
+#if !defined VR_GREEN_COLOR_TAG
+	#define VR_GREEN_COLOR_TAG "{8fce00}"
 #endif
 
-#if !defined VEHICLE_RADAR_SPEED_MULTIPLIER
-    static const Float:VEHICLE_RADAR_SPEED_MULTIPLIER = 179.28625; 
+#if !defined VR_RED_COLOR_TAG
+	#define VR_RED_COLOR_TAG "{f44747}"
 #endif
 
-#if !defined VEHICLE_RADAR_CUSTOM_TYPE
-    #define VEHICLE_RADAR_CUSTOM_TYPE 0xFF42CDFA12
+#if !defined VR_YELLOW_COLOR_TAG
+	#define VR_YELLOW_COLOR_TAG "{F5D742}"
 #endif
 
-#if !defined VEHICLE_RADAR_RESPONSE_DELAY
-    #define VEHICLE_RADAR_RESPONSE_DELAY 10 // seconds
+#if !defined VR_3DTEXT_LENGTH
+	#define VR_3DTEXT_LENGTH 144
 #endif
 
-#if !defined VEHICLE_RADAR_ZONE_MULTIPLIER
-    #define VEHICLE_RADAR_ZONE_MULTIPLIER 3 //The larger the multiplier, the larger the entry zone for checking "zone_size"
+#if !defined VR_3DTEXT_DISTANCE
+    #define VR_3DTEXT_DISTANCE 15.0 // 3d text draw distance
 #endif
 
-#if !defined VEHICLE_RADAR_DISABLE_TEXT3D
-	#define VEHICLE_RADAR_DISABLE_TEXT3D false 
+#if !defined VR_TEXT
+    #if VR_INTERFACE_LANGUAGE == 0
+	    static VR_TEXT[] = "Speed radar "VR_GREEN_COLOR_TAG"#%d"VR_WHITE_COLOR_TAG"\nSpeed limit: "VR_GREEN_COLOR_TAG"%d (km/h)";
+    #else 
+	    static VR_TEXT[] = "Радар скорости "VR_GREEN_COLOR_TAG"#%d"VR_WHITE_COLOR_TAG"\nОграничение скорости: "VR_GREEN_COLOR_TAG"%d (km/h)";
+    #endif
 #endif
 
+
+#define VR_STREAMER_CUSTOM_TYPE 0xFF42CDFA12
 
 enum (<<= 1) {
-    VEHICLE_RADAR_TYPE = 0,
-    VEHICLE_RADAR_ID = 1,
-    VEHICLE_RADAR_AREA_ID = 2
+    VR_STREAMER_TYPE = 0,
+    VR_STREAMER_ID = 1,
+    VR_STREAMER_AREA_ID = 2
 }
 
 
-enum VEHICLE_RADAR_EN {
-    bool:vr_Create,
+enum E_VEHICLE_RADAR {
+    bool:vr_Created,
     bool:vr_Disabled,
 
     vr_Object,
-    Float:vr_Object_x,
-    Float:vr_Object_y,
-    Float:vr_Object_z,
-    Float:vr_Object_rx,
-    Float:vr_Object_ry,
-    Float:vr_Object_rz,
-    vr_Object_Worldid,
-    vr_Object_Interiorid,
+    Float:vr_X,
+    Float:vr_Y,
+    Float:vr_Z,
+    Float:vr_RX,
+    Float:vr_RY,
+    Float:vr_RZ,
+    vr_World,
+    vr_Interior,
 
     vr_Sphere,
     Float:vr_ZoneSize,
@@ -118,135 +124,238 @@ enum VEHICLE_RADAR_EN {
     vr_ExtraValue, 
 
     Text3D:vr_Text3D,
-    vr_Text3D_Text[VEHICLE_RADAR_3DTEXT_LENGTH],
+    vr_Text3D_Text[VR_3DTEXT_LENGTH],
     vr_Text3D_Color,
-    Float:vr_Text3D_Distance,
     bool:vr_CustomText3D
 }
 
-static vehicle_radar[MAX_VEHICLE_RADAR][VEHICLE_RADAR_EN];
+static VehicleRadar[VR_MAX_VEHICLE_RADAR][E_VEHICLE_RADAR];
 
 
-enum PLAYER_VEHICLE_RADAR_EN {
-    pvr_InRadarZone,
-    pvr_InRadarID,
+enum E_PLAYER_VEHICLE_RADAR {
+    pvr_AreaID,
+    pvr_RadarID,
     pvr_Timer,
     pvr_ResponseDelay,
     pvr_RadarIDResponseDelay
 }
 
-static player_vehicle_radar[MAX_PLAYERS][PLAYER_VEHICLE_RADAR_EN];
+static PlayerVehicleRadar[MAX_PLAYERS][E_PLAYER_VEHICLE_RADAR];
 
 
-#if VEHICLE_RADAR_USE_EDITING_TOOLS
+#if !defined VR_DISABLE_EDITOR
 
     #if !defined _mdialog_included
-        #error "Please include mdialog.inc before vehicle-radar.inc or disable VEHICLE_RADAR_USE_EDITING_TOOLS"
+        #error "Please include mdialog.inc before vehicle-radar.inc or disable VR_DISABLE_EDITOR"
     #endif
 
-    enum VEHICLE_RADAR_PLAYER_EN {
-        bool:vrp_Disabled,
-        Float:vrp_x,
-        Float:vrp_y,
-        Float:vrp_z,
-        Float:vrp_rx,
-        Float:vrp_ry,
-        Float:vrp_rz,
-        Float:vrp_ZoneSize,
-        vrp_SpeedLimit,
-        vrp_Worldid,
-        vrp_Interiorid,
-        vrp_Object,
-        vrp_EditObject,
+#if VR_INTERFACE_LANGUAGE == 0
+    static const VR_SELECT_BUTTON[] = "Select";
+    static const VR_FURTHER_BUTTON[] = "Further";
+    static const VR_YES_BUTTON[] = "Yes";
 
-        //list
-        vrpList_Page,
-        vrpList_Page_Button_Back,
-        vrpList_SlotID[VEHICLE_RADAR_MAX_ROWS_LIST],
-        vrpList_LineID,
-        bool:vrpList_EditRadar[2]
+    static const VR_CANCEL_BUTTON[] = "Cancel";
+    static const VR_BACK_BUTTON[] = "Back";
+    static const VR_CLOSE_BUTTON[] = "Close";
+
+    static const VR_TEXT_OFF[] = ""VR_RED_COLOR_TAG"Off";
+    static const VR_TEXT_ON[] = ""VR_GREEN_COLOR_TAG"On";
+
+    static const VR_RadarCreationDialogText[] =
+        "%s\t\n\
+        Position\tX: %.1f | Y: %.1f | Z: %.1f\n\
+        Trigger distance\t%.1fm\n\
+        Speed limit\t%d km/h\n\
+        Status\t%s\n\
+        Virtual world\t%d\n\
+        Interior\t%d";
+
+    static const VR_TEXT_CREATE[] = ""VR_GREEN_COLOR_TAG"Create a radar";
+    static const VR_TEXT_REMOVE[] = ""VR_RED_COLOR_TAG"Remove radar";
+    static const VR_TEXT_TRIGGER[] = "Triggers";
+    static const VR_TEXT_CREATING[] = "Creating a radar";
+    static const VR_TEXT_TELEPORT[] = "Teleport to radar";
+    static const VR_TEXT_EDITING[] = "Radar editing";
+    static const VR_TEXT_STATUS[] = "Status";
+
+    static const VR_TEXT_SAVE_TITLE[] = "Acceptance of changes";
+    static const VR_TEXT_SAVE[] = ""VR_WHITE_COLOR_TAG"Save changes?";
+
+    static const VR_TEXT_DELETE_TITLE[] = "Remove radar";
+    static const VR_TEXT_DELETE_TEXT[] = ""VR_WHITE_COLOR_TAG"Delete radar "VR_YELLOW_COLOR_TAG"ID: %d ?";
+    static const VR_TEXT_RADAR_LIMIT[] = ""VR_WHITE_COLOR_TAG"The maximum number of radars has been created";
+
+    static const VR_TEXT_TRIGGER_TITLE[] = "Trigger distance";
+    static const VR_TEXT_TRIGGER_TEXT[] = ""VR_WHITE_COLOR_TAG"Enter the trigger distance:";
+
+    static const VR_TEXT_SPEED_LIMIT_TITLE[] = "Speed limit";
+    static const VR_TEXT_SPEED_LIMIT_TEXT[] = ""VR_WHITE_COLOR_TAG"Enter the speed limit:";
+
+    static const VR_TEXT_WORLD_TITLE[] = "Virtual world";
+    static const VR_TEXT_WORLD_TEXT[] = ""VR_WHITE_COLOR_TAG"Enter the Virtual world ID:";
+
+    static const VR_TEXT_INTERIOR_TITLE[] = "Interior";
+    static const VR_TEXT_INTERIOR_TEXT[] = ""VR_WHITE_COLOR_TAG"Enter the interior ID:";
+
+    static const VR_TEXT_LIST_RADARS[] = "List of radars";
+    static const VR_TEXT_NOT_CREATED[] = ""VR_WHITE_COLOR_TAG"No radars created.";
+
+#else 
+
+    static const VR_SELECT_BUTTON[] = "Выбрать";
+    static const VR_FURTHER_BUTTON[] = "Дальше";
+    static const VR_YES_BUTTON[] = "Да";
+
+    static const VR_CANCEL_BUTTON[] = "Отмена";
+    static const VR_BACK_BUTTON[] = "Назад";
+    static const VR_CLOSE_BUTTON[] = "Закрыть";
+
+    static const VR_TEXT_OFF[] = ""VR_RED_COLOR_TAG"Выкл";
+    static const VR_TEXT_ON[] = ""VR_GREEN_COLOR_TAG"Вкл";
+
+    static const VR_RadarCreationDialogText[] =
+        "%s\t\n\
+        Позиция\tX: %.1f | Y: %.1f | Z: %.1f\n\
+        Зона срабатывания\t%.1fm\n\
+        Лимит скорости\t%d km/h\n\
+        Статус\t%s\n\
+        Виртуальный мир\t%d\n\
+        Интерьер\t%d";
+
+    static const VR_TEXT_CREATE[] = ""VR_GREEN_COLOR_TAG"Создать радар";
+    static const VR_TEXT_REMOVE[] = ""VR_RED_COLOR_TAG"Удалить радар";
+    static const VR_TEXT_TRIGGER[] = "Срабатываний";
+    static const VR_TEXT_CREATING[] = "Создание радара";
+    static const VR_TEXT_TELEPORT[] = "Телепортироваться к радару";
+    static const VR_TEXT_EDITING[] = "Редактирование";
+    static const VR_TEXT_STATUS[] = "Статус";
+    
+    static const VR_TEXT_SAVE_TITLE[] = "Принятие изменений";
+    static const VR_TEXT_SAVE[] = ""VR_WHITE_COLOR_TAG"Сохранить изменения?";
+
+    static const VR_TEXT_DELETE_TITLE[] = "Удалить радар";
+    static const VR_TEXT_DELETE_TEXT[] = ""VR_WHITE_COLOR_TAG"Удалить радар "VR_YELLOW_COLOR_TAG"ID: %d ?";
+    static const VR_TEXT_RADAR_LIMIT[] = ""VR_WHITE_COLOR_TAG"Создано максимальное количество радаров";
+
+    static const VR_TEXT_TRIGGER_TITLE[] = "Зона срабатывания";
+    static const VR_TEXT_TRIGGER_TEXT[] = ""VR_WHITE_COLOR_TAG"Введите расстояние срабатывания:";
+
+    static const VR_TEXT_SPEED_LIMIT_TITLE[] = "Лимит скорости";
+    static const VR_TEXT_SPEED_LIMIT_TEXT[] = ""VR_WHITE_COLOR_TAG"Введите ограничение скорости:";
+
+    static const VR_TEXT_WORLD_TITLE[] = "Виртуальный мир";
+    static const VR_TEXT_WORLD_TEXT[] = ""VR_WHITE_COLOR_TAG"Введите новый ID виртуального мира:";
+
+    static const VR_TEXT_INTERIOR_TITLE[] = "Интерьер";
+    static const VR_TEXT_INTERIOR_TEXT[] = ""VR_WHITE_COLOR_TAG"Введите новый ID интерьера:";
+
+    static const VR_TEXT_LIST_RADARS[] = "Список радаров";
+    static const VR_TEXT_NOT_CREATED[] = ""VR_WHITE_COLOR_TAG"Нет созданных радаров.";
+#endif
+
+    enum E_VEHICLE_RADAR_EDITOR {
+        bool:vre_Disabled,
+        Float:vre_X,
+        Float:vre_Y,
+        Float:vre_Z,
+        Float:vre_RX,
+        Float:vre_RY,
+        Float:vre_RZ,
+        Float:vre_ZoneSize,
+        vre_SpeedLimit,
+        vre_World,
+        vre_Interior,
+        vre_Object,
+        vre_EditObject,
+
+        //dialog
+        vre_Page,
+        vre_BackButton,
+        vre_SlotID[VR_MAX_ROWS_LIST],
+        vre_SelectedRadarID,
+        bool:vre_EnableEditing,
+        bool:vre_WasChangeRadar
     }
 
-    static vehicle_radar_player[MAX_PLAYERS][VEHICLE_RADAR_PLAYER_EN];
+    static VehicleRadarEditor[MAX_PLAYERS][E_VEHICLE_RADAR_EDITOR];
 #endif
 
 
 
-stock VehicleRadarLoad(speed_limit, Float:zone_size, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid = -1, interiorid = -1, bool:disabled = false, bool:disable_text3D = VEHICLE_RADAR_DISABLE_TEXT3D)
-{
+stock CreateVehicleRadar(speedLimit, Float:zoneSize, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid = -1, interiorid = -1, bool:disabled = false, bool:disableText3D = false) {
+    
     new radarid;
 
-    for(new i = 1; i < MAX_VEHICLE_RADAR; i ++)
-    {
-        if(vehicle_radar[i][vr_Create] == true) 
+    for(new i = 1; i < VR_MAX_VEHICLE_RADAR; i ++) {
+
+        if(VehicleRadar[i][vr_Created]) {
             continue;
+        }
 
         radarid = i;
         break;
     }
 
-    if(!radarid) 
-        return printf("vehicle-radar --->>> | VehicleRadarLoad | not all radars were created! | increase the value '#define MAX_VEHICLE_RADAR'") & 0;
+    if(!radarid) {
+        printf("vehicle-radar --->>> The maximum number of transport radars has been created");
+        return 0;
+    }
 
-    vehicle_radar[radarid][vr_Create] = true;
-    vehicle_radar[radarid][vr_Disabled] = disabled;
+    VehicleRadar[radarid][vr_Created] = true;
+    VehicleRadar[radarid][vr_Disabled] = disabled;
 
-    vehicle_radar[radarid][vr_Object_x] = x;
-    vehicle_radar[radarid][vr_Object_y] = y;
-    vehicle_radar[radarid][vr_Object_z] = z;
-    vehicle_radar[radarid][vr_Object_rx] = rx;
-    vehicle_radar[radarid][vr_Object_ry] = ry;
-    vehicle_radar[radarid][vr_Object_rz] = rz;
-    vehicle_radar[radarid][vr_Object_Worldid] = worldid;
-    vehicle_radar[radarid][vr_Object_Interiorid] = interiorid;
+    VehicleRadar[radarid][vr_X] = x;
+    VehicleRadar[radarid][vr_Y] = y;
+    VehicleRadar[radarid][vr_Z] = z;
+    VehicleRadar[radarid][vr_RX] = rx;
+    VehicleRadar[radarid][vr_RY] = ry;
+    VehicleRadar[radarid][vr_RZ] = rz;
+    VehicleRadar[radarid][vr_World] = worldid;
+    VehicleRadar[radarid][vr_Interior] = interiorid;
     
-    vehicle_radar[radarid][vr_SpeedLimit] = speed_limit;
-    vehicle_radar[radarid][vr_ExtraValue] = 0;
-    vehicle_radar[radarid][vr_ActivationCount] = 0;
+    VehicleRadar[radarid][vr_SpeedLimit] = speedLimit;
+    VehicleRadar[radarid][vr_ExtraValue] = 0;
+    VehicleRadar[radarid][vr_ActivationCount] = 0;
 
 
-    //Object
-    vehicle_radar[radarid][vr_Object] = CreateDynamicObject(
-        VEHICLE_RADAR_OBJECT_MODEL, 
+//Object
+    VehicleRadar[radarid][vr_Object] = CreateDynamicObject(
+        VR_OBJECT_MODEL, 
         x, y, z,  
         rx, ry, rz,  
         worldid, 
         interiorid, 
         -1, 
-        VEHICLE_RADAR_OBJECT_DISTANCE, 
-        VEHICLE_RADAR_OBJECT_DISTANCE);
+        VR_OBJECT_DISTANCE, VR_OBJECT_DISTANCE);
     
 
-
-    //Sphere
-    vehicle_radar[radarid][vr_ZoneSize] = zone_size;
-    vehicle_radar[radarid][vr_Sphere] = CreateDynamicSphere(x, y, z, zone_size * VEHICLE_RADAR_ZONE_MULTIPLIER, worldid, interiorid);
+//Sphere
+    VehicleRadar[radarid][vr_ZoneSize] = zoneSize;
+    VehicleRadar[radarid][vr_Sphere] = CreateDynamicSphere(x, y, z, zoneSize * VR_ZONE_MULTIPLIER, worldid, interiorid);
 
     new rd_arr[3];
-    rd_arr[VEHICLE_RADAR_TYPE] = VEHICLE_RADAR_CUSTOM_TYPE;
-    rd_arr[VEHICLE_RADAR_ID] = radarid;
-    rd_arr[VEHICLE_RADAR_AREA_ID] = vehicle_radar[radarid][vr_Sphere];
-    Streamer_SetArrayData(STREAMER_TYPE_AREA, vehicle_radar[radarid][vr_Sphere], E_STREAMER_EXTRA_ID, rd_arr);    
+    rd_arr[VR_STREAMER_TYPE] = VR_STREAMER_CUSTOM_TYPE;
+    rd_arr[VR_STREAMER_ID] = radarid;
+    rd_arr[VR_STREAMER_AREA_ID] = VehicleRadar[radarid][vr_Sphere];
+    Streamer_SetArrayData(STREAMER_TYPE_AREA, VehicleRadar[radarid][vr_Sphere], E_STREAMER_EXTRA_ID, rd_arr);    
     
 
-
     //Text3D
-    vehicle_radar[radarid][vr_Text3D] = Text3D:INVALID_3DTEXT_ID;
-    format(vehicle_radar[radarid][vr_Text3D_Text], VEHICLE_RADAR_3DTEXT_LENGTH, VEHICLE_RADAR_3DTEXT_TEXT, radarid, speed_limit);
+    VehicleRadar[radarid][vr_Text3D] = Text3D:INVALID_3DTEXT_ID;
+    format(VehicleRadar[radarid][vr_Text3D_Text], VR_3DTEXT_LENGTH, VR_TEXT, radarid, speedLimit);
 
-    vehicle_radar[radarid][vr_Text3D_Color] = -1;
-    vehicle_radar[radarid][vr_Text3D_Distance] = VEHICLE_RADAR_3DTEXT_DISTANCE;
-    vehicle_radar[radarid][vr_CustomText3D] = false;
+    VehicleRadar[radarid][vr_Text3D_Color] = -1;
+    VehicleRadar[radarid][vr_CustomText3D] = false;
 
 
-    if(!disable_text3D) {
-        vehicle_radar[radarid][vr_Text3D] = CreateDynamic3DTextLabel(
-            vehicle_radar[radarid][vr_Text3D_Text], 
-            vehicle_radar[radarid][vr_Text3D_Color], 
+    if(!disableText3D) {
+        VehicleRadar[radarid][vr_Text3D] = CreateDynamic3DTextLabel(
+            VehicleRadar[radarid][vr_Text3D_Text], 
+            VehicleRadar[radarid][vr_Text3D_Color], 
             x, 
             y, 
             z + 6.0, 
-            vehicle_radar[radarid][vr_Text3D_Distance], 
+            VR_3DTEXT_DISTANCE, 
             INVALID_PLAYER_ID, 
             INVALID_VEHICLE_ID, 
             0, 
@@ -258,175 +367,195 @@ stock VehicleRadarLoad(speed_limit, Float:zone_size, Float:x, Float:y, Float:z, 
 }
 
 
+stock IsVehicleRadarCreated(radarid) {
 
-stock DeleteVehicleRadar(playerid, radarid, bool:callback = true)
-{
-    if(vehicle_radar[radarid][vr_Create] == false || playerid !=-1) 
+    if(radarid <= 0 || radarid >= VR_MAX_VEHICLE_RADAR) {
         return 0;
+    }
 
-    if(IsValidDynamicObject(vehicle_radar[radarid][vr_Object])) 
-        DestroyDynamicObject(vehicle_radar[radarid][vr_Object]);
-
-    if(IsValidDynamicArea(vehicle_radar[radarid][vr_Sphere])) 
-        DestroyDynamicArea(vehicle_radar[radarid][vr_Sphere]);
-
-    if(vehicle_radar[radarid][vr_Text3D] != Text3D:INVALID_3DTEXT_ID) 
-        DestroyDynamic3DTextLabel(vehicle_radar[radarid][vr_Text3D]);
+    return VehicleRadar[radarid][vr_Created];
+}
 
 
-    if(callback == true)
-    {
+stock DeleteVehicleRadar(playerid, radarid, bool:callback = true) {
+
+    if(!IsVehicleRadarCreated(radarid) || playerid == -1) {
+        return 0;
+    }
+
+    if(IsValidDynamicObject(VehicleRadar[radarid][vr_Object])) {
+        DestroyDynamicObject(VehicleRadar[radarid][vr_Object]);
+    }
+
+    if(IsValidDynamicArea(VehicleRadar[radarid][vr_Sphere])) {
+        DestroyDynamicArea(VehicleRadar[radarid][vr_Sphere]);
+    }
+
+    if(VehicleRadar[radarid][vr_Text3D] != Text3D:INVALID_3DTEXT_ID) {
+        DestroyDynamic3DTextLabel(VehicleRadar[radarid][vr_Text3D]);
+    }
+
+    if(callback) {
         #if defined OnPlayerVehicleRadarDelete
-            OnPlayerVehicleRadarDelete(playerid, radarid, vehicle_radar[radarid][vr_ExtraValue]);
+            OnPlayerVehicleRadarDelete(playerid, radarid, VehicleRadar[radarid][vr_ExtraValue]);
         #endif
     }
 
-    vehicle_radar[radarid][vr_Create] = false;
-    vehicle_radar[radarid][vr_Object] = 0;
-    vehicle_radar[radarid][vr_Sphere] = 0;
-    vehicle_radar[radarid][vr_Text3D] = Text3D:INVALID_3DTEXT_ID;
+    VehicleRadar[radarid][vr_Created] = false;
+    VehicleRadar[radarid][vr_Object] = 0;
+    VehicleRadar[radarid][vr_Sphere] = 0;
+    VehicleRadar[radarid][vr_Text3D] = Text3D:INVALID_3DTEXT_ID;
     return 1;
 }
 
 
 
-stock SetVehicleRadarActivationCount(radarid, count)
-{
-    if(vehicle_radar[radarid][vr_Create] == false) 
+stock SetVehicleRadarActivationCount(radarid, count) {
+
+    if(!IsVehicleRadarCreated(radarid)) {
         return 0;
+    }
     
-    vehicle_radar[radarid][vr_ActivationCount] = count;
+    VehicleRadar[radarid][vr_ActivationCount] = count;
     return 1;
 }
 
 
 
-stock GetVehicleRadarActivationCount(radarid, &triggering)
-{
-    if(vehicle_radar[radarid][vr_Create] == false) 
+stock GetVehicleRadarActivationCount(radarid) {
+
+    if(!IsVehicleRadarCreated(radarid)) {
         return 0;
+    }
     
-    return vehicle_radar[radarid][vr_ActivationCount];
+    return VehicleRadar[radarid][vr_ActivationCount];
 }
 
 
 
-stock SetVehicleRadarSpeedLimit(radarid, speed)
-{
-    if(vehicle_radar[radarid][vr_Create] == false) 
+stock SetVehicleRadarSpeedLimit(radarid, speed) {
+
+    if(!IsVehicleRadarCreated(radarid)) {
         return 0;
+    }
     
-    vehicle_radar[radarid][vr_SpeedLimit] = speed;
+    VehicleRadar[radarid][vr_SpeedLimit] = speed;
+
+    if(!VehicleRadar[radarid][vr_CustomText3D]) { 
+        format(VehicleRadar[radarid][vr_Text3D_Text], VR_3DTEXT_LENGTH, VR_TEXT, radarid, VehicleRadar[radarid][vr_SpeedLimit]);
+        UpdateDynamic3DTextLabelText(VehicleRadar[radarid][vr_Text3D], VehicleRadar[radarid][vr_Text3D_Color], VehicleRadar[radarid][vr_Text3D_Text]);
+    }
     return 1;
 }
 
 
 
-stock GetVehicleRadarSpeedLimit(radarid)
-{
-    if(vehicle_radar[radarid][vr_Create] == false) 
-        return 0;
+stock GetVehicleRadarSpeedLimit(radarid) {
 
-    return vehicle_radar[radarid][vr_SpeedLimit];
+    if(!IsVehicleRadarCreated(radarid)) {
+        return 0;
+    }
+
+    return VehicleRadar[radarid][vr_SpeedLimit];
 }
 
 
 
-stock SetVehicleRadarZoneSize(radarid, Float:zone_size)
-{
-    if(vehicle_radar[radarid][vr_Create] == false) 
-        return 0;
-    
-    vehicle_radar[radarid][vr_ZoneSize] = zone_size;
+stock SetVehicleRadarZoneSize(radarid, Float:zoneSize) {
 
-    Streamer_SetFloatData(STREAMER_TYPE_AREA, vehicle_radar[radarid][vr_Sphere], E_STREAMER_SIZE, vehicle_radar[radarid][vr_ZoneSize] * VEHICLE_RADAR_ZONE_MULTIPLIER);
+    if(!IsVehicleRadarCreated(radarid)) {
+        return 0;
+    }
+    
+    VehicleRadar[radarid][vr_ZoneSize] = zoneSize;
+
+    Streamer_SetFloatData(STREAMER_TYPE_AREA, VehicleRadar[radarid][vr_Sphere], E_STREAMER_SIZE, VehicleRadar[radarid][vr_ZoneSize] * VR_ZONE_MULTIPLIER);
     return 1;
 }
 
 
 
-stock GetVehicleRadarZoneSize(radarid, &Float:zone_size)
-{
-    if(vehicle_radar[radarid][vr_Create] == false) 
-        return 0;
+stock Float:GetVehicleRadarZoneSize(radarid) {
+
+    if(!IsVehicleRadarCreated(radarid)) {
+        return 0.0;
+    }
     
-    zone_size = vehicle_radar[radarid][vr_ZoneSize];
-    return 1;
+    return VehicleRadar[radarid][vr_ZoneSize];
 }
 
 
-stock SetVehicleRadarText(radarid, const text[], color, Float:drawdistance = VEHICLE_RADAR_3DTEXT_DISTANCE, Float:x = -1.0, Float:y = -1.0, Float:z = -1.0)
-{
-    if(vehicle_radar[radarid][vr_Create] == false) 
+
+stock UpdateVehicleRadarText(radarid, const text[], color, Float:x = 0.0, Float:y = 0.0, Float:z = 0.0) {
+
+    if(!IsVehicleRadarCreated(radarid)) {
         return 0;
+    }
 
-    if(vehicle_radar[radarid][vr_Text3D] == Text3D:INVALID_3DTEXT_ID) 
+    if(VehicleRadar[radarid][vr_Text3D] == Text3D:INVALID_3DTEXT_ID) {
         return 0;
+    }
 
-
-    x = (x == -1.0) ? (vehicle_radar[radarid][vr_Object_x]):(x);
-    y = (y == -1.0) ? (vehicle_radar[radarid][vr_Object_y]):(y);
-    z = (z == -1.0) ? (vehicle_radar[radarid][vr_Object_z] + 6.0):(z);
-
+    x = (x == 0.0) ? (VehicleRadar[radarid][vr_X]) : (x);
+    y = (y == 0.0) ? (VehicleRadar[radarid][vr_Y]) : (y);
+    z = (z == 0.0) ? (VehicleRadar[radarid][vr_Z] + 6.0) : (z);
 
     if(text[0] == '-') {
-        if(vehicle_radar[radarid][vr_CustomText3D] == false) { 
-            format(vehicle_radar[radarid][vr_Text3D_Text], VEHICLE_RADAR_3DTEXT_LENGTH, VEHICLE_RADAR_3DTEXT_TEXT, radarid, vehicle_radar[radarid][vr_SpeedLimit]);
+        if(!VehicleRadar[radarid][vr_CustomText3D]) { 
+            format(VehicleRadar[radarid][vr_Text3D_Text], VR_3DTEXT_LENGTH, VR_TEXT, radarid, VehicleRadar[radarid][vr_SpeedLimit]);
         }
     }
     else {
-        format(vehicle_radar[radarid][vr_Text3D_Text], VEHICLE_RADAR_3DTEXT_LENGTH, text);
+        format(VehicleRadar[radarid][vr_Text3D_Text], VR_3DTEXT_LENGTH, text);
     }
 
-    vehicle_radar[radarid][vr_Text3D_Color] = color;
-    vehicle_radar[radarid][vr_Text3D_Distance] = drawdistance;
-    vehicle_radar[radarid][vr_CustomText3D] = true;
+    VehicleRadar[radarid][vr_Text3D_Color] = color;
+    VehicleRadar[radarid][vr_CustomText3D] = true;
 
+    Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL, VehicleRadar[radarid][vr_Text3D], E_STREAMER_X, x);
+    Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL, VehicleRadar[radarid][vr_Text3D], E_STREAMER_Y, y);
+    Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL, VehicleRadar[radarid][vr_Text3D], E_STREAMER_Z, z);
 
-    Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL, vehicle_radar[radarid][vr_Text3D], E_STREAMER_X, x);
-    Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL, vehicle_radar[radarid][vr_Text3D], E_STREAMER_Y, y);
-    Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL, vehicle_radar[radarid][vr_Text3D], E_STREAMER_Z, z);
+    Streamer_SetIntData(STREAMER_TYPE_3D_TEXT_LABEL, VehicleRadar[radarid][vr_Text3D], E_STREAMER_WORLD_ID, VehicleRadar[radarid][vr_World]);
+    Streamer_SetIntData(STREAMER_TYPE_3D_TEXT_LABEL, VehicleRadar[radarid][vr_Text3D], E_STREAMER_INTERIOR_ID, VehicleRadar[radarid][vr_Interior]);
 
-    Streamer_SetIntData(STREAMER_TYPE_3D_TEXT_LABEL, vehicle_radar[radarid][vr_Text3D], E_STREAMER_WORLD_ID, vehicle_radar[radarid][vr_Object_Worldid]);
-    Streamer_SetIntData(STREAMER_TYPE_3D_TEXT_LABEL, vehicle_radar[radarid][vr_Text3D], E_STREAMER_INTERIOR_ID, vehicle_radar[radarid][vr_Object_Interiorid]);
-
-    Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL, vehicle_radar[radarid][vr_Text3D], E_STREAMER_STREAM_DISTANCE, drawdistance);
-
-    UpdateDynamic3DTextLabelText(vehicle_radar[radarid][vr_Text3D], color, vehicle_radar[radarid][vr_Text3D_Text]);
+    UpdateDynamic3DTextLabelText(VehicleRadar[radarid][vr_Text3D], color, VehicleRadar[radarid][vr_Text3D_Text]);
     return 1;
 }
 
 
 
-stock SetVehicleRadarExtraValue(radarid, value)
-{
-    if(vehicle_radar[radarid][vr_Create] == false) 
+stock SetVehicleRadarExtraValue(radarid, value) {
+
+    if(!IsVehicleRadarCreated(radarid)) {
         return 0;
+    }
     
-    vehicle_radar[radarid][vr_ExtraValue] = value;
+    VehicleRadar[radarid][vr_ExtraValue] = value;
     return 1;
 }
 
 
 
-stock GetVehicleRadarExtraValue(radarid)
-{
-    if(vehicle_radar[radarid][vr_Create] == false) 
+stock GetVehicleRadarExtraValue(radarid) {
+
+    if(!IsVehicleRadarCreated(radarid)) {
         return 0;
+    }
     
-    return vehicle_radar[radarid][vr_ExtraValue];
+    return VehicleRadar[radarid][vr_ExtraValue];
 }
 
 
 
-static stock Radar_GetVehSpeed(vehicleid)
-{
+static stock R_GetVehicleSpeed(vehicleid) {
+
     new Float:x, 
         Float:y, 
         Float:z;
 
     GetVehicleVelocity(vehicleid, x, y, z);
-	return floatround(floatsqroot(floatpower(x, 2.0) + floatpower(y, 2.0) + floatpower(z, 2.0)) * VEHICLE_RADAR_SPEED_MULTIPLIER);
+	return floatround(floatsqroot(floatpower(x, 2.0) + floatpower(y, 2.0) + floatpower(z, 2.0)) * VR_VEHICLE_SPEED_MULTIPLIER);
 }
 
 
@@ -442,21 +571,20 @@ static stock Radar_GetVehSpeed(vehicleid)
         new rd_arr[3];
         Streamer_GetArrayData(STREAMER_TYPE_AREA, areaid, E_STREAMER_EXTRA_ID, rd_arr);
 
-        if(rd_arr[VEHICLE_RADAR_TYPE] == VEHICLE_RADAR_CUSTOM_TYPE && areaid == rd_arr[VEHICLE_RADAR_AREA_ID])
-        {
-            new radarid = rd_arr[VEHICLE_RADAR_ID];
+        if(rd_arr[VR_STREAMER_TYPE] == VR_STREAMER_CUSTOM_TYPE && areaid == rd_arr[VR_STREAMER_AREA_ID]) {
 
-            if(!vehicle_radar[radarid][vr_Disabled]) {
-                player_vehicle_radar[playerid][pvr_InRadarZone] = areaid;
-                player_vehicle_radar[playerid][pvr_InRadarID] = radarid;
+            new radarid = rd_arr[VR_STREAMER_ID];
 
-                if(!player_vehicle_radar[playerid][pvr_Timer]) {
-                    player_vehicle_radar[playerid][pvr_Timer] = SetTimerEx("OnPlayerVehicleRadarTimer", 200, true, "d", playerid);
+            if(!VehicleRadar[radarid][vr_Disabled]) {
+                PlayerVehicleRadar[playerid][pvr_AreaID] = areaid;
+                PlayerVehicleRadar[playerid][pvr_RadarID] = radarid;
+
+                if(!PlayerVehicleRadar[playerid][pvr_Timer]) {
+                    PlayerVehicleRadar[playerid][pvr_Timer] = SetTimerEx("VR_PlayerTimer", 200, true, "d", playerid);
                 }
             }
         }
     }
-
 
     #if !defined _inc_y_hooks && !defined _INC_y_hooks && defined OnPlayerEnterDynamicArea_vradar
 		return OnPlayerEnterDynamicArea_vradar(playerid, areaid);
@@ -485,12 +613,12 @@ static stock Radar_GetVehSpeed(vehicleid)
 	public OnPlayerLeaveDynamicArea(playerid, areaid)
 #endif
 {
-    if(player_vehicle_radar[playerid][pvr_InRadarZone] == areaid) {
+    if(PlayerVehicleRadar[playerid][pvr_AreaID] == areaid) {
 
-        player_vehicle_radar[playerid][pvr_InRadarZone] = 0;
+        PlayerVehicleRadar[playerid][pvr_AreaID] = 0;
 
-        KillTimer(player_vehicle_radar[playerid][pvr_Timer]);
-        player_vehicle_radar[playerid][pvr_Timer] = 0;
+        KillTimer(PlayerVehicleRadar[playerid][pvr_Timer]);
+        PlayerVehicleRadar[playerid][pvr_Timer] = 0;
     }
 
     #if !defined _inc_y_hooks && !defined _INC_y_hooks && defined OnPlayerLeaveDynamicArea_vradar
@@ -514,67 +642,64 @@ static stock Radar_GetVehSpeed(vehicleid)
 
 
 
-forward OnPlayerVehicleRadarTimer(playerid);
-public OnPlayerVehicleRadarTimer(playerid) {
+forward VR_PlayerTimer(playerid);
+public VR_PlayerTimer(playerid) {
 
     new vehicleid = GetPlayerVehicleID(playerid),
-        radarid = player_vehicle_radar[playerid][pvr_InRadarID];
+        radarid = PlayerVehicleRadar[playerid][pvr_RadarID];
 
-    if(!vehicle_radar[radarid][vr_Create]) {
+    if(!IsVehicleRadarCreated(radarid)) {
+        PlayerVehicleRadar[playerid][pvr_AreaID] = 0;
 
-        player_vehicle_radar[playerid][pvr_InRadarZone] = 0;
-
-        KillTimer(player_vehicle_radar[playerid][pvr_Timer]);
-        player_vehicle_radar[playerid][pvr_Timer] = 0;
+        KillTimer(PlayerVehicleRadar[playerid][pvr_Timer]);
+        PlayerVehicleRadar[playerid][pvr_Timer] = 0;
         return 1;
     }
 
-    if(vehicle_radar[radarid][vr_Disabled]) {
+    if(VehicleRadar[radarid][vr_Disabled]) {
         return 1;
     }
 
-    if(player_vehicle_radar[playerid][pvr_ResponseDelay] != 0 && 
-        player_vehicle_radar[playerid][pvr_ResponseDelay] >= gettime() && 
-        player_vehicle_radar[playerid][pvr_RadarIDResponseDelay] == radarid) {
+    if(PlayerVehicleRadar[playerid][pvr_ResponseDelay] != 0 && 
+        PlayerVehicleRadar[playerid][pvr_ResponseDelay] >= gettime() && 
+        PlayerVehicleRadar[playerid][pvr_RadarIDResponseDelay] == radarid) {
         return 1;
     }
-
 
     new Float:distance = GetPlayerDistanceFromPoint(playerid, 
-        vehicle_radar[radarid][vr_Object_x],
-        vehicle_radar[radarid][vr_Object_y],
-        vehicle_radar[radarid][vr_Object_z]);
-
+        VehicleRadar[radarid][vr_X],
+        VehicleRadar[radarid][vr_Y],
+        VehicleRadar[radarid][vr_Z]);
 
     if(vehicleid && 
-        GetPlayerState(playerid) == PLAYER_STATE_DRIVER && 
-        distance < vehicle_radar[radarid][vr_ZoneSize] && 
-        Radar_GetVehSpeed(vehicleid) >= vehicle_radar[radarid][vr_SpeedLimit]) {
+       GetPlayerState(playerid) == PLAYER_STATE_DRIVER && 
+       distance < VehicleRadar[radarid][vr_ZoneSize] && 
+       R_GetVehicleSpeed(vehicleid) >= VehicleRadar[radarid][vr_SpeedLimit]) {
 
-        player_vehicle_radar[playerid][pvr_ResponseDelay] = gettime() + VEHICLE_RADAR_RESPONSE_DELAY;
-        player_vehicle_radar[playerid][pvr_RadarIDResponseDelay] = radarid;
+        PlayerVehicleRadar[playerid][pvr_ResponseDelay] = gettime() + VR_RESPONSE_DELAY;
+        PlayerVehicleRadar[playerid][pvr_RadarIDResponseDelay] = radarid;
 
-        vehicle_radar[radarid][vr_ActivationCount] ++;
+        VehicleRadar[radarid][vr_ActivationCount] ++;
 
         #if defined OnPlayerEnterVehicleRadar
-            OnPlayerEnterVehicleRadar(playerid, radarid, vehicleid, vehicle_radar[radarid][vr_ActivationCount]);
+            OnPlayerEnterVehicleRadar(playerid, radarid, vehicleid, VehicleRadar[radarid][vr_ActivationCount]);
         #endif
     }
-
     return 1;
 }
 
 
 
-public OnPlayerConnect(playerid)
-{
-    player_vehicle_radar[playerid][pvr_InRadarZone] = 0;
-    player_vehicle_radar[playerid][pvr_Timer] = 0;
+public OnPlayerConnect(playerid) {
+
+    PlayerVehicleRadar[playerid][pvr_AreaID] = 0;
+    PlayerVehicleRadar[playerid][pvr_Timer] = 0;
 
     #if defined OnPlayerConnect_vradar
-        OnPlayerConnect_vradar(playerid);
+        return OnPlayerConnect_vradar(playerid);
+    #else 
+        return 1;
     #endif
-    return 1;
 }
 #if defined _ALS_OnPlayerConnect
     #undef OnPlayerConnect
@@ -588,42 +713,46 @@ public OnPlayerConnect(playerid)
 
 
 
-public OnPlayerDisconnect(playerid, reason)
-{
-    if(player_vehicle_radar[playerid][pvr_InRadarZone]) {
+public OnPlayerDisconnect(playerid, reason) {
 
-        player_vehicle_radar[playerid][pvr_InRadarZone] = 0;
+    if(PlayerVehicleRadar[playerid][pvr_AreaID]) {
+        PlayerVehicleRadar[playerid][pvr_AreaID] = 0;
         
-        KillTimer(player_vehicle_radar[playerid][pvr_Timer]);
-        player_vehicle_radar[playerid][pvr_Timer] = 0;
+        KillTimer(PlayerVehicleRadar[playerid][pvr_Timer]);
+        PlayerVehicleRadar[playerid][pvr_Timer] = 0;
     }
 
+    #if !defined VR_DISABLE_EDITOR
+        if(VehicleRadarEditor[playerid][vre_EditObject] != 0 || VehicleRadarEditor[playerid][vre_WasChangeRadar]) {
 
-    #if VEHICLE_RADAR_USE_EDITING_TOOLS
+            if(VehicleRadarEditor[playerid][vre_EditObject] == 2 || VehicleRadarEditor[playerid][vre_WasChangeRadar]) {
+                new radarid = VehicleRadarEditor[playerid][vre_SelectedRadarID];
 
-        if(vehicle_radar_player[playerid][vrp_EditObject] != 0 || vehicle_radar_player[playerid][vrpList_EditRadar][1] == true) {
-
-            if(vehicle_radar_player[playerid][vrp_EditObject] == 2 || vehicle_radar_player[playerid][vrpList_EditRadar][1] == true)
-            {
-                new radarid = vehicle_radar_player[playerid][vrpList_LineID];
-
-                SetDynamicObjectPos(vehicle_radar[radarid][vr_Object], vehicle_radar[radarid][vr_Object_x], vehicle_radar[radarid][vr_Object_y], vehicle_radar[radarid][vr_Object_z]);
-                SetDynamicObjectRot(vehicle_radar[radarid][vr_Object], vehicle_radar[radarid][vr_Object_rx], vehicle_radar[radarid][vr_Object_ry], vehicle_radar[radarid][vr_Object_rz]);
+                SetDynamicObjectPos(VehicleRadar[radarid][vr_Object], 
+                    VehicleRadar[radarid][vr_X], 
+                    VehicleRadar[radarid][vr_Y], 
+                    VehicleRadar[radarid][vr_Z]);
+                
+                SetDynamicObjectRot(VehicleRadar[radarid][vr_Object], 
+                    VehicleRadar[radarid][vr_RX], 
+                    VehicleRadar[radarid][vr_RY], 
+                    VehicleRadar[radarid][vr_RZ]);
             } 
 
-            if(IsValidPlayerObject(playerid, vehicle_radar_player[playerid][vrp_Object]))
-                DestroyPlayerObject(playerid, vehicle_radar_player[playerid][vrp_Object]);
+            if(IsValidPlayerObject(playerid, VehicleRadarEditor[playerid][vre_Object])) {
+                DestroyPlayerObject(playerid, VehicleRadarEditor[playerid][vre_Object]);
+            }
             
-
-            vehicle_radar_player[playerid][vrp_Object] = 0;
-            vehicle_radar_player[playerid][vrp_EditObject] = 0;
+            VehicleRadarEditor[playerid][vre_Object] = 0;
+            VehicleRadarEditor[playerid][vre_EditObject] = 0;
         }
     #endif
 
     #if defined OnPlayerDisconnect_vradar
-        OnPlayerDisconnect_vradar(playerid, reason);
+        return OnPlayerDisconnect_vradar(playerid, reason);
+    #else 
+        return 1;
     #endif
-    return 1;
 }
 #if defined _ALS_OnPlayerDisconnect
     #undef OnPlayerDisconnect
@@ -637,242 +766,272 @@ public OnPlayerDisconnect(playerid, reason)
 
 
 
+#if !defined VR_DISABLE_EDITOR
+    stock ShowRadarCreationDialog(playerid) {
+        
+        VehicleRadarEditor[playerid][vre_EnableEditing] = false;
+        VehicleRadarEditor[playerid][vre_Disabled] = false;
 
+        VehicleRadarEditor[playerid][vre_RX] = 0.0;
+        VehicleRadarEditor[playerid][vre_RY] = 0.0;
+        VehicleRadarEditor[playerid][vre_RZ] = 0.0;
+        VehicleRadarEditor[playerid][vre_World] = GetPlayerVirtualWorld(playerid);
+        VehicleRadarEditor[playerid][vre_Interior] = GetPlayerInterior(playerid);
+        GetPlayerPos(playerid, VehicleRadarEditor[playerid][vre_X], VehicleRadarEditor[playerid][vre_Y], VehicleRadarEditor[playerid][vre_Z]);
 
-#if VEHICLE_RADAR_USE_EDITING_TOOLS
-    stock VehicleRadarCreate(playerid)
-    {
-        vehicle_radar_player[playerid][vrpList_EditRadar][0] = false;
-        vehicle_radar_player[playerid][vrp_Disabled] = false;
-        GetPlayerPos(playerid, vehicle_radar_player[playerid][vrp_x], vehicle_radar_player[playerid][vrp_y], vehicle_radar_player[playerid][vrp_z]);
-        vehicle_radar_player[playerid][vrp_rx] = 0.0;
-        vehicle_radar_player[playerid][vrp_ry] = 0.0;
-        vehicle_radar_player[playerid][vrp_rz] = 0.0;
-        vehicle_radar_player[playerid][vrp_ZoneSize] = 30.0;
-        vehicle_radar_player[playerid][vrp_SpeedLimit] = 50;
-        vehicle_radar_player[playerid][vrp_Worldid] = GetPlayerVirtualWorld(playerid);
-        vehicle_radar_player[playerid][vrp_Interiorid] = GetPlayerInterior(playerid);
+        VehicleRadarEditor[playerid][vre_ZoneSize] = 30.0;
+        VehicleRadarEditor[playerid][vre_SpeedLimit] = 50;
 
-        if(IsValidPlayerObject(playerid, vehicle_radar_player[playerid][vrp_Object])) 
-            DestroyPlayerObject(playerid, vehicle_radar_player[playerid][vrp_Object]);
+        if(IsValidPlayerObject(playerid, VehicleRadarEditor[playerid][vre_Object])) {
+            DestroyPlayerObject(playerid, VehicleRadarEditor[playerid][vre_Object]);
+        }
 
-        vehicle_radar_player[playerid][vrp_Object] = 0;
-        vehicle_radar_player[playerid][vrp_EditObject] = 1;
+        VehicleRadarEditor[playerid][vre_Object] = 0;
+        VehicleRadarEditor[playerid][vre_EditObject] = 1;
 
-        Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
+        Dialog_Show(playerid, Dialog:vrd_Create);
         return 1;
     }
 
 
-    DialogCreate:_vehicle_radar_Create(playerid)
-    {
-        static const text[] =
-            "%s\t\n\
-            Position\tX: %.1f, Y: %.1f, Z: %.1f\n\
-            Trigger distance\t%.1fm\n\
-            Speed limit\t%d km/h\n\
-            Status\t%s\n\
-            Virtual world\t%d\n\
-            Interior\t%d";
-    
-        new string[sizeof(text) + 23 + 30 + 10 + 10 + 11 + 10 + 10 + 21], 
-            caption[55+10] = "Creating a radar",
-            Float:x = vehicle_radar_player[playerid][vrp_x], 
-            Float:y = vehicle_radar_player[playerid][vrp_y], 
-            Float:z = vehicle_radar_player[playerid][vrp_z];
+    DialogCreate:vrd_Create(playerid) {
 
-        if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true)
-        {
-            new radarid = vehicle_radar_player[playerid][vrpList_LineID];
-            x = vehicle_radar[radarid][vr_Object_x];
-            y = vehicle_radar[radarid][vr_Object_y];
-            z = vehicle_radar[radarid][vr_Object_z]; 
+        new vr_string[sizeof(VR_RadarCreationDialogText) + 
+            sizeof(VR_TEXT_CREATE) + 
+            sizeof(VR_TEXT_OFF) + 
+            20 + 
+            (4 * 10) + 
+            sizeof(VR_TEXT_TELEPORT)];
+
+        new vr_caption[sizeof(VR_TEXT_EDITING) + sizeof(VR_TEXT_TRIGGER) + 8 + 10];
+        
+        new Float:x = VehicleRadarEditor[playerid][vre_X], 
+            Float:y = VehicleRadarEditor[playerid][vre_Y], 
+            Float:z = VehicleRadarEditor[playerid][vre_Z];
+
+        if(VehicleRadarEditor[playerid][vre_EnableEditing]) {
+            new radarid = VehicleRadarEditor[playerid][vre_SelectedRadarID];
+
+            x = VehicleRadar[radarid][vr_X];
+            y = VehicleRadar[radarid][vr_Y];
+            z = VehicleRadar[radarid][vr_Z]; 
         }
 
-        format(string, sizeof(string), text,
-            (vehicle_radar_player[playerid][vrpList_EditRadar][0] == false) ? (""VEHICLE_RADAR_COLOR_1"Create a radar"):(""VEHICLE_RADAR_COLOR_2"Remove radar"),
+        format(vr_string, sizeof(vr_string), VR_RadarCreationDialogText,
+            (!VehicleRadarEditor[playerid][vre_EnableEditing]) ? (VR_TEXT_CREATE) : (VR_TEXT_REMOVE),
             x, y, z,
-            vehicle_radar_player[playerid][vrp_ZoneSize],
-            vehicle_radar_player[playerid][vrp_SpeedLimit],
-            (vehicle_radar_player[playerid][vrp_Disabled] == false) ? (""VEHICLE_RADAR_COLOR_1"On"):(""VEHICLE_RADAR_COLOR_2"Off"),
-            vehicle_radar_player[playerid][vrp_Worldid],
-            vehicle_radar_player[playerid][vrp_Interiorid]);
+            VehicleRadarEditor[playerid][vre_ZoneSize],
+            VehicleRadarEditor[playerid][vre_SpeedLimit],
+            (!VehicleRadarEditor[playerid][vre_Disabled]) ? (VR_TEXT_ON) : (VR_TEXT_OFF),
+            VehicleRadarEditor[playerid][vre_World],
+            VehicleRadarEditor[playerid][vre_Interior]);
 
 
-        if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true) 
-        {
-            strcat(string, "\nTeleport to radar\t");
+        if(VehicleRadarEditor[playerid][vre_EnableEditing]) {
+            format(vr_string, sizeof(vr_string), "%s\n%s\t", vr_string, VR_TEXT_TELEPORT);
 
-            new radarid = vehicle_radar_player[playerid][vrpList_LineID];
-            format(caption, sizeof(caption), "Radar editing | "VEHICLE_RADAR_COLOR_3"Triggers: %d", vehicle_radar[radarid][vr_ActivationCount]);
+            new radarid = VehicleRadarEditor[playerid][vre_SelectedRadarID];
+            format(vr_caption, sizeof(vr_caption), "%s | "VR_YELLOW_COLOR_TAG"%s: %d", 
+                VR_TEXT_EDITING, 
+                VR_TEXT_TRIGGER, 
+                VehicleRadar[radarid][vr_ActivationCount]);
+        }
+        else {
+            strcat(vr_caption, VR_TEXT_CREATING);
         }
 
-        Dialog_Open(playerid, Dialog:_vehicle_radar_Create, DIALOG_STYLE_TABLIST, caption, string, "Select", "Cancel");
+        Dialog_Open(playerid, Dialog:vrd_Create, DIALOG_STYLE_TABLIST, vr_caption, vr_string, 
+            VR_SELECT_BUTTON, 
+            (!VehicleRadarEditor[playerid][vre_EnableEditing]) ? VR_CANCEL_BUTTON : VR_BACK_BUTTON);
         return 1;
     }
 
 
-    DialogResponse:_vehicle_radar_Create(playerid, response, listitem, inputtext[])
-    {
-        if(!response)
-        {
-            if(IsValidPlayerObject(playerid, vehicle_radar_player[playerid][vrp_Object])) 
-                DestroyPlayerObject(playerid, vehicle_radar_player[playerid][vrp_Object]);
+    DialogResponse:vrd_Create(playerid, response, listitem, inputtext[]) {
 
-            vehicle_radar_player[playerid][vrp_EditObject] = 0;
-            vehicle_radar_player[playerid][vrp_Object] = 0;
+        if(!response) {
+            if(IsValidPlayerObject(playerid, VehicleRadarEditor[playerid][vre_Object])) {
+                DestroyPlayerObject(playerid, VehicleRadarEditor[playerid][vre_Object]); 
+            }
 
-            if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true)
-            {
-                if(vehicle_radar_player[playerid][vrpList_EditRadar][1] == true) {
-                    Dialog_Open(playerid, Dialog:_vehicle_radar_Savechanges, DIALOG_STYLE_MSGBOX, "Acceptance of changes", 
-                        "{FFFFFF}Save changes ?", "Yes", "No");
+            VehicleRadarEditor[playerid][vre_EditObject] = 0;
+            VehicleRadarEditor[playerid][vre_Object] = 0;
+
+            if(VehicleRadarEditor[playerid][vre_EnableEditing]) {
+
+                if(VehicleRadarEditor[playerid][vre_WasChangeRadar]) {
+                    Dialog_Open(playerid, Dialog:vrd_SaveChanges, DIALOG_STYLE_MSGBOX, VR_TEXT_SAVE_TITLE, 
+                        VR_TEXT_SAVE, 
+                        VR_YES_BUTTON, 
+                        VR_CANCEL_BUTTON);
                     return 1;
                 }
 
-                Dialog_Show(playerid, Dialog:_vehicle_radar_List);
+                Dialog_Show(playerid, Dialog:vrd_RadarList);
                 return 1;
             }
             return 1;
         }
 
-        switch(listitem)
-        {
-            case 0:
-            {
-                if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true)
-                {
-                    static const text[] = "{FFFFFF}Delete radar "VEHICLE_RADAR_COLOR_3"ID: %d ?";
-                    new string[sizeof(text)+10];
+        switch(listitem) {
+
+            case 0: {
+
+                if(VehicleRadarEditor[playerid][vre_EnableEditing]) {
+                    
+                    new vr_string[sizeof(VR_TEXT_DELETE_TEXT) + 10];
                   
-                    format(string, sizeof(string), text, vehicle_radar_player[playerid][vrpList_LineID]);
-                    Dialog_Open(playerid, Dialog:_vehicle_radar_Delete, DIALOG_STYLE_MSGBOX, "Remove radar", string, "Remove", "Back");
+                    format(vr_string, sizeof(vr_string), VR_TEXT_DELETE_TEXT, VehicleRadarEditor[playerid][vre_SelectedRadarID]);
+                    Dialog_Open(playerid, Dialog:vrd_Delete, DIALOG_STYLE_MSGBOX, VR_TEXT_DELETE_TITLE, 
+                        vr_string, 
+                        VR_YES_BUTTON, 
+                        VR_BACK_BUTTON);
                     return 1;
                 }
 
-                new radarid = VehicleRadarLoad(
-                    vehicle_radar_player[playerid][vrp_SpeedLimit],
-                    vehicle_radar_player[playerid][vrp_ZoneSize],
-                    vehicle_radar_player[playerid][vrp_x], vehicle_radar_player[playerid][vrp_y], vehicle_radar_player[playerid][vrp_z],
-                    vehicle_radar_player[playerid][vrp_rx], vehicle_radar_player[playerid][vrp_ry], vehicle_radar_player[playerid][vrp_rz],
-                    vehicle_radar_player[playerid][vrp_Worldid], vehicle_radar_player[playerid][vrp_Interiorid],
-                    vehicle_radar_player[playerid][vrp_Disabled]);
+                new radarid = CreateVehicleRadar(
+                    VehicleRadarEditor[playerid][vre_SpeedLimit],
+                    VehicleRadarEditor[playerid][vre_ZoneSize],
+                    VehicleRadarEditor[playerid][vre_X], VehicleRadarEditor[playerid][vre_Y], VehicleRadarEditor[playerid][vre_Z],
+                    VehicleRadarEditor[playerid][vre_RX], VehicleRadarEditor[playerid][vre_RY], VehicleRadarEditor[playerid][vre_RZ],
+                    VehicleRadarEditor[playerid][vre_World], VehicleRadarEditor[playerid][vre_Interior],
+                    VehicleRadarEditor[playerid][vre_Disabled]);
 
                 if(!radarid) {
-                    Dialog_Open(playerid, Dialog:_vehicle_radar_Create_back, DIALOG_STYLE_MSGBOX, "Creating a radar", 
-                        "{FFFFFF}Radar limit reached", 
-                    "Close", "Back");
+                    Dialog_Open(playerid, Dialog:vrd_CreateBack, DIALOG_STYLE_MSGBOX, VR_TEXT_CREATING, 
+                        VR_TEXT_RADAR_LIMIT, 
+                        VR_CLOSE_BUTTON, 
+                        VR_BACK_BUTTON);
                     return 1;
                 }
 
-                if(IsValidPlayerObject(playerid, vehicle_radar_player[playerid][vrp_Object])) 
-                    DestroyPlayerObject(playerid, vehicle_radar_player[playerid][vrp_Object]);
+                if(IsValidPlayerObject(playerid, VehicleRadarEditor[playerid][vre_Object])) {
+                    DestroyPlayerObject(playerid, VehicleRadarEditor[playerid][vre_Object]);
+                }
                 
-                vehicle_radar_player[playerid][vrp_Object] = 0;
-
+                VehicleRadarEditor[playerid][vre_Object] = 0;
 
                 #if defined OnPlayerVehicleRadarCreate
                     OnPlayerVehicleRadarCreate(playerid,
                         radarid, 
-                        vehicle_radar_player[playerid][vrp_SpeedLimit],
-                        vehicle_radar_player[playerid][vrp_ZoneSize], 
-                        vehicle_radar_player[playerid][vrp_Disabled],
-                        vehicle_radar_player[playerid][vrp_x], vehicle_radar_player[playerid][vrp_y], vehicle_radar_player[playerid][vrp_z],
-                        vehicle_radar_player[playerid][vrp_rx], vehicle_radar_player[playerid][vrp_ry], vehicle_radar_player[playerid][vrp_rz],
-                        vehicle_radar_player[playerid][vrp_Worldid], vehicle_radar_player[playerid][vrp_Interiorid]);
+                        VehicleRadarEditor[playerid][vre_SpeedLimit],
+                        VehicleRadarEditor[playerid][vre_ZoneSize], 
+                        VehicleRadarEditor[playerid][vre_Disabled],
+                        VehicleRadarEditor[playerid][vre_X], VehicleRadarEditor[playerid][vre_Y], VehicleRadarEditor[playerid][vre_Z],
+                        VehicleRadarEditor[playerid][vre_RX], VehicleRadarEditor[playerid][vre_RY], VehicleRadarEditor[playerid][vre_RZ],
+                        VehicleRadarEditor[playerid][vre_World], VehicleRadarEditor[playerid][vre_Interior]);
                 #endif
                 return 1;
             }
-            case 1:
-            {
-                if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true)
-                {
-                    new radarid = vehicle_radar_player[playerid][vrpList_LineID];
+
+            case 1: {
+
+                if(VehicleRadarEditor[playerid][vre_EnableEditing]) {
+
+                    new radarid = VehicleRadarEditor[playerid][vre_SelectedRadarID];
 
                     new Float:distance = GetPlayerDistanceFromPoint(playerid, 
-                        vehicle_radar[radarid][vr_Object_x], vehicle_radar[radarid][vr_Object_y], vehicle_radar[radarid][vr_Object_z]);
+                        VehicleRadar[radarid][vr_X], VehicleRadar[radarid][vr_Y], VehicleRadar[radarid][vr_Z]);
                     
                     if(distance >= 20.0) {
                         SetPlayerPos(playerid, 
-                        vehicle_radar[radarid][vr_Object_x]+0.5, 
-                        vehicle_radar[radarid][vr_Object_y]+0.5, 
-                        vehicle_radar[radarid][vr_Object_z]+2.0);
+                        VehicleRadar[radarid][vr_X] + 0.5, 
+                        VehicleRadar[radarid][vr_Y] + 0.5, 
+                        VehicleRadar[radarid][vr_Z] + 2.0);
                     }
 
-                    vehicle_radar_player[playerid][vrp_EditObject] = 2;
-                    EditDynamicObject(playerid, vehicle_radar[radarid][vr_Object]);
+                    VehicleRadarEditor[playerid][vre_EditObject] = 2;
+                    EditDynamicObject(playerid, VehicleRadar[radarid][vr_Object]);
                     return 1;
                 }
 
-                if(!IsValidPlayerObject(playerid, vehicle_radar_player[playerid][vrp_Object])) 
-                {
-                    vehicle_radar_player[playerid][vrp_Object] = CreatePlayerObject(playerid, 
-                        VEHICLE_RADAR_OBJECT_MODEL, 
-                        vehicle_radar_player[playerid][vrp_x], vehicle_radar_player[playerid][vrp_y], vehicle_radar_player[playerid][vrp_z],
-                        vehicle_radar_player[playerid][vrp_rx], vehicle_radar_player[playerid][vrp_ry], vehicle_radar_player[playerid][vrp_rz], 
+                if(!IsValidPlayerObject(playerid, VehicleRadarEditor[playerid][vre_Object])) {
+
+                    VehicleRadarEditor[playerid][vre_Object] = CreatePlayerObject(playerid, 
+                        VR_OBJECT_MODEL, 
+                        VehicleRadarEditor[playerid][vre_X], VehicleRadarEditor[playerid][vre_Y], VehicleRadarEditor[playerid][vre_Z],
+                        VehicleRadarEditor[playerid][vre_RX], VehicleRadarEditor[playerid][vre_RY], VehicleRadarEditor[playerid][vre_RZ], 
                         200.0);
 
                     SetPlayerPos(playerid, 
-                        vehicle_radar_player[playerid][vrp_x]+0.5, 
-                        vehicle_radar_player[playerid][vrp_y]+0.5, 
-                        vehicle_radar_player[playerid][vrp_z]);
+                        VehicleRadarEditor[playerid][vre_X] + 0.5, 
+                        VehicleRadarEditor[playerid][vre_Y] + 0.5, 
+                        VehicleRadarEditor[playerid][vre_Z]);
                 }
 
                 new Float:distance = GetPlayerDistanceFromPoint(playerid, 
-                    vehicle_radar_player[playerid][vrp_x], vehicle_radar_player[playerid][vrp_y], vehicle_radar_player[playerid][vrp_z]);
+                    VehicleRadarEditor[playerid][vre_X], 
+                    VehicleRadarEditor[playerid][vre_Y], 
+                    VehicleRadarEditor[playerid][vre_Z]);
                 
                 if(distance >= 20.0) {
                     SetPlayerPos(playerid, 
-                        vehicle_radar_player[playerid][vrp_x]+0.5, 
-                        vehicle_radar_player[playerid][vrp_y]+0.5, 
-                        vehicle_radar_player[playerid][vrp_z]+2.0);
+                        VehicleRadarEditor[playerid][vre_X] + 0.5, 
+                        VehicleRadarEditor[playerid][vre_Y] + 0.5, 
+                        VehicleRadarEditor[playerid][vre_Z] + 2.0);
                 }
 
-                vehicle_radar_player[playerid][vrp_EditObject] = 1;
-                EditPlayerObject(playerid, vehicle_radar_player[playerid][vrp_Object]);
+                VehicleRadarEditor[playerid][vre_EditObject] = 1;
+                EditPlayerObject(playerid, VehicleRadarEditor[playerid][vre_Object]);
                 return 1;
             }
-            case 2:
-            {
-                Dialog_Open(playerid, Dialog:_vehicle_radar_ZoneSize, DIALOG_STYLE_INPUT, "Trigger distance", 
-                    "{FFFFFF}Enter the trigger distance:", "Select", "Cancel");
-                return 1;
-            }
-            case 3:
-            {
-                Dialog_Open(playerid, Dialog:_vehicle_radar_SpeedLimit, DIALOG_STYLE_INPUT, "Speed limit", 
-                    "{FFFFFF}Enter the speed limit:", "Select", "Cancel");
-                return 1;
-            }
-            case 4:
-            {
-                if(vehicle_radar_player[playerid][vrp_Disabled] == false) vehicle_radar_player[playerid][vrp_Disabled] = true;
-                else vehicle_radar_player[playerid][vrp_Disabled] = false;
 
-                if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true) vehicle_radar_player[playerid][vrpList_EditRadar][1] = true;
-                Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
+            case 2: {
+                Dialog_Open(playerid, Dialog:vrd_ZoneSize, DIALOG_STYLE_INPUT, VR_TEXT_TRIGGER_TITLE, 
+                    VR_TEXT_TRIGGER_TEXT, 
+                    VR_SELECT_BUTTON, 
+                    VR_CANCEL_BUTTON);
                 return 1;
             }
-            case 5:
-            {
-                Dialog_Open(playerid, Dialog:_vehicle_radar_Worldid, DIALOG_STYLE_INPUT, 
-                    "Virtual world", "{FFFFFF}Enter the Virtual world ID:", "Select", "Cancel");
+
+            case 3: {
+                Dialog_Open(playerid, Dialog:vrd_SpeedLimit, DIALOG_STYLE_INPUT, VR_TEXT_SPEED_LIMIT_TITLE, 
+                    VR_TEXT_SPEED_LIMIT_TEXT, 
+                    VR_SELECT_BUTTON, 
+                    VR_CANCEL_BUTTON);
                 return 1;
             }
-            case 6:
-            {
-                Dialog_Open(playerid, Dialog:_vehicle_radar_Interior, DIALOG_STYLE_INPUT, "Interior", 
-                    "{FFFFFF}Enter the interior ID:", "Select", "Cancel");
+
+            case 4: {
+
+                if(!VehicleRadarEditor[playerid][vre_Disabled]) { 
+                    VehicleRadarEditor[playerid][vre_Disabled] = true;
+                }
+                else { 
+                    VehicleRadarEditor[playerid][vre_Disabled] = false;
+                }
+
+                if(VehicleRadarEditor[playerid][vre_EnableEditing]) {
+                    VehicleRadarEditor[playerid][vre_WasChangeRadar] = true;
+                }
+
+                Dialog_Show(playerid, Dialog:vrd_Create);
                 return 1;
             }
-            case 7:
-            {
-                new radarid = vehicle_radar_player[playerid][vrpList_LineID];
+
+            case 5: {
+                Dialog_Open(playerid, Dialog:vrd_World, DIALOG_STYLE_INPUT, VR_TEXT_WORLD_TITLE, 
+                    VR_TEXT_WORLD_TEXT, 
+                    VR_SELECT_BUTTON, 
+                    VR_CANCEL_BUTTON);
+                return 1;
+            }
+
+            case 6: {
+                Dialog_Open(playerid, Dialog:vrd_Interior, DIALOG_STYLE_INPUT, VR_TEXT_INTERIOR_TITLE, 
+                    VR_TEXT_INTERIOR_TEXT, 
+                    VR_SELECT_BUTTON, 
+                    VR_CANCEL_BUTTON);
+                return 1;
+            }
+
+            case 7: {
+                new radarid = VehicleRadarEditor[playerid][vre_SelectedRadarID];
 
                 SetPlayerPos(playerid, 
-                    vehicle_radar[radarid][vr_Object_x]+0.5, 
-                    vehicle_radar[radarid][vr_Object_y]+0.5, 
-                    vehicle_radar[radarid][vr_Object_z]+2.0);
+                    VehicleRadar[radarid][vr_X] + 0.5, 
+                    VehicleRadar[radarid][vr_Y] + 0.5, 
+                    VehicleRadar[radarid][vr_Z] + 2.0);
                 return 1;
             }
         }
@@ -880,56 +1039,107 @@ public OnPlayerDisconnect(playerid, reason)
     }
 
 
-    DialogResponse:_vehicle_radar_Create_back(playerid, response, listitem, inputtext[])
-    {
-        if(!response) return 1;
-        Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
+    DialogResponse:vrd_CreateBack(playerid, response, listitem, inputtext[]) {
+        if(response) {
+            return 1;
+        }
+
+        Dialog_Show(playerid, Dialog:vrd_Create);
         return 1;
     }
 
 
-    DialogResponse:_vehicle_radar_ZoneSize(playerid, response, listitem, inputtext[])
-    {
-        if(!response) return Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
-        if(floatstr(inputtext) < 0.0) return Dialog_Open(playerid, Dialog:_vehicle_radar_ZoneSize, DIALOG_STYLE_INPUT, "Trigger distance", "{FFFFFF}Enter the trigger distance:", "Select", "Cancel");
+    DialogResponse:vrd_ZoneSize(playerid, response, listitem, inputtext[]) {
+        if(!response) {
+            return Dialog_Show(playerid, Dialog:vrd_Create);
+        }
 
-        vehicle_radar_player[playerid][vrp_ZoneSize] = floatstr(inputtext);
-        if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true) vehicle_radar_player[playerid][vrpList_EditRadar][1] = true;
-        Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
+        if(!strlen(inputtext) || strval(inputtext) <= 0.0) {
+            Dialog_Open(playerid, Dialog:vrd_ZoneSize, DIALOG_STYLE_INPUT, VR_TEXT_TRIGGER_TITLE, 
+                VR_TEXT_TRIGGER_TEXT, 
+                VR_SELECT_BUTTON, 
+                VR_CANCEL_BUTTON);
+            return 1;
+        }
+
+        VehicleRadarEditor[playerid][vre_ZoneSize] = floatstr(inputtext);
+        if(VehicleRadarEditor[playerid][vre_EnableEditing]) {
+            VehicleRadarEditor[playerid][vre_WasChangeRadar] = true;
+        }
+        
+        Dialog_Show(playerid, Dialog:vrd_Create);
         return 1;
     }
 
 
-    DialogResponse:_vehicle_radar_SpeedLimit(playerid, response, listitem, inputtext[])
-    {
-        if(!response) return Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
-        if(strval(inputtext) < 0) return Dialog_Open(playerid, Dialog:_vehicle_radar_SpeedLimit, DIALOG_STYLE_INPUT, "Speed limit", "{FFFFFF}Enter the speed limit:", "Select", "Cancel");
+    DialogResponse:vrd_SpeedLimit(playerid, response, listitem, inputtext[]) {
 
-        vehicle_radar_player[playerid][vrp_SpeedLimit] = strval(inputtext);
-        if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true) vehicle_radar_player[playerid][vrpList_EditRadar][1] = true;
-        Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
+        if(!response) {
+            return Dialog_Show(playerid, Dialog:vrd_Create);
+        }
+        
+        if(!strlen(inputtext) || strval(inputtext) < 0) {
+            Dialog_Open(playerid, Dialog:vrd_SpeedLimit, DIALOG_STYLE_INPUT, VR_TEXT_SPEED_LIMIT_TITLE, 
+                VR_TEXT_SPEED_LIMIT_TEXT, 
+                VR_SELECT_BUTTON, 
+                VR_CANCEL_BUTTON);
+            return 1;
+        }
+
+        VehicleRadarEditor[playerid][vre_SpeedLimit] = strval(inputtext);
+        if(VehicleRadarEditor[playerid][vre_EnableEditing]) {
+            VehicleRadarEditor[playerid][vre_WasChangeRadar] = true;
+        }
+        
+        Dialog_Show(playerid, Dialog:vrd_Create);
         return 1;
     }
 
 
-    DialogResponse:_vehicle_radar_Worldid(playerid, response, listitem, inputtext[])
-    {
-        if(!response) return Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
- 
-        vehicle_radar_player[playerid][vrp_Worldid] = strval(inputtext);
-        if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true) vehicle_radar_player[playerid][vrpList_EditRadar][1] = true;
-        Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
+    DialogResponse:vrd_World(playerid, response, listitem, inputtext[]) {
+        
+        if(!response) {
+            return Dialog_Show(playerid, Dialog:vrd_Create);
+        }
+
+        if(!strlen(inputtext)) {
+            Dialog_Open(playerid, Dialog:vrd_World, DIALOG_STYLE_INPUT, VR_TEXT_WORLD_TITLE, 
+                VR_TEXT_WORLD_TEXT, 
+                VR_SELECT_BUTTON, 
+                VR_CANCEL_BUTTON);
+            return 1;
+        }
+
+        VehicleRadarEditor[playerid][vre_World] = strval(inputtext);
+        if(VehicleRadarEditor[playerid][vre_EnableEditing]) {
+            VehicleRadarEditor[playerid][vre_WasChangeRadar] = true;
+        }
+
+        Dialog_Show(playerid, Dialog:vrd_Create);
         return 1;
     }
 
 
-    DialogResponse:_vehicle_radar_Interior(playerid, response, listitem, inputtext[])
-    {
-        if(!response) return Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
+    DialogResponse:vrd_Interior(playerid, response, listitem, inputtext[]) {
 
-        vehicle_radar_player[playerid][vrp_Interiorid] = strval(inputtext);
-        if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true) vehicle_radar_player[playerid][vrpList_EditRadar][1] = true;
-        Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
+        if(!response) {
+            return Dialog_Show(playerid, Dialog:vrd_Create);
+        }
+
+        if(!strlen(inputtext)) {
+            Dialog_Open(playerid, Dialog:vrd_Interior, DIALOG_STYLE_INPUT, VR_TEXT_INTERIOR_TITLE, 
+                VR_TEXT_INTERIOR_TEXT, 
+                VR_SELECT_BUTTON, 
+                VR_CANCEL_BUTTON);
+            return 1;
+        }
+
+        VehicleRadarEditor[playerid][vre_Interior] = strval(inputtext);
+        if(VehicleRadarEditor[playerid][vre_EnableEditing]) {
+            VehicleRadarEditor[playerid][vre_WasChangeRadar] = true;
+        }
+        
+        Dialog_Show(playerid, Dialog:vrd_Create);
         return 1;
     }
 
@@ -940,36 +1150,37 @@ public OnPlayerDisconnect(playerid, reason)
         public OnPlayerEditObject(playerid, playerobject, objectid, response, Float:fX, Float:fY, Float:fZ, Float:fRotX, Float:fRotY, Float:fRotZ)
     #endif
     {
-        if(vehicle_radar_player[playerid][vrp_EditObject] == 1 && (response == EDIT_RESPONSE_FINAL || response == EDIT_RESPONSE_CANCEL))
-        {
-            vehicle_radar_player[playerid][vrp_EditObject] = 0;
+        if(VehicleRadarEditor[playerid][vre_EditObject] == 1 && (response == EDIT_RESPONSE_FINAL || response == EDIT_RESPONSE_CANCEL)) {
 
-            if(response == EDIT_RESPONSE_FINAL)
-            {
-                vehicle_radar_player[playerid][vrp_x] = fX;
-                vehicle_radar_player[playerid][vrp_y] = fY;
-                vehicle_radar_player[playerid][vrp_z] = fZ;
+            VehicleRadarEditor[playerid][vre_EditObject] = 0;
 
-                vehicle_radar_player[playerid][vrp_rx] = fRotX;
-                vehicle_radar_player[playerid][vrp_ry] = fRotY;
-                vehicle_radar_player[playerid][vrp_rz] = fRotZ;
+            if(response == EDIT_RESPONSE_FINAL) {
+                VehicleRadarEditor[playerid][vre_X] = fX;
+                VehicleRadarEditor[playerid][vre_Y] = fY;
+                VehicleRadarEditor[playerid][vre_Z] = fZ;
 
-                if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true) vehicle_radar_player[playerid][vrpList_EditRadar][1] = true;
+                VehicleRadarEditor[playerid][vre_RX] = fRotX;
+                VehicleRadarEditor[playerid][vre_RY] = fRotY;
+                VehicleRadarEditor[playerid][vre_RZ] = fRotZ;
+
+                if(VehicleRadarEditor[playerid][vre_EnableEditing]) {
+                    VehicleRadarEditor[playerid][vre_WasChangeRadar] = true;
+                }
             }
 
             SetPlayerObjectPos(playerid, 
-                vehicle_radar_player[playerid][vrp_Object], 
-                vehicle_radar_player[playerid][vrp_x], 
-                vehicle_radar_player[playerid][vrp_y], 
-                vehicle_radar_player[playerid][vrp_z]);
+                VehicleRadarEditor[playerid][vre_Object], 
+                VehicleRadarEditor[playerid][vre_X], 
+                VehicleRadarEditor[playerid][vre_Y], 
+                VehicleRadarEditor[playerid][vre_Z]);
             
             SetPlayerObjectRot(playerid, 
-                vehicle_radar_player[playerid][vrp_Object], 
-                vehicle_radar_player[playerid][vrp_rx], 
-                vehicle_radar_player[playerid][vrp_ry], 
-                vehicle_radar_player[playerid][vrp_rz]);
+                VehicleRadarEditor[playerid][vre_Object], 
+                VehicleRadarEditor[playerid][vre_RX], 
+                VehicleRadarEditor[playerid][vre_RY], 
+                VehicleRadarEditor[playerid][vre_RZ]);
             
-            Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
+            Dialog_Show(playerid, Dialog:vrd_Create);
             return 1;
         }
 
@@ -1000,26 +1211,27 @@ public OnPlayerDisconnect(playerid, reason)
         public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz)
     #endif
     {
-        if(vehicle_radar_player[playerid][vrp_EditObject] == 2 && (response == EDIT_RESPONSE_FINAL || response == EDIT_RESPONSE_CANCEL))
-        {
-            vehicle_radar_player[playerid][vrp_EditObject] = 0;
+        if(VehicleRadarEditor[playerid][vre_EditObject] == 2 && (response == EDIT_RESPONSE_FINAL || response == EDIT_RESPONSE_CANCEL)) {
 
-            if(response == EDIT_RESPONSE_FINAL)
-            {
+            VehicleRadarEditor[playerid][vre_EditObject] = 0;
+
+            if(response == EDIT_RESPONSE_FINAL) {
                 SetDynamicObjectPos(objectid, x, y, z);
                 SetDynamicObjectRot(objectid, rx, ry, rz);
 
-                if(vehicle_radar_player[playerid][vrpList_EditRadar][0] == true) vehicle_radar_player[playerid][vrpList_EditRadar][1] = true;
+                if(VehicleRadarEditor[playerid][vre_EnableEditing]) {
+                    VehicleRadarEditor[playerid][vre_WasChangeRadar] = true;
+                }
             }
-            else
-            {
-                new radarid = vehicle_radar_player[playerid][vrpList_LineID];
+            else {
 
-                SetDynamicObjectPos(objectid, vehicle_radar[radarid][vr_Object_x], vehicle_radar[radarid][vr_Object_y], vehicle_radar[radarid][vr_Object_z]);
-                SetDynamicObjectRot(objectid, vehicle_radar[radarid][vr_Object_rx], vehicle_radar[radarid][vr_Object_ry], vehicle_radar[radarid][vr_Object_rz]);
+                new radarid = VehicleRadarEditor[playerid][vre_SelectedRadarID];
+
+                SetDynamicObjectPos(objectid, VehicleRadar[radarid][vr_X], VehicleRadar[radarid][vr_Y], VehicleRadar[radarid][vr_Z]);
+                SetDynamicObjectRot(objectid, VehicleRadar[radarid][vr_RX], VehicleRadar[radarid][vr_RY], VehicleRadar[radarid][vr_RZ]);
             }
 
-            Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
+            Dialog_Show(playerid, Dialog:vrd_Create);
             return 1;
         }
 
@@ -1043,226 +1255,234 @@ public OnPlayerDisconnect(playerid, reason)
     #endif
 
 
-    stock VehicleRadarList(playerid)
-    {
-        vehicle_radar_player[playerid][vrpList_EditRadar][0] = true;
-        vehicle_radar_player[playerid][vrpList_EditRadar][1] = false;
-        vehicle_radar_player[playerid][vrpList_Page] = 0;
-        vehicle_radar_player[playerid][vrpList_Page_Button_Back] = 0;
+    stock ShowRadarListDialog(playerid) {
 
-        Dialog_Show(playerid, Dialog:_vehicle_radar_List);
+        VehicleRadarEditor[playerid][vre_EnableEditing] = true;
+        VehicleRadarEditor[playerid][vre_WasChangeRadar] = false;
+        VehicleRadarEditor[playerid][vre_Page] = 1;
+
+        Dialog_Show(playerid, Dialog:vrd_RadarList);
         return 1;
     }
 
+    DialogCreate:vrd_RadarList(playerid) {
 
-    DialogCreate:_vehicle_radar_List(playerid) 
-    {
-        new string[ (27+ 10+10+10+16) * VEHICLE_RADAR_MAX_ROWS_LIST + 91] = "{FFFFFF}ID\t{FFFFFF}Triggers\t{FFFFFF}Trigger distance\t{FFFFFF}Status\n";
+        new vr_string[ ((27 + 10 + 10 + 10 + sizeof(VR_TEXT_OFF)) * VR_MAX_ROWS_LIST) + 
+            sizeof(VR_FURTHER_BUTTON) + 
+            sizeof(VR_BACK_BUTTON) + 
+            (4 * 12) + 
+            sizeof(VR_TEXT_SPEED_LIMIT_TITLE) + 
+            sizeof(VR_TEXT_TRIGGER_TITLE) + 
+            sizeof(VR_TEXT_STATUS)];
+
+        format(vr_string, sizeof(vr_string), ""VR_WHITE_COLOR_TAG"ID\t"VR_WHITE_COLOR_TAG"%s\t"VR_WHITE_COLOR_TAG"%s\t"VR_WHITE_COLOR_TAG"%s\n", 
+            VR_TEXT_SPEED_LIMIT_TITLE,
+            VR_TEXT_TRIGGER_TITLE,
+            VR_TEXT_STATUS);
         
-        for(new x; x < VEHICLE_RADAR_MAX_ROWS_LIST; x ++) vehicle_radar_player[playerid][vrpList_SlotID][x] = -1;
+        new	max_page = VR_MAX_ROWS_LIST,
+            page = VehicleRadarEditor[playerid][vre_Page],
+            next = 0,
+            totalLine,
+            totalRadarLines;
 
-        new line_max, 
-            block_back_button;
+        for(new i = 0; i < VR_MAX_VEHICLE_RADAR; i++) {
 
-        for(new x = (vehicle_radar_player[playerid][vrpList_Page] * VEHICLE_RADAR_MAX_ROWS_LIST)+1; x < MAX_VEHICLE_RADAR; x ++)
-        {
-            if(x >= MAX_VEHICLE_RADAR) 
-                break;
-
-            if(vehicle_radar[x][vr_Create] == false) 
+            if(!IsVehicleRadarCreated(i)) {
                 continue;
-
-            if(line_max <= VEHICLE_RADAR_MAX_ROWS_LIST-1)
-            {
-                vehicle_radar_player[playerid][vrpList_SlotID][line_max] = x;
-
-                format(string, sizeof(string), "%s#%d\t%d km/h\t%.1fm\t%s\n", 
-                    string, 
-                    x, 
-                    vehicle_radar[x][vr_SpeedLimit], 
-                    vehicle_radar[x][vr_ZoneSize], 
-                    (vehicle_radar[x][vr_Disabled] == false) ? (""VEHICLE_RADAR_COLOR_1"On"):(""VEHICLE_RADAR_COLOR_2"Off"));    
-
-                if(x >= MAX_VEHICLE_RADAR -1)
-                {
-                    if(vehicle_radar_player[playerid][vrpList_Page] >= 1) block_back_button = 1;
-                    break;
-                }
+            }
+  
+            if(totalLine >= (page * max_page) && totalLine < (page * max_page) + max_page) {
+                next ++;
             }
 
-            line_max ++;
-            if(line_max >= VEHICLE_RADAR_MAX_ROWS_LIST+1)
-            {
-                block_back_button = 2;
-                strcat(string, "> Further\n");
-                if(vehicle_radar_player[playerid][vrpList_Page] >= 1) strcat(string, "< Back\n");
-                break;
+            if(totalLine >= (page - 1) * max_page && totalLine < ((page - 1) * max_page) + max_page) {
+
+                format(vr_string, sizeof(vr_string), "%s#%d\t%d km/h\t%.1fm\t%s\n", 
+                    vr_string, 
+                    i, 
+                    VehicleRadar[i][vr_SpeedLimit], 
+                    VehicleRadar[i][vr_ZoneSize], 
+                    (!VehicleRadar[i][vr_Disabled]) ? (VR_TEXT_ON) : (VR_TEXT_OFF));   
+          
+                VehicleRadarEditor[playerid][vre_SlotID][totalRadarLines] = i;
+                totalRadarLines++;
             }
+
+            totalLine++;
         }
 
-        if(vehicle_radar_player[playerid][vrpList_Page] >= 1 && block_back_button == 0 || block_back_button == 1)
-        {
-            strcat(string, "< Back\n");
-            vehicle_radar_player[playerid][vrpList_Page_Button_Back] = line_max + ((block_back_button == 0) ? (1):(2));
+        if(next) {
+            format(vr_string, sizeof(vr_string), "%s> %s\n", vr_string, VR_FURTHER_BUTTON);
         }
 
-        if(line_max == 0) 
-            return Dialog_Message(playerid, "List of radars", "{FFFFFF}No radars created.", "Cancel");
-
-        Dialog_Open(playerid, Dialog:_vehicle_radar_List, DIALOG_STYLE_TABLIST_HEADERS, "List of radars", string, "Select", "Cancel");
-        return 1;
-    }
-
-
-    DialogResponse:_vehicle_radar_List(playerid, response, listitem, inputtext[])
-    {
-        if(!response) return 1;
-
-        switch(listitem)
-        {
-            case VEHICLE_RADAR_MAX_ROWS_LIST:
-            {
-                if(vehicle_radar_player[playerid][vrpList_Page_Button_Back] >= 1 && vehicle_radar_player[playerid][vrpList_Page_Button_Back] == listitem+1 && vehicle_radar_player[playerid][vrpList_Page] >= 1)
-                {
-                    vehicle_radar_player[playerid][vrpList_Page] --;
-                    vehicle_radar_player[playerid][vrpList_Page_Button_Back] = 0;
-                }
-                else vehicle_radar_player[playerid][vrpList_Page] ++;
-
-                Dialog_Show(playerid, Dialog:_vehicle_radar_List);
-                return 1;
-            }
-            case VEHICLE_RADAR_MAX_ROWS_LIST+1:
-            {
-                if(vehicle_radar_player[playerid][vrpList_Page] >= 1)
-                {
-                    vehicle_radar_player[playerid][vrpList_Page] --;
-                    Dialog_Show(playerid, Dialog:_vehicle_radar_List);
-                }
-                return 1;
-            }
-            default:
-            {
-                if(vehicle_radar_player[playerid][vrpList_Page_Button_Back] >= 1 && vehicle_radar_player[playerid][vrpList_Page_Button_Back] == listitem+1 && vehicle_radar_player[playerid][vrpList_Page] >= 1)
-                {
-                    vehicle_radar_player[playerid][vrpList_Page] --;
-                    vehicle_radar_player[playerid][vrpList_Page_Button_Back] = 0;
-                    Dialog_Show(playerid, Dialog:_vehicle_radar_List);
-                    return 1;
-                }
-                new radarid = vehicle_radar_player[playerid][vrpList_SlotID][listitem];
-
-                if(vehicle_radar[radarid][vr_Create] == false) return 1;
-
-                vehicle_radar_player[playerid][vrpList_LineID] = radarid;
-                vehicle_radar_player[playerid][vrpList_EditRadar][1] = false;
-
-                vehicle_radar_player[playerid][vrp_Disabled] = vehicle_radar[radarid][vr_Disabled];
-                vehicle_radar_player[playerid][vrp_Worldid] = vehicle_radar[radarid][vr_Object_Worldid];
-                vehicle_radar_player[playerid][vrp_Interiorid] = vehicle_radar[radarid][vr_Object_Interiorid];
-                vehicle_radar_player[playerid][vrp_ZoneSize] = vehicle_radar[radarid][vr_ZoneSize];
-                vehicle_radar_player[playerid][vrp_SpeedLimit] = vehicle_radar[radarid][vr_SpeedLimit];
-
-                vehicle_radar_player[playerid][vrp_EditObject] = 0;
-
-                Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
-                return 1;
-            }
+        if(page >= 2) {
+            format(vr_string, sizeof(vr_string), "%s> %s", vr_string, VR_BACK_BUTTON);
         }
-        return 1;
-    }
 
-
-    DialogResponse:_vehicle_radar_Savechanges(playerid, response, listitem, inputtext[])
-    {
-        new radarid = vehicle_radar_player[playerid][vrpList_LineID];
-
-        if(vehicle_radar[radarid][vr_Create] == false) 
+        if(totalRadarLines == 0 && page <= 1) {
+            Dialog_Message(playerid, VR_TEXT_LIST_RADARS, VR_TEXT_NOT_CREATED, VR_CANCEL_BUTTON);
             return 1;
+        }	
+
+        Dialog_Open(playerid, Dialog:vrd_RadarList, DIALOG_STYLE_TABLIST_HEADERS, VR_TEXT_LIST_RADARS, 
+            vr_string, 
+            VR_SELECT_BUTTON, 
+            VR_CANCEL_BUTTON);
+
+        return 1;
+    }
 
 
-        if(!response) 
-        {
-            SetDynamicObjectPos(vehicle_radar[radarid][vr_Object], vehicle_radar[radarid][vr_Object_x], vehicle_radar[radarid][vr_Object_y], vehicle_radar[radarid][vr_Object_z]);
-            SetDynamicObjectRot(vehicle_radar[radarid][vr_Object], vehicle_radar[radarid][vr_Object_rx], vehicle_radar[radarid][vr_Object_ry], vehicle_radar[radarid][vr_Object_rz]);
+    DialogResponse:vrd_RadarList(playerid, response, listitem, inputtext[]) {
+
+        if(!response) {
+            return 1;
+        }
+
+        new vr_TextFurther[sizeof(VR_FURTHER_BUTTON) + 4];
+        format(vr_TextFurther, sizeof(vr_TextFurther), "> %s", VR_FURTHER_BUTTON);
+
+        new vr_TextBack[sizeof(VR_BACK_BUTTON) + 4];
+        format(vr_TextBack, sizeof(vr_TextBack), "> %s", VR_BACK_BUTTON);
+
+        if(!strcmp(inputtext, vr_TextFurther)) {
+            VehicleRadarEditor[playerid][vre_Page]++;
+        }
+        else if(!strcmp(inputtext, vr_TextBack)) {
+            VehicleRadarEditor[playerid][vre_Page]--;	
+        }
+        else {
+            if(!(0 <= listitem < VR_MAX_ROWS_LIST)) {
+                return 1;
+            }
+
+            new radarid = VehicleRadarEditor[playerid][vre_SlotID][listitem];
+
+            if(!IsVehicleRadarCreated(radarid)) {
+                return 1;
+            }
+
+            VehicleRadarEditor[playerid][vre_SelectedRadarID] = radarid;
+            VehicleRadarEditor[playerid][vre_WasChangeRadar] = false;
+
+            VehicleRadarEditor[playerid][vre_Disabled] = VehicleRadar[radarid][vr_Disabled];
+            VehicleRadarEditor[playerid][vre_World] = VehicleRadar[radarid][vr_World];
+            VehicleRadarEditor[playerid][vre_Interior] = VehicleRadar[radarid][vr_Interior];
+            VehicleRadarEditor[playerid][vre_ZoneSize] = VehicleRadar[radarid][vr_ZoneSize];
+            VehicleRadarEditor[playerid][vre_SpeedLimit] = VehicleRadar[radarid][vr_SpeedLimit];
+
+            VehicleRadarEditor[playerid][vre_EditObject] = 0;
+
+            Dialog_Show(playerid, Dialog:vrd_Create);
+            return 1;
+        }
+
+        Dialog_Show(playerid, Dialog:vrd_RadarList);
+        return 1;
+    }
+
+
+    DialogResponse:vrd_SaveChanges(playerid, response, listitem, inputtext[]) {
+
+        new radarid = VehicleRadarEditor[playerid][vre_SelectedRadarID];
+
+        if(!IsVehicleRadarCreated(radarid)) {
+            return 1;
+        }
+
+        if(!response) {
+            SetDynamicObjectPos(VehicleRadar[radarid][vr_Object], 
+                VehicleRadar[radarid][vr_X], 
+                VehicleRadar[radarid][vr_Y], 
+                VehicleRadar[radarid][vr_Z]);
+
+            SetDynamicObjectRot(VehicleRadar[radarid][vr_Object], 
+                VehicleRadar[radarid][vr_RX], 
+                VehicleRadar[radarid][vr_RY], 
+                VehicleRadar[radarid][vr_RZ]);
             
-            vehicle_radar_player[playerid][vrpList_EditRadar][1] = false;
-            Dialog_Show(playerid, Dialog:_vehicle_radar_List);
+            VehicleRadarEditor[playerid][vre_WasChangeRadar] = false;
+            Dialog_Show(playerid, Dialog:vrd_RadarList);
             return 1;
         }
 
-        if(vehicle_radar_player[playerid][vrpList_EditRadar][1] == true)
-        {
+        if(VehicleRadarEditor[playerid][vre_WasChangeRadar]) {
 
-            vehicle_radar[radarid][vr_Disabled] = vehicle_radar_player[playerid][vrp_Disabled];
-            vehicle_radar[radarid][vr_Object_Worldid] = vehicle_radar_player[playerid][vrp_Worldid];
-            vehicle_radar[radarid][vr_Object_Interiorid] = vehicle_radar_player[playerid][vrp_Interiorid];
-            vehicle_radar[radarid][vr_ZoneSize] = vehicle_radar_player[playerid][vrp_ZoneSize];
-            vehicle_radar[radarid][vr_SpeedLimit] = vehicle_radar_player[playerid][vrp_SpeedLimit];
+            VehicleRadar[radarid][vr_Disabled] = VehicleRadarEditor[playerid][vre_Disabled];
+            VehicleRadar[radarid][vr_World] = VehicleRadarEditor[playerid][vre_World];
+            VehicleRadar[radarid][vr_Interior] = VehicleRadarEditor[playerid][vre_Interior];
+            VehicleRadar[radarid][vr_ZoneSize] = VehicleRadarEditor[playerid][vre_ZoneSize];
+            VehicleRadar[radarid][vr_SpeedLimit] = VehicleRadarEditor[playerid][vre_SpeedLimit];
 
 
             //Object
-            GetDynamicObjectPos(vehicle_radar[radarid][vr_Object], vehicle_radar[radarid][vr_Object_x], vehicle_radar[radarid][vr_Object_y], vehicle_radar[radarid][vr_Object_z]);
-            GetDynamicObjectRot(vehicle_radar[radarid][vr_Object], vehicle_radar[radarid][vr_Object_rx], vehicle_radar[radarid][vr_Object_ry], vehicle_radar[radarid][vr_Object_rz]);
-            Streamer_SetIntData(STREAMER_TYPE_OBJECT, vehicle_radar[radarid][vr_Object], E_STREAMER_WORLD_ID, vehicle_radar[radarid][vr_Object_Worldid]);
-	        Streamer_SetIntData(STREAMER_TYPE_OBJECT, vehicle_radar[radarid][vr_Object], E_STREAMER_INTERIOR_ID, vehicle_radar[radarid][vr_Object_Interiorid]);
+            GetDynamicObjectPos(VehicleRadar[radarid][vr_Object], 
+                VehicleRadar[radarid][vr_X], 
+                VehicleRadar[radarid][vr_Y], 
+                VehicleRadar[radarid][vr_Z]);
+
+            GetDynamicObjectRot(VehicleRadar[radarid][vr_Object], 
+                VehicleRadar[radarid][vr_RX], 
+                VehicleRadar[radarid][vr_RY], 
+                VehicleRadar[radarid][vr_RZ]);
+            
+            Streamer_SetIntData(STREAMER_TYPE_OBJECT, VehicleRadar[radarid][vr_Object], E_STREAMER_WORLD_ID, VehicleRadar[radarid][vr_World]);
+	        Streamer_SetIntData(STREAMER_TYPE_OBJECT, VehicleRadar[radarid][vr_Object], E_STREAMER_INTERIOR_ID, VehicleRadar[radarid][vr_Interior]);
 
 
             //AREA
-            Streamer_SetFloatData(STREAMER_TYPE_AREA, vehicle_radar[radarid][vr_Sphere], E_STREAMER_X, vehicle_radar[radarid][vr_Object_x]);
-            Streamer_SetFloatData(STREAMER_TYPE_AREA, vehicle_radar[radarid][vr_Sphere], E_STREAMER_Y, vehicle_radar[radarid][vr_Object_y]);
-            Streamer_SetFloatData(STREAMER_TYPE_AREA, vehicle_radar[radarid][vr_Sphere], E_STREAMER_Z, vehicle_radar[radarid][vr_Object_z]);
-            Streamer_SetIntData(STREAMER_TYPE_AREA, vehicle_radar[radarid][vr_Sphere], E_STREAMER_WORLD_ID, vehicle_radar[radarid][vr_Object_Worldid]);
-            Streamer_SetIntData(STREAMER_TYPE_AREA, vehicle_radar[radarid][vr_Sphere], E_STREAMER_INTERIOR_ID, vehicle_radar[radarid][vr_Object_Interiorid]);
+            Streamer_SetFloatData(STREAMER_TYPE_AREA, VehicleRadar[radarid][vr_Sphere], E_STREAMER_X, VehicleRadar[radarid][vr_X]);
+            Streamer_SetFloatData(STREAMER_TYPE_AREA, VehicleRadar[radarid][vr_Sphere], E_STREAMER_Y, VehicleRadar[radarid][vr_Y]);
+            Streamer_SetFloatData(STREAMER_TYPE_AREA, VehicleRadar[radarid][vr_Sphere], E_STREAMER_Z, VehicleRadar[radarid][vr_Z]);
 
-            SetVehicleRadarZoneSize(radarid, vehicle_radar[radarid][vr_ZoneSize]);
+            Streamer_SetIntData(STREAMER_TYPE_AREA, VehicleRadar[radarid][vr_Sphere], E_STREAMER_WORLD_ID, VehicleRadar[radarid][vr_World]);
+            Streamer_SetIntData(STREAMER_TYPE_AREA, VehicleRadar[radarid][vr_Sphere], E_STREAMER_INTERIOR_ID, VehicleRadar[radarid][vr_Interior]);
+
+            SetVehicleRadarZoneSize(radarid, VehicleRadar[radarid][vr_ZoneSize]);
 
 
             //Text3D
-            if(vehicle_radar[radarid][vr_Text3D] != Text3D:INVALID_3DTEXT_ID)
-            {
-                new bool:customtext3d = vehicle_radar[radarid][vr_CustomText3D];
+            if(VehicleRadar[radarid][vr_Text3D] != Text3D:INVALID_3DTEXT_ID) {
+                new bool:customtext3d = VehicleRadar[radarid][vr_CustomText3D];
 
-                SetVehicleRadarText(radarid, 
-                    "-", 
-                    vehicle_radar[radarid][vr_Text3D_Color], 
-                    vehicle_radar[radarid][vr_Text3D_Distance], 
-                    vehicle_radar[radarid][vr_Object_x], 
-                    vehicle_radar[radarid][vr_Object_y], 
-                    vehicle_radar[radarid][vr_Object_z] + 6.0);
+                UpdateVehicleRadarText(radarid, "-", 
+                    VehicleRadar[radarid][vr_Text3D_Color], 
+                    VehicleRadar[radarid][vr_X], 
+                    VehicleRadar[radarid][vr_Y], 
+                    VehicleRadar[radarid][vr_Z] + 6.0);
 
-                vehicle_radar[radarid][vr_CustomText3D] = customtext3d;    
+                VehicleRadar[radarid][vr_CustomText3D] = customtext3d;    
             }
 
 
             #if defined OnPlayerVehicleRadarEdit
                 OnPlayerVehicleRadarEdit(playerid,
                     radarid,
-                    vehicle_radar[radarid][vr_SpeedLimit],
-                    vehicle_radar[radarid][vr_ZoneSize],
-                    vehicle_radar[radarid][vr_Disabled],
-                    vehicle_radar[radarid][vr_Object_x], vehicle_radar[radarid][vr_Object_y], vehicle_radar[radarid][vr_Object_z],
-                    vehicle_radar[radarid][vr_Object_rx], vehicle_radar[radarid][vr_Object_ry], vehicle_radar[radarid][vr_Object_rz],
-                    vehicle_radar[radarid][vr_Object_Worldid], vehicle_radar[radarid][vr_Object_Interiorid]);
+                    VehicleRadar[radarid][vr_SpeedLimit],
+                    VehicleRadar[radarid][vr_ZoneSize],
+                    VehicleRadar[radarid][vr_Disabled],
+                    VehicleRadar[radarid][vr_X], VehicleRadar[radarid][vr_Y], VehicleRadar[radarid][vr_Z],
+                    VehicleRadar[radarid][vr_RX], VehicleRadar[radarid][vr_RY], VehicleRadar[radarid][vr_RZ],
+                    VehicleRadar[radarid][vr_World], VehicleRadar[radarid][vr_Interior]);
             #endif
         }
 
-        vehicle_radar_player[playerid][vrpList_EditRadar][1] = false;
-        Dialog_Show(playerid, Dialog:_vehicle_radar_List);
+        VehicleRadarEditor[playerid][vre_WasChangeRadar] = false;
+        Dialog_Show(playerid, Dialog:vrd_RadarList);
         return 1;
     }
 
 
-    DialogResponse:_vehicle_radar_Delete(playerid, response, listitem, inputtext[])
-    {
-        if(!response) return Dialog_Show(playerid, Dialog:_vehicle_radar_Create);
-        DeleteVehicleRadar(playerid, vehicle_radar_player[playerid][vrpList_LineID]);
+    DialogResponse:vrd_Delete(playerid, response, listitem, inputtext[]) {
 
-        if(vehicle_radar_player[playerid][vrpList_Page] >= 1 && vehicle_radar_player[playerid][vrpList_SlotID][0] != -1 && vehicle_radar_player[playerid][vrpList_SlotID][1] == -1) {
-            vehicle_radar_player[playerid][vrpList_Page] --;
+        if(!response) {
+            return Dialog_Show(playerid, Dialog:vrd_Create);
         }
+        
+        DeleteVehicleRadar(playerid, VehicleRadarEditor[playerid][vre_SelectedRadarID]);
 
-        Dialog_Show(playerid, Dialog:_vehicle_radar_List);
+        Dialog_Show(playerid, Dialog:vrd_RadarList);
         return 1;
     }
 #endif

@@ -1,20 +1,22 @@
 # vehicle-radar
 
-Creation of transport radars in SAMP
+Advanced speed radar library for SA-MP featuring dynamic creation, in-game editor, and multi-language interface.
+
+> Note: The library supports both English and Russian languages. Use `#define VR_INTERFACE_LANGUAGE` 1 for Russian.
 
 ![Crosshair](https://raw.githubusercontent.com/Bren828/vehicle-radar/main/preview.png)
 
 ## Reference
-* [Installation](https://github.com/Bren828/vehicle-radar#installation)
-* [Example](https://github.com/Bren828/vehicle-radar#example)
-* [Callbacks](https://github.com/Bren828/vehicle-radar#callbacks)
-* [Functions](https://github.com/Bren828/vehicle-radar#functions)
-* [Definition](https://github.com/Bren828/vehicle-radar#definition)
+* [Installation](#installation)
+* [Example](#example)
+* [Callbacks](#callbacks)
+* [Functions](#functions)
+* [Definition](#definition)
 
 ## Dependencies
 * [mdialog](https://github.com/Open-GTO/mdialog)
-\
-Only for `#define VEHICLE_RADAR_USE_EDITING_TOOLS true`
+
+Required if the radar editor is not disabled - `#define VR_DISABLE_EDITOR`
 
 ## Installation
 
@@ -26,65 +28,122 @@ Include in your code and begin using the library:
 ## Example
 
 ```pawn
-new radarid = VehicleRadarLoad(130, 50.0,  0.0, 0.0, 0.0,  0.0, 0.0, 0.0); // create a radar
+new radarid = CreateVehicleRadar(130, 50.0, 0.0, 0.0, 3.0, 0.0, 0.0, 0.0);
 SetVehicleRadarExtraValue(radarid, 1005); // add the value
 
-public OnPlayerEnterVehicleRadar(playerid, radarid, vehicleid, activation_count)
-{
-    printf("Enter Vehicle Radar | radarid: %d | vehicleid: %d | activation_count: %d", radarid, vehicleid, activation_count)
+
+forward OnPlayerEnterVehicleRadar(playerid, radarid, vehicleid, activationCount);
+public OnPlayerEnterVehicleRadar(playerid, radarid, vehicleid, activationCount) {
+
+    printf("Enter Vehicle Radar | radarid: %d | vehicleid: %d | activationCount: %d", radarid, vehicleid, activationCount);
     return 1;
 }
 
-public OnPlayerVehicleRadarCreate(playerid, radarid, speed_limit, Float:zone_size, bool:disabled, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid, interiorid)
-{
-    printf("Create | radarid %d | speed_limit %d | zone_size %f | x %.2f | y %.2f | z %.2f | rx %.2f | ry %.2f | rz %.2f | worldid %d | int %d", 
-        radarid, speed_limit, zone_size, x, y, z,  rx, ry,  rz,  worldid, interiorid
-    );
-    
-    //Mysql R39-6 save example
-    static const mysql_str[] = 
-        "INSERT INTO vehicle_radar (`speed_limit`,`zone_size`,`x`,`y`,`z`,`rx`,`ry`,`rz`,`worldid`,`interiorid`) VALUE ('%d','%f','%f','%f','%f','%f','%f','%f','%d','%d')";
-    new string[sizeof(mysql_str)];
 
-    mysql_format(mysql, string, sizeof(string), mysql_str, speed_limit, zone_size,  x, y, z, rx, ry, rz,  worldid, interiorid);
-    new Cache:result = mysql_query(mysql, string);
-    if(!cache_is_valid(result))
-    {
-        SendClientMessage(playerid, -1, "mysql error creating a vehicle radar");
-        cache_delete(result);
-        return 1;
-    }
+forward OnPlayerVehicleRadarCreate(playerid, radarid, speedLimit, Float:zoneSize, bool:disabled, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid, interiorid);
+public OnPlayerVehicleRadarCreate(playerid, radarid, speedLimit, Float:zoneSize, bool:disabled, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid, interiorid) {
+    
+    printf("Created | radarid: %d | speedLimit: %d | zoneSize: %f | x: %.2f | y: %.2f | z: %.2f | rx: %.2f | ry: %.2f | rz: %.2f | worldid: %d | interiorid: %d", 
+        radarid, speedLimit, zoneSize, x, y, z,  rx, ry,  rz,  worldid, interiorid);
+    
+
+    //Save example
+    static const mysql_str[] = "INSERT INTO `vehicle_radar` (\
+        `speedLimit`,\
+        `zoneSize`,\
+        `disabled`,\
+        `x`,\
+        `y`,\
+        `z`,\
+        `rx`,\
+        `ry`,\
+        `rz`,\
+        `world`,\
+        `interior`) \
+        \
+        VALUE (\
+        '%d',\
+        '%f',\
+        '%d',\
+        '%f',\
+        '%f',\
+        '%f',\
+        '%f',\
+        '%f',\
+        '%f',\
+        '%d',\
+        '%d')";
+    new string[sizeof(mysql_str) + (10 * 10)];
+
+    mysql_format(mysql, string, sizeof(string), mysql_str, 
+        speedLimit, 
+        zoneSize, 
+        disabled, 
+        x, y, z, 
+        rx, ry, rz,  
+        worldid, 
+        interiorid);
+    
+    mysql_tquery(mysql, string, "OnSaveCreatedRadar", "d", radarid);
+    return 1;
+}
+
+
+forward OnSaveCreatedRadar(radarid);
+public OnSaveCreatedRadar(radarid) {
 
     SetVehicleRadarExtraValue(radarid, cache_insert_id()); // writes the id of the new row
-    cache_delete(result);
-    return 1;
+	return 1;
 }
 
-public OnPlayerVehicleRadarEdit(playerid, radarid, speed_limit, Float:zone_size, bool:disabled, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid, interiorid)
-{
-    printf("Edit | radarid %d | speed_limit %d | zone_size %f | x %.2f | y %.2f | z %.2f | rx %.2f | ry %.2f | rz %.2f | worldid %d | int %d", 
-        radarid, speed_limit, zone_size, x, y, z,  rx, ry,  rz,  worldid, interiorid
-    );
-    
-    //Mysql R39-6 save example
-    static const mysql_str[] = 
-        "UPDATE vehicle_radar SET speed_limit=%d,zone_size='%f',x='%f',y='%f',z='%f',rx='%f',ry='%f',rz='%f',worldid=%d,interiorid=%d WHERE id=%d LIMIT 1";
-    new string[sizeof(mysql_str)];
 
-    mysql_format(mysql, string, sizeof(string), mysql_str, speed_limit, zone_size,  x, y, z, rx, ry, rz,  worldid, interiorid,  GetVehicleRadarExtraValue(radarid));
+forward OnPlayerVehicleRadarEdit(playerid, radarid, speedLimit, Float:zoneSize, bool:disabled, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid, interiorid);
+public OnPlayerVehicleRadarEdit(playerid, radarid, speedLimit, Float:zoneSize, bool:disabled, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid, interiorid) {
+
+    printf("Edit | radarid: %d | speedLimit: %d | zoneSize: %f | x: %.2f | y: %.2f | z: %.2f | rx: %.2f | ry: %.2f | rz: %.2f | world: %d | interior: %d", 
+        radarid, speedLimit, zoneSize, x, y, z,  rx, ry,  rz,  worldid, interiorid);
+    
+
+    //Save example
+    static const mysql_str[] = "UPDATE `vehicle_radar` SET \
+        `speedLimit`='%d', \
+        `zoneSize`='%f', \
+        `disabled`='%d', \
+        `x`='%f', \
+        `y`='%f', \
+        `z`='%f', \
+        `rx`='%f', \
+        `ry`='%f', \
+        `rz`='%f', \
+        `world`='%d', \
+        `interior`='%d' WHERE `id`='%d' LIMIT 1";
+    new string[sizeof(mysql_str) + (10 * 11)];
+
+    mysql_format(mysql, string, sizeof(string), mysql_str, 
+        speedLimit, 
+        zoneSize, 
+        disabled, 
+        x, y, z, 
+        rx, ry, rz,  
+        worldid, 
+        interiorid, 
+        GetVehicleRadarExtraValue(radarid));
+    
     mysql_tquery(mysql, string);
     return 1;
 }
 
-public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
-{
-    printf("Delete | radarid %d | extra_value %d", radarid, extra_value);
-    
-    //Mysql R39-6 save example
-    static const mysql_str[] = "DELETE FROM vehicle_radar WHERE id=%d LIMIT 1";
-    new string[sizeof(mysql_str) + 11];
 
-    mysql_format(mysql, string, sizeof(string), mysql_str, extra_value);
+forward OnPlayerVehicleRadarDelete(playerid, radarid, extraValue);
+public OnPlayerVehicleRadarDelete(playerid, radarid, extraValue) {
+
+    printf("Delete | radarid %d | extraValue %d", radarid, extraValue);
+    
+    //Save example
+    static const mysql_str[] = "DELETE FROM `vehicle_radar` WHERE `id`='%d' LIMIT 1";
+    new string[sizeof(mysql_str) + 10];
+
+    mysql_format(mysql, string, sizeof(string), mysql_str, extraValue);
     mysql_tquery(mysql, string);
     return 1;
 }
@@ -94,19 +153,19 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 <details>
 <summary>Click to expand the list</summary>
 
-#### public OnPlayerEnterVehicleRadar(playerid, radarid, vehicleid, activation_count)
+#### public OnPlayerEnterVehicleRadar(playerid, radarid, vehicleid, activationCount)
 * Called when the radar is triggered
 > * `playerid` - The ID of the player
 > * `radarid` - The ID of the radar
 > * `vehicleid` - The ID of vehicle
-> * `activation_count` - Triggering
+> * `activationCount` - Triggering
 
 
-#### public OnPlayerVehicleRadarCreate(playerid, radarid, speed_limit, Float:zone_size, bool:disabled, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid, interiorid)
+#### public OnPlayerVehicleRadarCreate(playerid, radarid, speedLimit, Float:zoneSize, bool:disabled, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid, interiorid)
 > Called when creating a radar
 > * `radarid` - The ID of the radar
-> * `speed_limit` - Speed limit in km/h
-> * `Float:zone_size` - Trigger distance
+> * `speedLimit` - Speed limit in km/h
+> * `Float:zoneSize` - Trigger distance
 > * `bool:disabled` - Disabled radar (false | true)
 > * `Float:x` - The x coordinate to create the object
 > * `Float:y` - The y coordinate to create the object
@@ -118,11 +177,11 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 > * `interiorid` - The interior ID 
 
 
-#### public OnPlayerVehicleRadarEdit(playerid, radarid, speed_limit, Float:zone_size, bool:disabled, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid, interiorid)
+#### public OnPlayerVehicleRadarEdit(playerid, radarid, speedLimit, Float:zoneSize, bool:disabled, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid, interiorid)
 > Called when editing
 > * `radarid` - The ID of the radar
-> * `speed_limit` - Speed limit in km/h
-> * `Float:zone_size` - Trigger distance
+> * `speedLimit` - Speed limit in km/h
+> * `Float:zoneSize` - Trigger distance
 > * `bool:disabled` - Disabled radar (false | true)
 > * `Float:x` - The x coordinate the object
 > * `Float:y` - The y coordinate the object
@@ -134,31 +193,31 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 > * `interiorid` - The interior ID
 
 
-#### public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
+#### public OnPlayerVehicleRadarDelete(playerid, radarid, extraValue)
 > Called when the radar is removed
 > * `radarid` - The ID of the radar
-> * `extra_value` - Value
-> * Note: `extra_value` set via `SetVehicleRadarExtraValue`
+> * `extraValue` - Value
+> * Note: `extraValue` is the value previously set via `SetVehicleRadarExtraValue`
 </details>
 
 ## Functions
 <details>
 <summary>Click to expand the list</summary>
 
-#### VehicleRadarCreate(playerid)
-> Create a radar
+#### ShowRadarCreationDialog(playerid)
+> Show the radar creation dialog
 > * `playerid` - The ID of the player
 
 
-#### VehicleRadarList(playerid)
-> List of created radars
+#### ShowRadarListDialog(playerid)
+> Show radar list dialog
 > * `playerid` - The ID of the player
 
 
-#### VehicleRadarLoad(speed_limit, Float:zone_size, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid = -1, interiorid = -1, bool:disabled = false, bool:disable_text3D = VEHICLE_RADAR_DISABLE_ALL_TEXT3D)
-> Load Radar
-> * `speed_limit` - Speed limit in km/h
-> * `Float:zone_size` - Trigger distance
+#### CreateVehicleRadar(speedLimit, Float:zoneSize, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid = -1, interiorid = -1, bool:disabled = false, bool:disableText3D = false)
+> Create a vehicle radar
+> * `speedLimit` - Speed limit in km/h
+> * `Float:zoneSize` - Trigger distance
 > * `Float:x` - The x coordinate to create the object
 > * `Float:y` - The y coordinate to create the object
 > * `Float:z` - The z coordinate to create the object
@@ -167,15 +226,22 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 > * `Float:rz` - The z rotation of the object
 > * `worldid` - The virtual world ID 
 > * `interiorid` - The interior ID
-> * `bool:disabled` - Disabled radar (false | true)
-> * `bool:disable_text3D` - Disabled text 3d (false | true)
+> * `bool:disabled` - Disabled radar
+> * `bool:disableText3D` - Disabled text 3d
 > * Returns (0) on failure or id radar
 
 
 #### DeleteVehicleRadar(playerid, radarid, bool:callback = true)
 > Remove radar
+> * `playerid` - The ID of the player
 > * `radarid` - The ID of the radar
 > * `callback` - Call `OnPlayerVehicleRadarDelete` on deletion
+> * Return: Returns (0) on failure or (1) on success
+
+
+#### IsVehicleRadarCreated(radarid)
+> Check if the vehicle radar is created
+> * `radarid` - The ID of the radar
 > * Return: Returns (0) on failure or (1) on success
 
 
@@ -205,26 +271,24 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 > * Return: Returns (0) on failure or speed
 
 
-#### SetVehicleRadarZoneSize(radarid, Float:zone_size)
+#### SetVehicleRadarZoneSize(radarid, Float:zoneSize)
 > Set the trigger distance
 > * `radarid` - The ID of the radar
-> * `Float:zone_size` - Trigger distance
+> * `Float:zoneSize` - Trigger distance
 > * Return: Returns (0) on failure or (1) on success
 
 
-#### GetVehicleRadarZoneSize(radarid, &Float:zone_size)
+#### Float:GetVehicleRadarZoneSize(radarid)
 > Get trigger distance
 > * `radarid` - The ID of the radar
-> * `&Float:zone_size` - Current distance
-> * Return: Returns (0) on failure or (1) on success
+> * Return: Returns (0) on failure or ZoneSize
 
 
-#### SetVehicleRadarText(radarid, const text[], color, Float:drawdistance = VEHICLE_RADAR_3DTEXT_DISTANCE, Float:x = 0.0, Float:y = 0.0, Float:z = 0.0)
-> Set 3D Text
+#### UpdateVehicleRadarText(radarid, const text[], color, Float:x = 0.0, Float:y = 0.0, Float:z = 0.0)
+> Update the radar text
 > * `radarid` - The ID of the radar
 > * `text[]` - Text
 > * `color` - Color
-> * `Float:drawdistance` - Draw distance
 > * `Float:x` - The X coordinate to create the text 
 > * `Float:y` - The Y coordinate to create the text 
 > * `Float:z` - The Z coordinate to create the text 
@@ -249,21 +313,24 @@ public OnPlayerVehicleRadarDelete(playerid, radarid, extra_value)
 <summary>Click to expand the list</summary>
 
 ```pawn
-#define MAX_VEHICLE_RADAR 200
-#define VEHICLE_RADAR_OBJECT_MODEL 18880 // object model
-#define VEHICLE_RADAR_OBJECT_DISTANCE 200.0
-#define VEHICLE_RADAR_3DTEXT_LENGTH 144	// 3d text length
-static VEHICLE_RADAR_3DTEXT_TEXT[] = "Speed radar #%d\nSpeed Limit: %d (km/h)";
-#define VEHICLE_RADAR_3DTEXT_DISTANCE 15.0 // 3d text draw distance
-#define VEHICLE_RADAR_MAX_ROWS_LIST 20 // max dialog list lines
-#define VEHICLE_RADAR_USE_EDITING_TOOLS true //use editing tools
-#define VEHICLE_RADAR_COLOR_1 "{8fce00}" // 0x8fce00
-#define VEHICLE_RADAR_COLOR_2 "{f44747}" // 0xf44747
-#define VEHICLE_RADAR_COLOR_3 "{F5D742}" // 0xF5D742
-const Float:VEHICLE_RADAR_SPEED_MULTIPLIER = 179.28625; // speed multiplier
-#define VEHICLE_RADAR_CUSTOM_TYPE 0xFF42CDFA12
-#define VEHICLE_RADAR_RESPONSE_DELAY 10 // seconds
-#define VEHICLE_RADAR_ZONE_MULTIPLIER 3 //The larger the multiplier, the larger the entry zone for checking "zone_size"
-#define VEHICLE_RADAR_DISABLE_ALL_TEXT3D false
+#define VR_MAX_VEHICLE_RADAR 200
+#define VR_INTERFACE_LANGUAGE 0 // 0 - English (default), 1 - Russian
+#define VR_DISABLE_EDITOR
+#define VR_OBJECT_MODEL 18880
+#define VR_OBJECT_DISTANCE 200.0
+#define VR_VEHICLE_SPEED_MULTIPLIER 179.28625 
+#define VR_RESPONSE_DELAY 10 // seconds
+#define VR_ZONE_MULTIPLIER 3 //The larger the multiplier, the larger the entry zone for checking "zone_size"
+#define VR_MAX_ROWS_LIST 20 // max dialog list lines
+
+#define VR_WHITE_COLOR_TAG "{ffffff}"
+#define VR_GREEN_COLOR_TAG "{8fce00}"
+#define VR_RED_COLOR_TAG "{f44747}"
+#define VR_YELLOW_COLOR_TAG "{F5D742}"
+
+#define VR_3DTEXT_LENGTH 144
+#define VR_3DTEXT_DISTANCE 15.0 // 3d text draw distance
+static VR_TEXT[] = "Speed radar #%d\nSpeed limit: %d (km/h)";
+
 ```
 </details>
