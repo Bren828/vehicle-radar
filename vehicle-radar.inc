@@ -94,7 +94,7 @@
 #endif
 
 
-#define VR_STREAMER_CUSTOM_TYPE 0xFF42CDFA12
+#define VR_STREAMER_CUSTOM_TYPE 0xFF02CDFA
 
 enum (<<= 1) {
     VR_STREAMER_TYPE = 0,
